@@ -1,0 +1,528 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								货物编号：<input type="text" name="cargoNo"/>
+							</li>
+
+							<li>
+								发货日期：<input type="text" name="sendTime"/>
+							</li>
+
+							<li>
+								发送省份：<input type="text" name="sendPriovince"/>
+							</li>
+
+							<li>
+								发送城市：<input type="text" name="sendCity"/>
+							</li>
+
+							<li>
+								接收省份：<input type="text" name="receivePriovince"/>
+							</li>
+
+							<li>
+								接收城市：<input type="text" name="receiveCity"/>
+							</li>
+
+							<li>
+								发送车站：<input type="text" name="sendStation"/>
+							</li>
+
+							<li>
+								接收车站：<input type="text" name="receiveStation"/>
+							</li>
+
+							<li>
+								客户编码：<input type="text" name="customerNo"/>
+							</li>
+
+							<li>
+								客户类型：<input type="text" name="customerType"/>
+							</li>
+
+							<li>
+								发货人名称：<input type="text" name="sendName"/>
+							</li>
+
+							<li>
+								发货联系人：<input type="text" name="sendContacts"/>
+							</li>
+
+							<li>
+								发货人电话：<input type="text" name="sendPhone"/>
+							</li>
+
+							<li>
+								收货人名称：<input type="text" name="receiveName"/>
+							</li>
+
+							<li>
+								收货联系人：<input type="text" name="receiveContacts"/>
+							</li>
+
+							<li>
+								接收人电话：<input type="text" name="receivePhone"/>
+							</li>
+
+							<li>
+								货物名称1：<input type="text" name="cargoName1"/>
+							</li>
+
+							<li>
+								包装1：<input type="text" name="pack1"/>
+							</li>
+
+							<li>
+								数量1：<input type="text" name="num1"/>
+							</li>
+
+							<li>
+								总重1：<input type="text" name="weight1"/>
+							</li>
+
+							<li>
+								保价1：<input type="text" name="insurance1"/>
+							</li>
+
+							<li>
+								计费重量1：<input type="text" name="billingWeight1"/>
+							</li>
+
+							<li>
+								单个最大重量1：<input type="text" name="singleMaxWeight1"/>
+							</li>
+
+							<li>
+								长1：<input type="text" name="length1"/>
+							</li>
+
+							<li>
+								宽1：<input type="text" name="width1"/>
+							</li>
+
+							<li>
+								高1：<input type="text" name="height1"/>
+							</li>
+
+							<li>
+								体积1：<input type="text" name="volume1"/>
+							</li>
+
+							<li>
+								货物名称2：<input type="text" name="cargoName2"/>
+							</li>
+
+							<li>
+								包装2：<input type="text" name="pack2"/>
+							</li>
+
+							<li>
+								数量2：<input type="text" name="num2"/>
+							</li>
+
+							<li>
+								总重2：<input type="text" name="weight2"/>
+							</li>
+
+							<li>
+								保价2：<input type="text" name="insurance2"/>
+							</li>
+
+							<li>
+								计费总重2：<input type="text" name="billingWeight2"/>
+							</li>
+
+							<li>
+								单个最大重量2：<input type="text" name="singleMaxWeight2"/>
+							</li>
+
+							<li>
+								长2：<input type="text" name="length2"/>
+							</li>
+
+							<li>
+								宽2：<input type="text" name="width2"/>
+							</li>
+
+							<li>
+								高2：<input type="text" name="height2"/>
+							</li>
+
+							<li>
+								体积2：<input type="text" name="volume2"/>
+							</li>
+
+							<li>
+								服务方式：<input type="text" name="serviceMode"/>
+							</li>
+
+							<li>
+								送货里程：<input type="text" name="pickUpMileage"/>
+							</li>
+
+							<li>
+								送货里程：<input type="text" name="deliveryMileage"/>
+							</li>
+
+							<li>
+								取货地址：<input type="text" name="pickUpDress"/>
+							</li>
+
+							<li>
+								送货地址：<input type="text" name="deliveryDress"/>
+							</li>
+
+							<li>
+								商议事项：<input type="text" name="remark"/>
+							</li>
+
+							<li>
+								是否开具发票：<input type="text" name="invoice"/>
+							</li>
+
+							<li>
+								状态；0-丢失；1-未签收；2-已签收；关联字典表：<input type="text" name="status"/>
+							</li>
+
+							<li>
+								创建人：<input type="text" name="createBy"/>
+							</li>
+
+							<li>
+								更新人：<input type="text" name="updateBy"/>
+							</li>
+
+							<li>
+								创建时间：<input type="text" name="createDate"/>
+							</li>
+
+							<li>
+								更新时间：<input type="text" name="updateDate"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="cargo:cargo:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="cargo:cargo:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="cargo:cargo:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="cargo:cargo:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('cargo:cargo:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('cargo:cargo:remove')}]];
+        var prefix = ctx + "cargo/cargo";
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "货物",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'id', 
+					title : '主键Id',
+					visible: false
+				},
+				{
+					field : 'cargoNo', 
+					title : '货物编号',
+					sortable: true
+				},
+				{
+					field : 'sendTime', 
+					title : '发货日期',
+					sortable: true
+				},
+				{
+					field : 'sendPriovince', 
+					title : '发送省份',
+					sortable: true
+				},
+				{
+					field : 'sendCity', 
+					title : '发送城市',
+					sortable: true
+				},
+				{
+					field : 'receivePriovince', 
+					title : '接收省份',
+					sortable: true
+				},
+				{
+					field : 'receiveCity', 
+					title : '接收城市',
+					sortable: true
+				},
+				{
+					field : 'sendStation', 
+					title : '发送车站',
+					sortable: true
+				},
+				{
+					field : 'receiveStation', 
+					title : '接收车站',
+					sortable: true
+				},
+				{
+					field : 'customerNo', 
+					title : '客户编码',
+					sortable: true
+				},
+				{
+					field : 'customerType', 
+					title : '客户类型',
+					sortable: true
+				},
+				{
+					field : 'sendName', 
+					title : '发货人名称',
+					sortable: true
+				},
+				{
+					field : 'sendContacts', 
+					title : '发货联系人',
+					sortable: true
+				},
+				{
+					field : 'sendPhone', 
+					title : '发货人电话',
+					sortable: true
+				},
+				{
+					field : 'receiveName', 
+					title : '收货人名称',
+					sortable: true
+				},
+				{
+					field : 'receiveContacts', 
+					title : '收货联系人',
+					sortable: true
+				},
+				{
+					field : 'receivePhone', 
+					title : '接收人电话',
+					sortable: true
+				},
+				{
+					field : 'cargoName1', 
+					title : '货物名称1',
+					sortable: true
+				},
+				{
+					field : 'pack1', 
+					title : '包装1',
+					sortable: true
+				},
+				{
+					field : 'num1', 
+					title : '数量1',
+					sortable: true
+				},
+				{
+					field : 'weight1', 
+					title : '总重1',
+					sortable: true
+				},
+				{
+					field : 'insurance1', 
+					title : '保价1',
+					sortable: true
+				},
+				{
+					field : 'billingWeight1', 
+					title : '计费重量1',
+					sortable: true
+				},
+				{
+					field : 'singleMaxWeight1', 
+					title : '单个最大重量1',
+					sortable: true
+				},
+				{
+					field : 'length1', 
+					title : '长1',
+					sortable: true
+				},
+				{
+					field : 'width1', 
+					title : '宽1',
+					sortable: true
+				},
+				{
+					field : 'height1', 
+					title : '高1',
+					sortable: true
+				},
+				{
+					field : 'volume1', 
+					title : '体积1',
+					sortable: true
+				},
+				{
+					field : 'cargoName2', 
+					title : '货物名称2',
+					sortable: true
+				},
+				{
+					field : 'pack2', 
+					title : '包装2',
+					sortable: true
+				},
+				{
+					field : 'num2', 
+					title : '数量2',
+					sortable: true
+				},
+				{
+					field : 'weight2', 
+					title : '总重2',
+					sortable: true
+				},
+				{
+					field : 'insurance2', 
+					title : '保价2',
+					sortable: true
+				},
+				{
+					field : 'billingWeight2', 
+					title : '计费总重2',
+					sortable: true
+				},
+				{
+					field : 'singleMaxWeight2', 
+					title : '单个最大重量2',
+					sortable: true
+				},
+				{
+					field : 'length2', 
+					title : '长2',
+					sortable: true
+				},
+				{
+					field : 'width2', 
+					title : '宽2',
+					sortable: true
+				},
+				{
+					field : 'height2', 
+					title : '高2',
+					sortable: true
+				},
+				{
+					field : 'volume2', 
+					title : '体积2',
+					sortable: true
+				},
+				{
+					field : 'serviceMode', 
+					title : '服务方式',
+					sortable: true
+				},
+				{
+					field : 'pickUpMileage', 
+					title : '送货里程',
+					sortable: true
+				},
+				{
+					field : 'deliveryMileage', 
+					title : '送货里程',
+					sortable: true
+				},
+				{
+					field : 'pickUpDress', 
+					title : '取货地址',
+					sortable: true
+				},
+				{
+					field : 'deliveryDress', 
+					title : '送货地址',
+					sortable: true
+				},
+				{
+					field : 'remark', 
+					title : '商议事项',
+					sortable: true
+				},
+				{
+					field : 'invoice', 
+					title : '是否开具发票',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '状态；0-丢失；1-未签收；2-已签收；关联字典表',
+					sortable: true
+				},
+				{
+					field : 'createBy', 
+					title : '创建人',
+					sortable: true
+				},
+				{
+					field : 'updateBy', 
+					title : '更新人',
+					sortable: true
+				},
+				{
+					field : 'createDate', 
+					title : '创建时间',
+					sortable: true
+				},
+				{
+					field : 'updateDate', 
+					title : '更新时间',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.project.cargo.mapper.FreightRateMapper">
+    
+    <resultMap type="FreightRate" id="FreightRateResult">
+        <result property="id"    column="id"    />
+        <result property="sendStation"    column="send_station"    />
+        <result property="receiveStation"    column="receive_station"    />
+        <result property="priceFactor"    column="price_factor"    />
+        <result property="freightrateNum"    column="freightRate_num"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+	
+	<sql id="selectFreightRateVo">
+        select id, send_station, receive_station, price_factor, freightRate_num, create_by, update_by, create_time, update_time, status from ex_freight_rate
+    </sql>
+	
+    <select id="selectFreightRateList" parameterType="FreightRate" resultMap="FreightRateResult">
+        <include refid="selectFreightRateVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="sendStation != null "> and send_station = #{sendStation}</if>
+             <if test="receiveStation != null "> and receive_station = #{receiveStation}</if>
+             <if test="priceFactor != null "> and price_factor = #{priceFactor}</if>
+             <if test="freightrateNum != null "> and freightRate_num = #{freightrateNum}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="status != null "> and status = #{status}</if>
+         </where>
+    </select>
+    
+    <select id="selectFreightRateById" parameterType="Integer" resultMap="FreightRateResult">
+        <include refid="selectFreightRateVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFreightRate" parameterType="FreightRate" useGeneratedKeys="true" keyProperty="id">
+        insert into ex_freight_rate
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="sendStation != null  ">send_station,</if>
+			<if test="receiveStation != null  ">receive_station,</if>
+			<if test="priceFactor != null  ">price_factor,</if>
+			<if test="freightrateNum != null  ">freightRate_num,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="sendStation != null  ">#{sendStation},</if>
+			<if test="receiveStation != null  ">#{receiveStation},</if>
+			<if test="priceFactor != null  ">#{priceFactor},</if>
+			<if test="freightrateNum != null  ">#{freightrateNum},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateFreightRate" parameterType="FreightRate">
+        update ex_freight_rate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sendStation != null  ">send_station = #{sendStation},</if>
+            <if test="receiveStation != null  ">receive_station = #{receiveStation},</if>
+            <if test="priceFactor != null  ">price_factor = #{priceFactor},</if>
+            <if test="freightrateNum != null  ">freightRate_num = #{freightrateNum},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteFreightRateById" parameterType="Integer">
+        delete from ex_freight_rate where id = #{id}
+    </delete>
+	
+    <delete id="deleteFreightRateByIds" parameterType="String">
+        delete from ex_freight_rate where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

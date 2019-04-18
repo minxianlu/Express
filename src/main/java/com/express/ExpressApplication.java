@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @author chenyb
  */
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
-@MapperScan("com.express.project.*.*.mapper")
+@MapperScan({"com.express.project.*.*.mapper","com.express.project.*.mapper"})
 public class ExpressApplication
 {
     public static void main(String[] args)

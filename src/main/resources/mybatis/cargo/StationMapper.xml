@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.project.cargo.mapper.StationMapper">
+    
+    <resultMap type="Station" id="StationResult">
+        <result property="id"    column="id"    />
+        <result property="stationName"    column="station_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectStationVo">
+        select id, station_name, create_by, update_by, create_time, update_time from ex_station
+    </sql>
+	
+    <select id="selectStationList" parameterType="Station" resultMap="StationResult">
+        <include refid="selectStationVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="stationName != null  and stationName != '' "> and station_name = #{stationName}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectStationById" parameterType="Integer" resultMap="StationResult">
+        <include refid="selectStationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStation" parameterType="Station" useGeneratedKeys="true" keyProperty="id">
+        insert into ex_station
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="stationName != null  and stationName != ''  ">station_name,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="stationName != null  and stationName != ''  ">#{stationName},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateStation" parameterType="Station">
+        update ex_station
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stationName != null  and stationName != ''  ">station_name = #{stationName},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteStationById" parameterType="Integer">
+        delete from ex_station where id = #{id}
+    </delete>
+	
+    <delete id="deleteStationByIds" parameterType="String">
+        delete from ex_station where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
