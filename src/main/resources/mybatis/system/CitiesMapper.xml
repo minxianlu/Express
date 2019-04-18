@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.project.system.area.mapper.CitiesMapper">
+    
+    <resultMap type="Cities" id="CitiesResult">
+        <result property="id"    column="id"    />
+        <result property="cityid"    column="cityid"    />
+        <result property="city"    column="city"    />
+        <result property="provinceid"    column="provinceid"    />
+    </resultMap>
+	
+	<sql id="selectCitiesVo">
+        select id, cityid, city, provinceid from cities
+    </sql>
+	
+    <select id="selectCitiesList" parameterType="Cities" resultMap="CitiesResult">
+        <include refid="selectCitiesVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="cityid != null  and cityid != '' "> and cityid = #{cityid}</if>
+             <if test="city != null  and city != '' "> and city = #{city}</if>
+             <if test="provinceid != null  and provinceid != '' "> and provinceid = #{provinceid}</if>
+         </where>
+    </select>
+    
+    <select id="selectCitiesById" parameterType="Integer" resultMap="CitiesResult">
+        <include refid="selectCitiesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCities" parameterType="Cities" useGeneratedKeys="true" keyProperty="id">
+        insert into cities
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cityid != null  and cityid != ''  ">cityid,</if>
+			<if test="city != null  and city != ''  ">city,</if>
+			<if test="provinceid != null  and provinceid != ''  ">provinceid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cityid != null  and cityid != ''  ">#{cityid},</if>
+			<if test="city != null  and city != ''  ">#{city},</if>
+			<if test="provinceid != null  and provinceid != ''  ">#{provinceid},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateCities" parameterType="Cities">
+        update cities
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cityid != null  and cityid != ''  ">cityid = #{cityid},</if>
+            <if test="city != null  and city != ''  ">city = #{city},</if>
+            <if test="provinceid != null  and provinceid != ''  ">provinceid = #{provinceid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteCitiesById" parameterType="Integer">
+        delete from cities where id = #{id}
+    </delete>
+	
+    <delete id="deleteCitiesByIds" parameterType="String">
+        delete from cities where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

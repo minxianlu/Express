@@ -7,7 +7,7 @@ import com.express.project.system.dict.domain.DictData;
 import com.express.project.system.dict.service.IDictDataService;
 
 /**
- * RuoYi首创 html调用 thymeleaf 实现字典读取
+ * html调用 thymeleaf 实现字典读取
  * 
  * @author chenyb
  */
