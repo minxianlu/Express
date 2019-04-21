@@ -399,7 +399,7 @@
             msgWarning: function(content) {
             	$.modal.msg(content, modal_status.WARNING);
             },
-    		// 弹出提示
+    		// 弹出提示,type不传则给默认值
             alert: function(content, type) {
         	    layer.alert(content, {
         	        icon: $.modal.icon(type),
@@ -606,6 +606,22 @@
         	    };
         	    $.ajax(config)
             },
+			postQuery:function(url,data,successFun){
+        		var config={
+        			url:url,
+					type:"post",
+					data:data,
+					dataType:"json",
+					success:function(result){
+        				if(successFun!=null){
+        					successFun(result);
+						}
+					}
+				};
+				$.ajax(config)
+			},
+
+
             // post请求传输
             post: function(url, data) {
             	$.operate.submit(url, "post", "json", data);
@@ -1071,6 +1087,8 @@
                 var reg = new RegExp(end + "$");
                 return reg.test(value)
             }
+
+
         }
     });
 })(jQuery);

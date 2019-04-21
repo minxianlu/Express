@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.project.express.order.mapper.OrderMapper">
+    
+    <resultMap type="Order" id="OrderResult">
+        <result property="id"    column="id"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="sendTime"    column="send_time"    />
+        <result property="sendPriovince"    column="send_priovince"    />
+        <result property="sendCity"    column="send_city"    />
+        <result property="receivePriovince"    column="receive_priovince"    />
+        <result property="receiveCity"    column="receive_city"    />
+        <result property="sendStation"    column="send_station"    />
+        <result property="receiveStation"    column="receive_station"    />
+        <result property="customerNo"    column="customer_no"    />
+        <result property="customerType"    column="customer_type"    />
+        <result property="sendName"    column="send_name"    />
+        <result property="sendContacts"    column="send_contacts"    />
+        <result property="sendPhone"    column="send_phone"    />
+        <result property="receiveName"    column="receive_name"    />
+        <result property="receiveContacts"    column="receive_contacts"    />
+        <result property="receivePhone"    column="receive_phone"    />
+        <result property="serviceMode"    column="service_mode"    />
+        <result property="pickUpMileage"    column="pick_up_mileage"    />
+        <result property="deliveryMileage"    column="delivery_mileage"    />
+        <result property="pickUpDress"    column="pick_up_dress"    />
+        <result property="deliveryDress"    column="delivery_dress"    />
+        <result property="remark"    column="remark"    />
+        <result property="cargoId"    column="cargo_id"    />
+        <result property="cargoNo"    column="cargo_no"    />
+        <result property="invoice"    column="invoice"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectOrderVo">
+        select id, order_no, send_time, send_priovince, send_city, receive_priovince, receive_city, send_station, receive_station, customer_no, customer_type, send_name, send_contacts, send_phone, receive_name, receive_contacts, receive_phone, service_mode, pick_up_mileage, delivery_mileage, pick_up_dress, delivery_dress, remark, cargo_id, cargo_no, invoice, status, create_by, update_by, create_time, update_time from ex_order
+    </sql>
+	
+    <select id="selectOrderList" parameterType="Order" resultMap="OrderResult">
+        <include refid="selectOrderVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="orderNo != null  and orderNo != '' "> and order_no = #{orderNo}</if>
+             <if test="sendTime != null "> and send_time = #{sendTime}</if>
+             <if test="sendPriovince != null "> and send_priovince = #{sendPriovince}</if>
+             <if test="sendCity != null  and sendCity != '' "> and send_city = #{sendCity}</if>
+             <if test="receivePriovince != null "> and receive_priovince = #{receivePriovince}</if>
+             <if test="receiveCity != null  and receiveCity != '' "> and receive_city = #{receiveCity}</if>
+             <if test="sendStation != null "> and send_station = #{sendStation}</if>
+             <if test="receiveStation != null "> and receive_station = #{receiveStation}</if>
+             <if test="customerNo != null  and customerNo != '' "> and customer_no = #{customerNo}</if>
+             <if test="customerType != null "> and customer_type = #{customerType}</if>
+             <if test="sendName != null  and sendName != '' "> and send_name = #{sendName}</if>
+             <if test="sendContacts != null  and sendContacts != '' "> and send_contacts = #{sendContacts}</if>
+             <if test="sendPhone != null  and sendPhone != '' "> and send_phone = #{sendPhone}</if>
+             <if test="receiveName != null  and receiveName != '' "> and receive_name = #{receiveName}</if>
+             <if test="receiveContacts != null  and receiveContacts != '' "> and receive_contacts = #{receiveContacts}</if>
+             <if test="receivePhone != null  and receivePhone != '' "> and receive_phone = #{receivePhone}</if>
+             <if test="serviceMode != null "> and service_mode = #{serviceMode}</if>
+             <if test="pickUpMileage != null "> and pick_up_mileage = #{pickUpMileage}</if>
+             <if test="deliveryMileage != null "> and delivery_mileage = #{deliveryMileage}</if>
+             <if test="pickUpDress != null  and pickUpDress != '' "> and pick_up_dress = #{pickUpDress}</if>
+             <if test="deliveryDress != null  and deliveryDress != '' "> and delivery_dress = #{deliveryDress}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="cargoId != null "> and cargo_id = #{cargoId}</if>
+             <if test="cargoNo != null  and cargoNo != '' "> and cargo_no = #{cargoNo}</if>
+             <if test="invoice != null "> and invoice = #{invoice}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectOrderById" parameterType="Integer" resultMap="OrderResult">
+        <include refid="selectOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
+        insert into ex_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderNo != null  and orderNo != ''  ">order_no,</if>
+			<if test="sendTime != null  ">send_time,</if>
+			<if test="sendPriovince != null  ">send_priovince,</if>
+			<if test="sendCity != null  and sendCity != ''  ">send_city,</if>
+			<if test="receivePriovince != null  ">receive_priovince,</if>
+			<if test="receiveCity != null  and receiveCity != ''  ">receive_city,</if>
+			<if test="sendStation != null  ">send_station,</if>
+			<if test="receiveStation != null  ">receive_station,</if>
+			<if test="customerNo != null  and customerNo != ''  ">customer_no,</if>
+			<if test="customerType != null  ">customer_type,</if>
+			<if test="sendName != null  and sendName != ''  ">send_name,</if>
+			<if test="sendContacts != null  and sendContacts != ''  ">send_contacts,</if>
+			<if test="sendPhone != null  and sendPhone != ''  ">send_phone,</if>
+			<if test="receiveName != null  and receiveName != ''  ">receive_name,</if>
+			<if test="receiveContacts != null  and receiveContacts != ''  ">receive_contacts,</if>
+			<if test="receivePhone != null  and receivePhone != ''  ">receive_phone,</if>
+			<if test="serviceMode != null  ">service_mode,</if>
+			<if test="pickUpMileage != null  ">pick_up_mileage,</if>
+			<if test="deliveryMileage != null  ">delivery_mileage,</if>
+			<if test="pickUpDress != null  and pickUpDress != ''  ">pick_up_dress,</if>
+			<if test="deliveryDress != null  and deliveryDress != ''  ">delivery_dress,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="cargoId != null  ">cargo_id,</if>
+			<if test="cargoNo != null  and cargoNo != ''  ">cargo_no,</if>
+			<if test="invoice != null  ">invoice,</if>
+			<if test="status != null  ">status,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderNo != null  and orderNo != ''  ">#{orderNo},</if>
+			<if test="sendTime != null  ">#{sendTime},</if>
+			<if test="sendPriovince != null  ">#{sendPriovince},</if>
+			<if test="sendCity != null  and sendCity != ''  ">#{sendCity},</if>
+			<if test="receivePriovince != null  ">#{receivePriovince},</if>
+			<if test="receiveCity != null  and receiveCity != ''  ">#{receiveCity},</if>
+			<if test="sendStation != null  ">#{sendStation},</if>
+			<if test="receiveStation != null  ">#{receiveStation},</if>
+			<if test="customerNo != null  and customerNo != ''  ">#{customerNo},</if>
+			<if test="customerType != null  ">#{customerType},</if>
+			<if test="sendName != null  and sendName != ''  ">#{sendName},</if>
+			<if test="sendContacts != null  and sendContacts != ''  ">#{sendContacts},</if>
+			<if test="sendPhone != null  and sendPhone != ''  ">#{sendPhone},</if>
+			<if test="receiveName != null  and receiveName != ''  ">#{receiveName},</if>
+			<if test="receiveContacts != null  and receiveContacts != ''  ">#{receiveContacts},</if>
+			<if test="receivePhone != null  and receivePhone != ''  ">#{receivePhone},</if>
+			<if test="serviceMode != null  ">#{serviceMode},</if>
+			<if test="pickUpMileage != null  ">#{pickUpMileage},</if>
+			<if test="deliveryMileage != null  ">#{deliveryMileage},</if>
+			<if test="pickUpDress != null  and pickUpDress != ''  ">#{pickUpDress},</if>
+			<if test="deliveryDress != null  and deliveryDress != ''  ">#{deliveryDress},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="cargoId != null  ">#{cargoId},</if>
+			<if test="cargoNo != null  and cargoNo != ''  ">#{cargoNo},</if>
+			<if test="invoice != null  ">#{invoice},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateOrder" parameterType="Order">
+        update ex_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNo != null  and orderNo != ''  ">order_no = #{orderNo},</if>
+            <if test="sendTime != null  ">send_time = #{sendTime},</if>
+            <if test="sendPriovince != null  ">send_priovince = #{sendPriovince},</if>
+            <if test="sendCity != null  and sendCity != ''  ">send_city = #{sendCity},</if>
+            <if test="receivePriovince != null  ">receive_priovince = #{receivePriovince},</if>
+            <if test="receiveCity != null  and receiveCity != ''  ">receive_city = #{receiveCity},</if>
+            <if test="sendStation != null  ">send_station = #{sendStation},</if>
+            <if test="receiveStation != null  ">receive_station = #{receiveStation},</if>
+            <if test="customerNo != null  and customerNo != ''  ">customer_no = #{customerNo},</if>
+            <if test="customerType != null  ">customer_type = #{customerType},</if>
+            <if test="sendName != null  and sendName != ''  ">send_name = #{sendName},</if>
+            <if test="sendContacts != null  and sendContacts != ''  ">send_contacts = #{sendContacts},</if>
+            <if test="sendPhone != null  and sendPhone != ''  ">send_phone = #{sendPhone},</if>
+            <if test="receiveName != null  and receiveName != ''  ">receive_name = #{receiveName},</if>
+            <if test="receiveContacts != null  and receiveContacts != ''  ">receive_contacts = #{receiveContacts},</if>
+            <if test="receivePhone != null  and receivePhone != ''  ">receive_phone = #{receivePhone},</if>
+            <if test="serviceMode != null  ">service_mode = #{serviceMode},</if>
+            <if test="pickUpMileage != null  ">pick_up_mileage = #{pickUpMileage},</if>
+            <if test="deliveryMileage != null  ">delivery_mileage = #{deliveryMileage},</if>
+            <if test="pickUpDress != null  and pickUpDress != ''  ">pick_up_dress = #{pickUpDress},</if>
+            <if test="deliveryDress != null  and deliveryDress != ''  ">delivery_dress = #{deliveryDress},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="cargoId != null  ">cargo_id = #{cargoId},</if>
+            <if test="cargoNo != null  and cargoNo != ''  ">cargo_no = #{cargoNo},</if>
+            <if test="invoice != null  ">invoice = #{invoice},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteOrderById" parameterType="Integer">
+        delete from ex_order where id = #{id}
+    </delete>
+	
+    <delete id="deleteOrderByIds" parameterType="String">
+        delete from ex_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

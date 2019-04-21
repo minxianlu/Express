@@ -1,9 +1,9 @@
 # 项目相关配置
-ruoyi:
+express:
   # 名称
-  name: RuoYi
+  name: Express
   # 版本
-  version: 3.2.0
+  version: 1.1.0
   # 版权年份
   copyrightYear: 2019
   # 文件路径
@@ -29,7 +29,7 @@ server:
 # 日志配置
 logging:
   level:
-    com.ruoyi: debug
+    com.express: debug
     org.springframework: WARN
     org.spring.springboot.dao: debug
 
@@ -127,7 +127,7 @@ gen:
   # 作者
   author: Chenyb
   # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
-  packageName: com.express.project.cargo
+  packageName: com.express.project.express
   # 自动去除表前缀，默认是true
   autoRemovePre: true
   # 表前缀(类名不会包含表前缀)

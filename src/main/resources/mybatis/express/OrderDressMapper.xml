@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.project.express.orderDress.mapper.OrderDressMapper">
+    
+    <resultMap type="OrderDress" id="OrderDressResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="provinceId"    column="provinceId"    />
+        <result property="cityId"    column="cityId"    />
+        <result property="dress"    column="dress"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectOrderDressVo">
+        select id, order_id, order_no, provinceId, cityId, dress, create_time, create_by, update_by, update_time, remark from ex_order_dress
+    </sql>
+	
+    <select id="selectOrderDressList" parameterType="OrderDress" resultMap="OrderDressResult">
+        <include refid="selectOrderDressVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="orderId != null "> and order_id = #{orderId}</if>
+             <if test="orderNo != null  and orderNo != '' "> and order_no = #{orderNo}</if>
+             <if test="provinceId != null "> and provinceId = #{provinceId}</if>
+             <if test="cityId != null  and cityId != '' "> and cityId = #{cityId}</if>
+             <if test="dress != null  and dress != '' "> and dress = #{dress}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectOrderDressById" parameterType="Integer" resultMap="OrderDressResult">
+        <include refid="selectOrderDressVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOrderDress" parameterType="OrderDress">
+        insert into ex_order_dress
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="orderId != null  ">order_id,</if>
+			<if test="orderNo != null  and orderNo != ''  ">order_no,</if>
+			<if test="provinceId != null  ">provinceId,</if>
+			<if test="cityId != null  and cityId != ''  ">cityId,</if>
+			<if test="dress != null  and dress != ''  ">dress,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="orderId != null  ">#{orderId},</if>
+			<if test="orderNo != null  and orderNo != ''  ">#{orderNo},</if>
+			<if test="provinceId != null  ">#{provinceId},</if>
+			<if test="cityId != null  and cityId != ''  ">#{cityId},</if>
+			<if test="dress != null  and dress != ''  ">#{dress},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateOrderDress" parameterType="OrderDress">
+        update ex_order_dress
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  ">order_id = #{orderId},</if>
+            <if test="orderNo != null  and orderNo != ''  ">order_no = #{orderNo},</if>
+            <if test="provinceId != null  ">provinceId = #{provinceId},</if>
+            <if test="cityId != null  and cityId != ''  ">cityId = #{cityId},</if>
+            <if test="dress != null  and dress != ''  ">dress = #{dress},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteOrderDressById" parameterType="Integer">
+        delete from ex_order_dress where id = #{id}
+    </delete>
+	
+    <delete id="deleteOrderDressByIds" parameterType="String">
+        delete from ex_order_dress where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

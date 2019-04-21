@@ -1,0 +1,210 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-order-edit" th:object="${order}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">订单编号：</label>
+				<div class="col-sm-8">
+					<input id="orderNo" name="orderNo" th:field="*{orderNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">发货日期：</label>
+				<div class="col-sm-8">
+					<input id="sendTime" name="sendTime" th:field="*{sendTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">发送省份：</label>
+				<div class="col-sm-8">
+					<input id="sendPriovince" name="sendPriovince" th:field="*{sendPriovince}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">发送城市：</label>
+				<div class="col-sm-8">
+					<input id="sendCity" name="sendCity" th:field="*{sendCity}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">接收省份：</label>
+				<div class="col-sm-8">
+					<input id="receivePriovince" name="receivePriovince" th:field="*{receivePriovince}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">接收城市：</label>
+				<div class="col-sm-8">
+					<input id="receiveCity" name="receiveCity" th:field="*{receiveCity}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">发送车站：</label>
+				<div class="col-sm-8">
+					<input id="sendStation" name="sendStation" th:field="*{sendStation}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">接收车站：</label>
+				<div class="col-sm-8">
+					<input id="receiveStation" name="receiveStation" th:field="*{receiveStation}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">客户编码：</label>
+				<div class="col-sm-8">
+					<input id="customerNo" name="customerNo" th:field="*{customerNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">客户类型：</label>
+				<div class="col-sm-8">
+					<input id="customerType" name="customerType" th:field="*{customerType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">发货人名称：</label>
+				<div class="col-sm-8">
+					<input id="sendName" name="sendName" th:field="*{sendName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">发货联系人：</label>
+				<div class="col-sm-8">
+					<input id="sendContacts" name="sendContacts" th:field="*{sendContacts}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">发货人电话：</label>
+				<div class="col-sm-8">
+					<input id="sendPhone" name="sendPhone" th:field="*{sendPhone}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">收货人名称：</label>
+				<div class="col-sm-8">
+					<input id="receiveName" name="receiveName" th:field="*{receiveName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">收货联系人：</label>
+				<div class="col-sm-8">
+					<input id="receiveContacts" name="receiveContacts" th:field="*{receiveContacts}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">接收人电话：</label>
+				<div class="col-sm-8">
+					<input id="receivePhone" name="receivePhone" th:field="*{receivePhone}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">服务方式：</label>
+				<div class="col-sm-8">
+					<input id="serviceMode" name="serviceMode" th:field="*{serviceMode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">送货里程：</label>
+				<div class="col-sm-8">
+					<input id="pickUpMileage" name="pickUpMileage" th:field="*{pickUpMileage}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">送货里程：</label>
+				<div class="col-sm-8">
+					<input id="deliveryMileage" name="deliveryMileage" th:field="*{deliveryMileage}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">取货地址：</label>
+				<div class="col-sm-8">
+					<input id="pickUpDress" name="pickUpDress" th:field="*{pickUpDress}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">送货地址：</label>
+				<div class="col-sm-8">
+					<input id="deliveryDress" name="deliveryDress" th:field="*{deliveryDress}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商议事项：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">货物Id：</label>
+				<div class="col-sm-8">
+					<input id="cargoId" name="cargoId" th:field="*{cargoId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">货物编号：</label>
+				<div class="col-sm-8">
+					<input id="cargoNo" name="cargoNo" th:field="*{cargoNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否开具发票：</label>
+				<div class="col-sm-8">
+					<input id="invoice" name="invoice" th:field="*{invoice}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态；0-丢失；1-未签收；2-已签收；关联字典表：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" th:field="*{status}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建人：</label>
+				<div class="col-sm-8">
+					<input id="createBy" name="createBy" th:field="*{createBy}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新人：</label>
+				<div class="col-sm-8">
+					<input id="updateBy" name="updateBy" th:field="*{updateBy}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="createTime" name="createTime" th:field="*{createTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新时间：</label>
+				<div class="col-sm-8">
+					<input id="updateTime" name="updateTime" th:field="*{updateTime}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "express/order";
+		$("#form-order-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-order-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

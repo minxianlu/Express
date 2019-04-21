@@ -2,7 +2,7 @@ package com.express.common.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.express.common.utils.http.HttpUtils;
-import com.express.framework.config.RuoYiConfig;
+import com.express.framework.config.ExpressConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,7 @@ public class AddressUtils
         {
             return "内网IP";
         }
-        if (RuoYiConfig.isAddressEnabled())
+        if (ExpressConfig.isAddressEnabled())
         {
             String rspStr = HttpUtils.sendPost(IP_URL, "ip=" + ip);
             if (StringUtils.isEmpty(rspStr))

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.project.express.complaint.mapper.ComplaintMapper">
+    
+    <resultMap type="Complaint" id="ComplaintResult">
+        <result property="id"    column="id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="email"    column="email"    />
+        <result property="postalCode"    column="postal_code"    />
+        <result property="adress"    column="adress"    />
+        <result property="complaintTheme"    column="complaint_theme"    />
+        <result property="complaintContent"    column="complaint_content"    />
+        <result property="attId"    column="att_id"    />
+        <result property="attNo"    column="att_no"    />
+        <result property="complaintReplay"    column="complaint_replay"    />
+        <result property="beComplaint"    column="be_complaint"    />
+        <result property="tip"    column="tip"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+	
+	<sql id="selectComplaintVo">
+        select id, user_name, user_phone, id_card, email, postal_code, adress, complaint_theme, complaint_content, att_id, att_no, complaint_replay, be_complaint, tip, create_by, update_by, create_time, update_time, status from ex_complaint
+    </sql>
+	
+    <select id="selectComplaintList" parameterType="Complaint" resultMap="ComplaintResult">
+        <include refid="selectComplaintVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="userName != null  and userName != '' "> and user_name = #{userName}</if>
+             <if test="userPhone != null "> and user_phone = #{userPhone}</if>
+             <if test="idCard != null  and idCard != '' "> and id_card = #{idCard}</if>
+             <if test="email != null  and email != '' "> and email = #{email}</if>
+             <if test="postalCode != null "> and postal_code = #{postalCode}</if>
+             <if test="adress != null  and adress != '' "> and adress = #{adress}</if>
+             <if test="complaintTheme != null  and complaintTheme != '' "> and complaint_theme = #{complaintTheme}</if>
+             <if test="complaintContent != null  and complaintContent != '' "> and complaint_content = #{complaintContent}</if>
+             <if test="attId != null "> and att_id = #{attId}</if>
+             <if test="attNo != null  and attNo != '' "> and att_no = #{attNo}</if>
+             <if test="complaintReplay != null  and complaintReplay != '' "> and complaint_replay = #{complaintReplay}</if>
+             <if test="beComplaint != null  and beComplaint != '' "> and be_complaint = #{beComplaint}</if>
+             <if test="tip != null  and tip != '' "> and tip = #{tip}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="status != null "> and status = #{status}</if>
+         </where>
+    </select>
+    
+    <select id="selectComplaintById" parameterType="Integer" resultMap="ComplaintResult">
+        <include refid="selectComplaintVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertComplaint" parameterType="Complaint">
+        insert into ex_complaint
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="userPhone != null  ">user_phone,</if>
+			<if test="idCard != null  and idCard != ''  ">id_card,</if>
+			<if test="email != null  and email != ''  ">email,</if>
+			<if test="postalCode != null  ">postal_code,</if>
+			<if test="adress != null  and adress != ''  ">adress,</if>
+			<if test="complaintTheme != null  and complaintTheme != ''  ">complaint_theme,</if>
+			<if test="complaintContent != null  and complaintContent != ''  ">complaint_content,</if>
+			<if test="attId != null  ">att_id,</if>
+			<if test="attNo != null  and attNo != ''  ">att_no,</if>
+			<if test="complaintReplay != null  and complaintReplay != ''  ">complaint_replay,</if>
+			<if test="beComplaint != null  and beComplaint != ''  ">be_complaint,</if>
+			<if test="tip != null  and tip != ''  ">tip,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="userName != null  and userName != ''  ">#{userName},</if>
+			<if test="userPhone != null  ">#{userPhone},</if>
+			<if test="idCard != null  and idCard != ''  ">#{idCard},</if>
+			<if test="email != null  and email != ''  ">#{email},</if>
+			<if test="postalCode != null  ">#{postalCode},</if>
+			<if test="adress != null  and adress != ''  ">#{adress},</if>
+			<if test="complaintTheme != null  and complaintTheme != ''  ">#{complaintTheme},</if>
+			<if test="complaintContent != null  and complaintContent != ''  ">#{complaintContent},</if>
+			<if test="attId != null  ">#{attId},</if>
+			<if test="attNo != null  and attNo != ''  ">#{attNo},</if>
+			<if test="complaintReplay != null  and complaintReplay != ''  ">#{complaintReplay},</if>
+			<if test="beComplaint != null  and beComplaint != ''  ">#{beComplaint},</if>
+			<if test="tip != null  and tip != ''  ">#{tip},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateComplaint" parameterType="Complaint">
+        update ex_complaint
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="userPhone != null  ">user_phone = #{userPhone},</if>
+            <if test="idCard != null  and idCard != ''  ">id_card = #{idCard},</if>
+            <if test="email != null  and email != ''  ">email = #{email},</if>
+            <if test="postalCode != null  ">postal_code = #{postalCode},</if>
+            <if test="adress != null  and adress != ''  ">adress = #{adress},</if>
+            <if test="complaintTheme != null  and complaintTheme != ''  ">complaint_theme = #{complaintTheme},</if>
+            <if test="complaintContent != null  and complaintContent != ''  ">complaint_content = #{complaintContent},</if>
+            <if test="attId != null  ">att_id = #{attId},</if>
+            <if test="attNo != null  and attNo != ''  ">att_no = #{attNo},</if>
+            <if test="complaintReplay != null  and complaintReplay != ''  ">complaint_replay = #{complaintReplay},</if>
+            <if test="beComplaint != null  and beComplaint != ''  ">be_complaint = #{beComplaint},</if>
+            <if test="tip != null  and tip != ''  ">tip = #{tip},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteComplaintById" parameterType="Integer">
+        delete from ex_complaint where id = #{id}
+    </delete>
+	
+    <delete id="deleteComplaintByIds" parameterType="String">
+        delete from ex_complaint where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

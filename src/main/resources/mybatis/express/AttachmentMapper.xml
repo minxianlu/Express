@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.project.express.attachment.mapper.AttachmentMapper">
+    
+    <resultMap type="Attachment" id="AttachmentResult">
+        <result property="id"    column="id"    />
+        <result property="attNo"    column="att_no"    />
+        <result property="attName"    column="att_name"    />
+        <result property="attUrl"    column="att_url"    />
+        <result property="attPath"    column="att_path"    />
+        <result property="attType"    column="att_type"    />
+        <result property="attSize"    column="att_size"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+    </resultMap>
+	
+	<sql id="selectAttachmentVo">
+        select id, att_no, att_name, att_url, att_path, att_type, att_size, create_by, update_by, create_date, update_date from attachment
+    </sql>
+	
+    <select id="selectAttachmentList" parameterType="Attachment" resultMap="AttachmentResult">
+        <include refid="selectAttachmentVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="attNo != null  and attNo != '' "> and att_no = #{attNo}</if>
+             <if test="attName != null  and attName != '' "> and att_name = #{attName}</if>
+             <if test="attUrl != null  and attUrl != '' "> and att_url = #{attUrl}</if>
+             <if test="attPath != null  and attPath != '' "> and att_path = #{attPath}</if>
+             <if test="attType != null  and attType != '' "> and att_type = #{attType}</if>
+             <if test="attSize != null  and attSize != '' "> and att_size = #{attSize}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="createDate != null "> and create_date = #{createDate}</if>
+             <if test="updateDate != null "> and update_date = #{updateDate}</if>
+         </where>
+    </select>
+    
+    <select id="selectAttachmentById" parameterType="Integer" resultMap="AttachmentResult">
+        <include refid="selectAttachmentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAttachment" parameterType="Attachment">
+        insert into attachment
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="attNo != null  and attNo != ''  ">att_no,</if>
+			<if test="attName != null  and attName != ''  ">att_name,</if>
+			<if test="attUrl != null  and attUrl != ''  ">att_url,</if>
+			<if test="attPath != null  and attPath != ''  ">att_path,</if>
+			<if test="attType != null  and attType != ''  ">att_type,</if>
+			<if test="attSize != null  and attSize != ''  ">att_size,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="createDate != null  ">create_date,</if>
+			<if test="updateDate != null  ">update_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="attNo != null  and attNo != ''  ">#{attNo},</if>
+			<if test="attName != null  and attName != ''  ">#{attName},</if>
+			<if test="attUrl != null  and attUrl != ''  ">#{attUrl},</if>
+			<if test="attPath != null  and attPath != ''  ">#{attPath},</if>
+			<if test="attType != null  and attType != ''  ">#{attType},</if>
+			<if test="attSize != null  and attSize != ''  ">#{attSize},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="createDate != null  ">#{createDate},</if>
+			<if test="updateDate != null  ">#{updateDate},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateAttachment" parameterType="Attachment">
+        update attachment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="attNo != null  and attNo != ''  ">att_no = #{attNo},</if>
+            <if test="attName != null  and attName != ''  ">att_name = #{attName},</if>
+            <if test="attUrl != null  and attUrl != ''  ">att_url = #{attUrl},</if>
+            <if test="attPath != null  and attPath != ''  ">att_path = #{attPath},</if>
+            <if test="attType != null  and attType != ''  ">att_type = #{attType},</if>
+            <if test="attSize != null  and attSize != ''  ">att_size = #{attSize},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="createDate != null  ">create_date = #{createDate},</if>
+            <if test="updateDate != null  ">update_date = #{updateDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteAttachmentById" parameterType="Integer">
+        delete from attachment where id = #{id}
+    </delete>
+	
+    <delete id="deleteAttachmentByIds" parameterType="String">
+        delete from attachment where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

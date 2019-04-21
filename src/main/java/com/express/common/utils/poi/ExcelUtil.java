@@ -46,7 +46,7 @@ import com.express.common.utils.reflect.ReflectUtils;
 import com.express.common.utils.text.Convert;
 import com.express.framework.aspectj.lang.annotation.Excel;
 import com.express.framework.aspectj.lang.annotation.Excel.Type;
-import com.express.framework.config.RuoYiConfig;
+import com.express.framework.config.ExpressConfig;
 import com.express.framework.web.domain.AjaxResult;
 
 /**
@@ -598,7 +598,7 @@ public class ExcelUtil<T>
      */
     public String getAbsoluteFile(String filename)
     {
-        String downloadPath = RuoYiConfig.getDownloadPath() + filename;
+        String downloadPath = ExpressConfig.getDownloadPath() + filename;
         File desc = new File(downloadPath);
         if (!desc.getParentFile().exists())
         {

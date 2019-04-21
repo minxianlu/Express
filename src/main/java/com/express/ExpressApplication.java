@@ -11,22 +11,32 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @author chenyb
  */
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
-@MapperScan({"com.express.project.*.*.mapper","com.express.project.*.mapper"})
+@MapperScan({"com.express.project.*.*.mapper"})
 public class ExpressApplication
 {
     public static void main(String[] args)
     {
         // System.setProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(ExpressApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  若依启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
-                " .-------.       ____     __        \n" +
-                " |  _ _   \\      \\   \\   /  /    \n" +
-                " | ( ' )  |       \\  _. /  '       \n" +
-                " |(_ o _) /        _( )_ .'         \n" +
-                " | (_,_).' __  ___(_ o _)'          \n" +
-                " |  |\\ \\  |  ||   |(_,_)'         \n" +
-                " |  | \\ `'   /|   `-'  /           \n" +
-                " |  |  \\    /  \\      /           \n" +
-                " ''-'   `'-'    `-..-'              ");
+        System.out.println(
+                        "                        .::::.\n" +
+                        "                     .::::::::.\n" +
+                        "                    :::::::::::\n" +
+                        "                 ..:::::::::::'\n" +
+                        "              '::::::::::::'\n" +
+                        "                .::::::::::\n" +
+                        "           '::::::::::::::..\n" +
+                        "                ..::::::::::::.\n" +
+                        "              ``::::::::::::::::\n" +
+                        "               ::::``:::::::::'        .:::.\n" +
+                        "              ::::'   ':::::'       .::::::::.\n" +
+                        "            .::::'      ::::     .:::::::'::::.\n" +
+                        "           .:::'       :::::  .:::::::::' ':::::.\n" +
+                        "          .::'        :::::.:::::::::'      ':::::.\n" +
+                        "         .::'         ::::::::::::::'         ``::::.\n" +
+                        "     ...:::           ::::::::::::'              ``::.\n" +
+                        "    ```` ':.          ':::::::::'                  ::::..\n" +
+                        "                       '.:::::'                    ':'````..\n");
+        System.out.println("(♥◠‿◠)ﾉﾞ  项目启动成功   ლ(´ڡ`ლ)ﾞ  \\n");
     }
 }

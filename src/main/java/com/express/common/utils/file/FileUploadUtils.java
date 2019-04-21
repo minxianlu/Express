@@ -7,7 +7,7 @@ import com.express.common.exception.file.FileNameLengthLimitExceededException;
 import com.express.common.exception.file.FileSizeLimitExceededException;
 import com.express.common.utils.DateUtils;
 import com.express.common.utils.Md5Utils;
-import com.express.framework.config.RuoYiConfig;
+import com.express.framework.config.ExpressConfig;
 
 /**
  * 文件上传工具类
@@ -29,7 +29,7 @@ public class FileUploadUtils
     /**
      * 默认上传的地址
      */
-    private static String defaultBaseDir = RuoYiConfig.getProfile();
+    private static String defaultBaseDir = ExpressConfig.getProfile();
 
     /**
      * 默认文件类型jpg

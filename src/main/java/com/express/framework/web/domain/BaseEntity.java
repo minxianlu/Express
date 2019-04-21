@@ -8,12 +8,15 @@ import com.google.common.collect.Maps;
 
 /**
  * Entity基类
- * 
+ *
  * @author chenyb
  */
 public class BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
+
+    /** 主键Id */
+    private Integer id;
 
     /** 搜索值 */
     private String searchValue;
@@ -35,8 +38,18 @@ public class BaseEntity implements Serializable
     /** 备注 */
     private String remark;
 
+
     /** 请求参数 */
     private Map<String, Object> params;
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getSearchValue()
     {
@@ -97,6 +110,7 @@ public class BaseEntity implements Serializable
     {
         this.remark = remark;
     }
+
 
     public Map<String, Object> getParams()
     {

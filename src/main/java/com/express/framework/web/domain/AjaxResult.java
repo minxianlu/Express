@@ -11,6 +11,7 @@ public class AjaxResult extends HashMap<String, Object>
 {
     private static final long serialVersionUID = 1L;
 
+
     /**
      * 初始化一个新创建的 Message 对象
      */

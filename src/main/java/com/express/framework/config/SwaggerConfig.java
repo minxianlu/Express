@@ -23,7 +23,7 @@ public class SwaggerConfig
 {
     /** 系统基础配置 */
     @Autowired
-    private RuoYiConfig ruoYiConfig;
+    private ExpressConfig expressConfig;
 
     /**
      * 创建API
@@ -49,10 +49,10 @@ public class SwaggerConfig
     {
         // 用ApiInfoBuilder进行定制
         return new ApiInfoBuilder()
-                .title("标题：若依管理系统_接口文档")
+                .title("标题：铁路快运管理系统_接口文档")
                 .description("描述：用于管理集团旗下公司的人员信息,具体包括XXX,XXX模块...")
-                .contact(new Contact(ruoYiConfig.getName(), null, null))
-                .version("版本号:" + ruoYiConfig.getVersion())
+                .contact(new Contact(expressConfig.getName(), null, null))
+                .version("版本号:" + expressConfig.getVersion())
                 .build();
     }
 }

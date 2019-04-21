@@ -15,7 +15,7 @@ import com.express.common.utils.StringUtils;
 import com.express.common.utils.file.FileUploadUtils;
 import com.express.framework.aspectj.lang.annotation.Log;
 import com.express.framework.aspectj.lang.enums.BusinessType;
-import com.express.framework.config.RuoYiConfig;
+import com.express.framework.config.ExpressConfig;
 import com.express.framework.shiro.service.PasswordService;
 import com.express.framework.web.controller.BaseController;
 import com.express.framework.web.domain.AjaxResult;
@@ -158,7 +158,7 @@ public class ProfileController extends BaseController
         {
             if (!file.isEmpty())
             {
-                String avatar = FileUploadUtils.upload(RuoYiConfig.getAvatarPath(), file);
+                String avatar = FileUploadUtils.upload(ExpressConfig.getAvatarPath(), file);
                 currentUser.setAvatar(avatar);
                 if (userService.updateUserInfo(currentUser) > 0)
                 {

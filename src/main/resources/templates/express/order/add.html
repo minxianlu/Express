@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m-md" id="form-order-add">
+			<div class="form-group">
+				<p class="alert alert-info" style="text-align:center;font-size:18px;">车站信息</p>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">订单编号：</label>
+				<div class="col-sm-4">
+					<input id="orderNo" name="orderNo" class="form-control" type="text" readonly>
+				</div>
+				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>发运日期：</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control layui-input" id="sendTime" placeholder="发运日期" name="sendTime" required/>
+					<!--<input id="sendTime" name="sendTime" class="form-control" type="text">-->
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>发送省份：</label>
+				<div class="col-sm-4">
+					<div class="col-sm-6">
+						<select name="sendPriovince" th:with="list=${@province.getProvinceList()}" th:onchange="getCityListByProvinceId(this.value,'sendCity')" class="form-control" required>
+							<option value="">选择省份</option>
+							<option th:each="province : ${list}" th:text="${province.province}" th:value="${province.provinceid}"></option>
+						</select>
+					</div>
+					<div class="col-sm-6">
+						<select name="sendCity" id="sendCity" class="form-control" required>
+							<option value="">选择城市</option>
+						</select>
+					</div>
+				</div>
+				<label class="col-sm-2 control-label">发送车站：</label>
+				<div class="col-sm-4">
+					<!--<input id="sendStation" name="sendStation" class="form-control" type="text" placeholder="发送车站">-->
+					<select id="sendStation" class="form-control" name="sendStation">
+						<option value="">选择车站</option>
+						<option th:each="sta:${station}" th:value="${sta.id}" th:text="${sta.stationName}" ></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>接收省份：</label>
+				<div class="col-sm-4">
+					<div class="col-sm-6">
+						<select name="receivePriovince" th:with="list=${@province.getProvinceList()}" th:onchange="getCityListByProvinceId(this.value,'receiveCity')" class="form-control" required>
+							<option value="">选择省份</option>
+							<option th:each="province : ${list}" th:text="${province.province}" th:value="${province.provinceid}"></option>
+						</select>
+					</div>
+					<div class="col-sm-6">
+						<select name="receiveCity" id="receiveCity" class="form-control" required>
+							<option value="">选择城市</option>
+						</select>
+					</div>
+				</div>
+				<label class="col-sm-2 control-label">接收车站：</label>
+				<div class="col-sm-4">
+					<!--<input id="receiveStation" name="receiveStation" class="form-control" type="text" placeholder="接收车站" >-->
+					<select id="receiveStation" class="form-control" name="receiveStation">
+						<option value="">选择接收站</option>
+						<option th:each="sta:${station}" th:value="${sta.id}" th:text="${sta.stationName}" ></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<p class="alert alert-info" style="text-align:center;font-size:18px;">托运人信息</p>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">客户编码：</label>
+				<div class="col-sm-4">
+					<input id="customerNo" name="customerNo" class="form-control" type="text" placeholder="顾客编码">
+				</div>
+				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>客户类型：</label>
+				<div class="col-sm-4">
+					<select name="customerType" id="customerType"  th:with="type=${@dict.getType('ex_customer_type')}"  class="form-control" required>
+						<option value="">所有</option>
+						<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>发货人名称：</label>
+				<div class="col-sm-2">
+					<input id="sendName" name="sendName" class="form-control" type="text" placeholder="发货人名称" required>
+				</div>
+				<label class="col-sm-2 control-label">发货联系人：</label>
+				<div class="col-sm-2">
+					<input id="sendContacts" name="sendContacts" class="form-control" type="text" placeholder="发货联系人">
+				</div>
+				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>发货人电话：</label>
+				<div class="col-sm-2">
+					<input id="sendPhone" name="sendPhone" class="form-control" type="number" placeholder="发货人电话" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<p class="alert alert-info" style="text-align:center;font-size:18px;">收货人信息</p>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>收货人名称：</label>
+				<div class="col-sm-2">
+					<input id="receiveName" name="receiveName" class="form-control" type="text" placeholder="收获人名称" required>
+				</div>
+				<label class="col-sm-2 control-label">收货联系人：</label>
+				<div class="col-sm-2">
+					<input id="receiveContacts" name="receiveContacts" class="form-control" type="text" placeholder="收获联系人">
+				</div>
+				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>接收人电话：</label>
+				<div class="col-sm-2">
+					<input id="receivePhone" name="receivePhone" class="form-control" type="number" placeholder="接收人电话" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<p class="alert alert-info" style="text-align:center;font-size:18px;">货物信息</p>
+			</div>
+			<div th:replace="include::cargo(1)">
+
+
+			</div>
+
+
+			<div class="form-group">
+				<p class="alert alert-info" style="text-align:center;font-size:18px;">服务信息</p>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>服务方式：</label>
+				<div class="col-sm-10">
+					<label th:each="serviceMode:${@dict.getType('ex_service_mode')}" class="check-box">
+						<input name="serviceMode" type="radio" th:value="${serviceMode.dictValue}" th:text="${serviceMode.dictLabel}" >
+					</label>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-2 control-label">取货里程：</label>
+				<div class="col-sm-4">
+					<input id="pickUpMileage" name="pickUpMileage" class="form-control" type="text" placeholder="取货里程">
+				</div>
+				<label class="col-sm-2 control-label">取货地址：</label>
+				<div class="col-sm-4">
+					<input id="pickUpDress" name="pickUpDress" class="form-control" type="text" placeholder="取货地址">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-2 control-label">送货里程：</label>
+				<div class="col-sm-4">
+					<input id="deliveryMileage" name="deliveryMileage" class="form-control" type="text" placeholder="送货里程">
+				</div>
+				<label class="col-sm-2 control-label">送货地址：</label>
+				<div class="col-sm-4">
+					<input id="deliveryDress" name="deliveryDress" class="form-control" type="text" placeholder="送货地址">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">商议事项：</label>
+				<div class="col-sm-10">
+					<textarea type="text" name="remark" class="form-control" placeholder="请输入文本"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">是否开具发票：</label>
+				<div class="col-sm-8">
+					<div class="onoffswitch">
+						<input type="checkbox" th:checked="true" class="onoffswitch-checkbox" id="invoice" >
+						<label class="onoffswitch-label" for="invoice">
+							<span class="onoffswitch-inner"></span>
+							<span class="onoffswitch-switch"></span>
+						</label>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="row">
+		<div class="col-sm-offset-5 col-sm-10">
+			<button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+			<button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+		</div>
+	</div>
+
+
+
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "express/order"
+		function GetRandom(){
+			var date=new Date();
+			var y=date.getFullYear()+"";
+			var m=date.getMonth()+1;
+			var d=date.getDate()+"";
+			var timestamp=date.getTime()+"";
+			var rand=(Math.random()*1000)+"";
+			return Math.floor(y+(m>10?m:("0"+m))+d+timestamp.substr(timestamp.length-4,timestamp.length)+rand.substr(0,2));
+		}
+		$(function(){
+			layui.use('laydate', function(){
+				var laydate = layui.laydate;
+				laydate.render({
+					elem: '#sendTime',
+					min:0
+				});
+			});
+			$("#orderNo").val(GetRandom());
+			var data = $("#form-order-add").serializeArray();
+
+		})
+
+		var getCityListByProvinceId=function(val,target){
+			$.operate.postQuery(prefix+"/getCityByProvinceId",{"provinceId":val},function(result){
+				if($.common.isNotEmpty(result)){
+					var options=["<option value=''>选择城市</option>"];
+					$.each(result,function(i,o){
+						options.push("<option value='"+o.cityid+"' > "+o.city+"</option>")
+					})
+					$("#"+target).html(options.join(""));
+				}
+			})
+		}
+		function submitHandler() {
+	        if ($.validate.form()) {
+				var data = $("#form-order-add").serializeArray();
+
+				if($.common.isEmpty($("input[name='serviceMode']:checked").val())){
+					$.modal.alert("请选择服务方式");
+					return false;
+				}
+				var phoneReg=/^1[3,4,5,8]\d{9}$/
+				if(!phoneReg.test($("#sendPhone").val())){
+					$.modal.alert("发货人电话格式不正确，请确认");
+					return false;
+				}
+				if(!phoneReg.test($("#receivePhone").val())){
+					$.modal.alert("接收人电话格式不正确，请确认");
+					return false;
+				}
+
+				var invoice = $("input[id='invoice']").is(':checked') == true ? 1 : 0;
+				data.push({"name": "invoice", "value": invoice});
+				$.operate.save(prefix + "/add", data);
+	        }
+	    }
+	</script>
+</body>
+</html>

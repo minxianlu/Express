@@ -45,3 +45,69 @@
 	<script src="http://tajs.qq.com/stats?sId=62048022"></script>
 	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
 </div>
+
+
+
+<div >
+	<select th:name="${name}" th:id="${name}"  th:with="type=${@dict.getType(dictType)}" th:fragment="selectDict(name,dictType)">
+		<option value="">所有</option>
+		<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+	</select>
+</div>
+
+<div  th:fragment="cargo(index)">
+	<div class="form-group">
+		<label class="col-sm-2 control-label" ><span style='color: red;'>*</span>货物名称</label>
+		<div class="col-sm-3">
+			<input type="text" name="cargoName" class="form-control" placeholder="请输入文本" required>
+		</div>
+		<label class="col-sm-1 control-label" th:text="'包装:'"></label>
+		<div class="col-sm-2">
+			<input type="text" name="pack" class="form-control" placeholder="请输入文本">
+		</div>
+		<label class="col-sm-1 control-label" th:text="'件数:'"></label>
+		<div class="col-sm-2">
+			<input type="number" name="num" class="form-control" placeholder="请输入文本">
+		</div>
+		<label class="col-sm-1 control-label"></label>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label"><span style='color: red;'>*</span>总重</label>
+		<div class="col-sm-2">
+			<input type="number" name="weight" class="form-control" placeholder="请输入文本" required>
+		</div>
+		<label class="col-sm-1 control-label" th:text="'保价金额:'">保价金额+${index}：</label>
+		<div class="col-sm-2">
+			<input type="number" name="insurance" class="form-control" placeholder="请输入文本">
+		</div>
+		<label class="col-sm-1 control-label" th:text="'计费重量:'"></label>
+		<div class="col-sm-2">
+			<input type="number" name="billingWeight" class="form-control" placeholder="请输入文本">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" th:text="'单件最大数量:'"></label>
+		<div class="col-sm-2">
+			<input type="number" name="singleMaxWeight" class="form-control" placeholder="请输入文本">
+		</div>
+		<label class="col-sm-2 control-label" th:text="'单件最大长/宽/高:'"></label>
+		<div class="col-sm-3" >
+			<div class="col-xs-3" style="padding-left:0px;padding-right: 0px;">
+				<input type="number" name="length" class="form-control" placeholder="请输入文本">
+			</div>
+			<label class="col-xs-1 control-label" style="padding-left:0px;padding-right: 0px; width: 12px;">X</label>
+			<div class="col-xs-3" style="padding-left:0px;padding-right: 0px;">
+				<input type="number" name="width" class="form-control" placeholder="请输入文本">
+			</div>
+			<label class="col-xs-1 control-label" style="padding-left:0px;padding-right: 0px;  width: 12px;">X</label>
+			<div class="col-xs-3" style="padding-left:0px;padding-right: 0px;">
+				<input type="number" name="height" class="form-control" placeholder="请输入文本">
+			</div>
+			<label class="col-xs-1 control-label" ></label>
+		</div>
+		<label class="col-sm-1 control-label" th:text="'总体积:'"></label>
+		<div class="col-sm-2">
+			<input type="number" name="volume" class="form-control" placeholder="请输入文本">
+		</div>
+	</div>
+</div>

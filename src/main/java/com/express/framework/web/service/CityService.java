@@ -1,5 +1,6 @@
 package com.express.framework.web.service;
 
+import com.express.common.utils.StringUtils;
 import com.express.project.system.area.domain.Cities;
 import com.express.project.system.area.service.ICitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class CityService {
     public List<Cities> getCityListByProvinceId(String provinceId){
         Cities city=new Cities();
         city.setProvinceid(provinceId);
+        return citiesService.selectCitiesList(city);
+    }
+
+    public List<Cities> getAllCity(){
+        Cities city=new Cities();
         return citiesService.selectCitiesList(city);
     }
 }
