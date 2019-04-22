@@ -1,6 +1,7 @@
 package com.express.project.express.order.service;
 
 import com.express.common.exception.BusinessException;
+import com.express.project.express.cargo.domain.Cargo;
 import com.express.project.express.order.domain.Order;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public interface IOrderService
      * @param order 订单信息
      * @return 结果
      */
-	 void insertOrder(Order order)throws BusinessException;
+	 void insertOrder(Order order)throws Exception;
 	
 	/**
      * 修改订单
@@ -42,7 +43,7 @@ public interface IOrderService
      * @param order 订单信息
      * @return 结果
      */
-	 int updateOrder(Order order);
+	 void updateOrder(Order order, Cargo cargo)throws  Exception;
 		
 	/**
      * 删除订单信息

@@ -13,7 +13,7 @@ public class Cargo extends BaseEntity
 {
 	private static final long serialVersionUID = 1L;
 	
-	/** 货物编码 */
+	/** 订单编码，一开始取错名字了，将错就错吧 */
 	private String cargoNo;
 	/** 货物名称 */
 	private String cargoName;

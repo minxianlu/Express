@@ -33,7 +33,7 @@ public interface ICargoService
      * @param cargo 货物信息
      * @return 结果
      */
-	 int insertCargo(Cargo cargo);
+	 void insertCargo(Cargo cargo)throws  Exception;
 	
 	/**
      * 修改货物
@@ -50,5 +50,12 @@ public interface ICargoService
      * @return 结果
      */
 	 int deleteCargoByIds(String ids);
+	/**
+	 * 删除货物信息
+	 *
+	 * @param orderNo 需要删除的数据的订单编号
+	 * @return 结果
+	 */
+	 void deleteCargoByOrderNo(String orderNo)throws  Exception;
 	
 }

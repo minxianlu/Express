@@ -2,6 +2,8 @@ package com.express.project.express.order.controller;
 
 import java.util.List;
 
+import com.express.project.express.cargo.domain.Cargo;
+import com.express.project.express.cargo.service.ICargoService;
 import com.express.project.express.station.domain.Station;
 import com.express.project.express.station.service.IStationService;
 import com.express.project.system.area.domain.Cities;
@@ -44,6 +46,9 @@ public class OrderController extends BaseController
 
 	@Autowired
 	private ICitiesService citiesService;
+
+	@Autowired
+	private ICargoService cargoService;
 	
 	@RequiresPermissions("express:order:view")
 	@GetMapping()
@@ -108,11 +113,13 @@ public class OrderController extends BaseController
 	@Log(title = "订单", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody
-	public AjaxResult addSave(Order order)
+	public AjaxResult addSave(Order order, Cargo cargo)
 	{
 		AjaxResult ajaxResult=null;
 		try {
 			orderService.insertOrder(order);
+			cargo.setCargoNo(order.getOrderNo());
+			cargoService.insertCargo(cargo);
 			ajaxResult=AjaxResult.success();
 		}catch (Exception e){
 			e.printStackTrace();
@@ -127,8 +134,16 @@ public class OrderController extends BaseController
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable("id") Integer id, ModelMap mmap)
 	{
-		Order order = orderService.selectOrderById(id);
-		mmap.put("order", order);
+		try {
+			Order order  = orderService.selectOrderById(id);
+			Cargo cargo=new Cargo();
+			cargo.setCargoNo(order.getOrderNo());
+			List<Cargo> cargoList=cargoService.selectCargoList(cargo);
+			mmap.put("order", order);
+			mmap.put("cargoList", cargoList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	    return prefix + "/edit";
 	}
 	
@@ -139,9 +154,14 @@ public class OrderController extends BaseController
 	@Log(title = "订单", businessType = BusinessType.UPDATE)
 	@PostMapping("/edit")
 	@ResponseBody
-	public AjaxResult editSave(Order order)
-	{		
-		return toAjax(orderService.updateOrder(order));
+	public AjaxResult editSave(Order order,Cargo cargo)
+	{
+		AjaxResult ajaxResult=null;
+		try {
+			orderService.updateOrder(order,cargo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

@@ -1,6 +1,9 @@
 package com.express.project.express.cargo.service;
 
+import java.util.Date;
 import java.util.List;
+
+import com.express.common.utils.security.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.express.project.express.cargo.mapper.CargoMapper;
@@ -51,9 +54,11 @@ public class CargoServiceImpl implements ICargoService
      * @return 结果
      */
 	@Override
-	public int insertCargo(Cargo cargo)
+	public void insertCargo(Cargo cargo)throws  Exception
 	{
-	    return cargoMapper.insertCargo(cargo);
+		cargo.setCreateBy(ShiroUtils.getLoginName());
+		cargo.setCreateTime(new Date());
+		cargoMapper.insertCargo(cargo);
 	}
 	
 	/**
@@ -79,5 +84,10 @@ public class CargoServiceImpl implements ICargoService
 	{
 		return cargoMapper.deleteCargoByIds(Convert.toStrArray(ids));
 	}
-	
+
+
+	@Override
+	public void deleteCargoByOrderNo(String orderNo) throws Exception {
+		cargoMapper.deleteCargoByCargoNo(orderNo);
+	}
 }

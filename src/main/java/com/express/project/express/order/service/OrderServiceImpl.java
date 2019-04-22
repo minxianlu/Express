@@ -5,7 +5,11 @@ import java.util.List;
 
 import com.express.common.constant.ExpressConstants;
 import com.express.common.exception.BusinessException;
+import com.express.common.utils.StringUtils;
 import com.express.common.utils.security.ShiroUtils;
+import com.express.project.express.cargo.domain.Cargo;
+import com.express.project.express.cargo.service.CargoServiceImpl;
+import com.express.project.express.cargo.service.ICargoService;
 import com.express.project.express.orderDress.domain.OrderDress;
 import com.express.project.express.orderDress.service.IOrderDressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,8 @@ import com.express.project.express.order.mapper.OrderMapper;
 import com.express.project.express.order.domain.Order;
 import com.express.project.express.order.service.IOrderService;
 import com.express.common.utils.text.Convert;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 订单 服务层实现
@@ -28,6 +34,8 @@ public class OrderServiceImpl implements IOrderService
 	private OrderMapper orderMapper;
 	@Autowired
 	private IOrderDressService orderDressService;
+	@Autowired
+	private ICargoService cargoService;
 
 	/**
      * 查询订单信息
@@ -60,7 +68,8 @@ public class OrderServiceImpl implements IOrderService
      * @return 结果
      */
 	@Override
-	public void insertOrder(Order order) throws BusinessException
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void insertOrder(Order order) throws Exception
 	{
 		order.setCreateBy(ShiroUtils.getLoginName());
 		order.setCreateTime(new Date());
@@ -85,9 +94,14 @@ public class OrderServiceImpl implements IOrderService
      * @return 结果
      */
 	@Override
-	public int updateOrder(Order order)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void updateOrder(Order order, Cargo cargo)throws Exception
 	{
-	    return orderMapper.updateOrder(order);
+		if(StringUtils.isEmpty(order.getOrderNo())){
+			throw new BusinessException("订单编号为空");
+		}
+		cargoService.deleteCargoByOrderNo(order.getOrderNo());
+		 orderMapper.updateOrder(order);
 	}
 
 	/**

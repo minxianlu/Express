@@ -58,5 +58,13 @@ public interface CargoMapper
      * @return 结果
      */
 	public int deleteCargoByIds(String[] ids);
+
+	/**
+	 * 根据订单号删除货物
+	 *
+	 * @param cargoNo 需要删除的数据的订单号
+	 * @return 结果
+	 */
+	int deleteCargoByCargoNo(String cargoNo);
 	
 }

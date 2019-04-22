@@ -139,5 +139,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <delete id="deleteCargoByCargoNo" parameterType="String">
+        delete from ex_cargo where cargo_no=#{cargoNo}
+    </delete>
+
+
+
     
 </mapper>
