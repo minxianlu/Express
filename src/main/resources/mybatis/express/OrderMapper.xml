@@ -8,9 +8,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="orderNo"    column="order_no"    />
         <result property="sendTime"    column="send_time"    />
-        <result property="sendPriovince"    column="send_priovince"    />
+        <result property="sendProvince"    column="send_Province"    />
         <result property="sendCity"    column="send_city"    />
-        <result property="receivePriovince"    column="receive_priovince"    />
+        <result property="receiveProvince"    column="receive_Province"    />
         <result property="receiveCity"    column="receive_city"    />
         <result property="sendStation"    column="send_station"    />
         <result property="receiveStation"    column="receive_station"    />
@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 	
 	<sql id="selectOrderVo">
-        select id, order_no, send_time, send_priovince, send_city, receive_priovince, receive_city, send_station, receive_station, customer_no, customer_type, send_name, send_contacts, send_phone, receive_name, receive_contacts, receive_phone, service_mode, pick_up_mileage, delivery_mileage, pick_up_dress, delivery_dress, remark, cargo_id, cargo_no, invoice, status, create_by, update_by, create_time, update_time from ex_order
+        select id, order_no, send_time, send_Province, send_city, receive_Province, receive_city, send_station, receive_station, customer_no, customer_type, send_name, send_contacts, send_phone, receive_name, receive_contacts, receive_phone, service_mode, pick_up_mileage, delivery_mileage, pick_up_dress, delivery_dress, remark, cargo_id, cargo_no, invoice, status, create_by, update_by, create_time, update_time from ex_order
     </sql>
 	
     <select id="selectOrderList" parameterType="Order" resultMap="OrderResult">
@@ -48,9 +48,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="id != null "> and id = #{id}</if>
              <if test="orderNo != null  and orderNo != '' "> and order_no = #{orderNo}</if>
              <if test="sendTime != null "> and send_time = #{sendTime}</if>
-             <if test="sendPriovince != null "> and send_priovince = #{sendPriovince}</if>
+             <if test="sendProvince != null "> and send_Province = #{sendProvince}</if>
              <if test="sendCity != null  and sendCity != '' "> and send_city = #{sendCity}</if>
-             <if test="receivePriovince != null "> and receive_priovince = #{receivePriovince}</if>
+             <if test="receiveProvince != null "> and receive_Province = #{receiveProvince}</if>
              <if test="receiveCity != null  and receiveCity != '' "> and receive_city = #{receiveCity}</if>
              <if test="sendStation != null "> and send_station = #{sendStation}</if>
              <if test="receiveStation != null "> and receive_station = #{receiveStation}</if>
@@ -89,9 +89,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="orderNo != null  and orderNo != ''  ">order_no,</if>
 			<if test="sendTime != null  ">send_time,</if>
-			<if test="sendPriovince != null  ">send_priovince,</if>
+			<if test="sendProvince != null  ">send_Province,</if>
 			<if test="sendCity != null  and sendCity != ''  ">send_city,</if>
-			<if test="receivePriovince != null  ">receive_priovince,</if>
+			<if test="receiveProvince != null  ">receive_Province,</if>
 			<if test="receiveCity != null  and receiveCity != ''  ">receive_city,</if>
 			<if test="sendStation != null  ">send_station,</if>
 			<if test="receiveStation != null  ">receive_station,</if>
@@ -121,9 +121,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="orderNo != null  and orderNo != ''  ">#{orderNo},</if>
 			<if test="sendTime != null  ">#{sendTime},</if>
-			<if test="sendPriovince != null  ">#{sendPriovince},</if>
+			<if test="sendProvince != null  ">#{sendProvince},</if>
 			<if test="sendCity != null  and sendCity != ''  ">#{sendCity},</if>
-			<if test="receivePriovince != null  ">#{receivePriovince},</if>
+			<if test="receiveProvince != null  ">#{receiveProvince},</if>
 			<if test="receiveCity != null  and receiveCity != ''  ">#{receiveCity},</if>
 			<if test="sendStation != null  ">#{sendStation},</if>
 			<if test="receiveStation != null  ">#{receiveStation},</if>
@@ -157,9 +157,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="orderNo != null  and orderNo != ''  ">order_no = #{orderNo},</if>
             <if test="sendTime != null  ">send_time = #{sendTime},</if>
-            <if test="sendPriovince != null  ">send_priovince = #{sendPriovince},</if>
+            <if test="sendProvince != null  ">send_Province = #{sendProvince},</if>
             <if test="sendCity != null  and sendCity != ''  ">send_city = #{sendCity},</if>
-            <if test="receivePriovince != null  ">receive_priovince = #{receivePriovince},</if>
+            <if test="receiveProvince != null  ">receive_Province = #{receiveProvince},</if>
             <if test="receiveCity != null  and receiveCity != ''  ">receive_city = #{receiveCity},</if>
             <if test="sendStation != null  ">send_station = #{sendStation},</if>
             <if test="receiveStation != null  ">receive_station = #{receiveStation},</if>

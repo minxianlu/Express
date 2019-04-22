@@ -50,5 +50,12 @@ public interface IFreightRateService
      * @return 结果
      */
 	 int deleteFreightRateByIds(String ids);
+	/**
+	 * 根据车站Ids查询运价因子
+	 *
+	 * @param ids 车站ids
+	 * @return 结果
+	 */
+	 List<FreightRate> selectFreightRateByStationIds(String ids) throws Exception;
 	
 }

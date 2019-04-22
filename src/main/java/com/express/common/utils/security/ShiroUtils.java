@@ -72,6 +72,10 @@ public class ShiroUtils
         return getSysUser().getLoginName();
     }
 
+    public static String getUserName(){
+        return getSysUser().getUserName();
+    }
+
     public static String getIp()
     {
         return getSubject().getSession().getHost();

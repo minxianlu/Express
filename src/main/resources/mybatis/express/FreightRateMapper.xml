@@ -94,5 +94,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectFreightRateByStationIds" parameterType="String" resultMap="FreightRateResult">
+        <include refid="selectFreightRateVo"/>
+        <where>
+          send_station  in  <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+         or
+         receive_station in  <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        </where>
+    </select>
     
 </mapper>

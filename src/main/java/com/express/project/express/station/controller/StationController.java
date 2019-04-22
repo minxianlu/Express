@@ -85,8 +85,16 @@ public class StationController extends BaseController
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(Station station)
-	{		
-		return toAjax(stationService.insertStation(station));
+	{
+		AjaxResult ajaxResult=null;
+		try {
+			stationService.insertStation(station);
+			ajaxResult=AjaxResult.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error();
+		}
+		return ajaxResult;
 	}
 
 	/**
@@ -108,8 +116,16 @@ public class StationController extends BaseController
 	@PostMapping("/edit")
 	@ResponseBody
 	public AjaxResult editSave(Station station)
-	{		
-		return toAjax(stationService.updateStation(station));
+	{
+		AjaxResult ajaxResult=null;
+		try {
+			stationService.updateStation(station);
+			ajaxResult=AjaxResult.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error();
+		}
+		return ajaxResult;
 	}
 	
 	/**

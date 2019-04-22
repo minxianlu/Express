@@ -159,9 +159,12 @@ public class OrderController extends BaseController
 		AjaxResult ajaxResult=null;
 		try {
 			orderService.updateOrder(order,cargo);
+			ajaxResult=AjaxResult.success();
 		} catch (Exception e) {
 			e.printStackTrace();
+			ajaxResult=AjaxResult.error();
 		}
+		return ajaxResult;
 	}
 	
 	/**
@@ -173,6 +176,7 @@ public class OrderController extends BaseController
 	@ResponseBody
 	public AjaxResult remove(String ids)
 	{		
+
 		return toAjax(orderService.deleteOrderByIds(ids));
 	}
 	

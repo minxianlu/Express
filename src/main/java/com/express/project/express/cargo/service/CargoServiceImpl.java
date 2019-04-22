@@ -10,6 +10,8 @@ import com.express.project.express.cargo.mapper.CargoMapper;
 import com.express.project.express.cargo.domain.Cargo;
 import com.express.project.express.cargo.service.ICargoService;
 import com.express.common.utils.text.Convert;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 货物 服务层实现
@@ -54,9 +56,10 @@ public class CargoServiceImpl implements ICargoService
      * @return 结果
      */
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void insertCargo(Cargo cargo)throws  Exception
 	{
-		cargo.setCreateBy(ShiroUtils.getLoginName());
+		cargo.setCreateBy(ShiroUtils.getUserName());
 		cargo.setCreateTime(new Date());
 		cargoMapper.insertCargo(cargo);
 	}
@@ -87,6 +90,7 @@ public class CargoServiceImpl implements ICargoService
 
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteCargoByOrderNo(String orderNo) throws Exception {
 		cargoMapper.deleteCargoByCargoNo(orderNo);
 	}

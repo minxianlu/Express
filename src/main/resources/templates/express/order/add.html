@@ -23,7 +23,7 @@
 				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>发送省份：</label>
 				<div class="col-sm-4">
 					<div class="col-sm-6">
-						<select name="sendPriovince" th:with="list=${@province.getProvinceList()}" th:onchange="getCityListByProvinceId(this.value,'sendCity')" class="form-control" required>
+						<select name="sendProvince" th:with="list=${@province.getProvinceList()}" th:onchange="getCityListByProvinceId(this.value,'sendCity')" class="form-control" required>
 							<option value="">选择省份</option>
 							<option th:each="province : ${list}" th:text="${province.province}" th:value="${province.provinceid}"></option>
 						</select>
@@ -47,7 +47,7 @@
 				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>接收省份：</label>
 				<div class="col-sm-4">
 					<div class="col-sm-6">
-						<select name="receivePriovince" th:with="list=${@province.getProvinceList()}" th:onchange="getCityListByProvinceId(this.value,'receiveCity')" class="form-control" required>
+						<select name="receiveProvince" th:with="list=${@province.getProvinceList()}" th:onchange="getCityListByProvinceId(this.value,'receiveCity')" class="form-control" required>
 							<option value="">选择省份</option>
 							<option th:each="province : ${list}" th:text="${province.province}" th:value="${province.provinceid}"></option>
 						</select>
@@ -204,7 +204,7 @@
 				});
 			});
 			$("#orderNo").val(GetRandom());
-			var data = $("#form-order-add").serializeArray();
+			// var data = $("#form-order-add").serializeArray();
 
 		})
 

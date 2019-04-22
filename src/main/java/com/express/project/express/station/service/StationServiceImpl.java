@@ -1,12 +1,22 @@
 package com.express.project.express.station.service;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import com.express.common.utils.security.ShiroUtils;
+import com.express.project.express.freightRate.domain.FreightRate;
+import com.express.project.express.freightRate.service.IFreightRateService;
+import org.apache.velocity.runtime.directive.Foreach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.express.project.express.station.mapper.StationMapper;
 import com.express.project.express.station.domain.Station;
 import com.express.project.express.station.service.IStationService;
 import com.express.common.utils.text.Convert;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 车站 服务层实现
@@ -19,6 +29,9 @@ public class StationServiceImpl implements IStationService
 {
 	@Autowired
 	private StationMapper stationMapper;
+
+	@Autowired
+	private IFreightRateService freightRateService;
 
 	/**
      * 查询车站信息
@@ -51,9 +64,12 @@ public class StationServiceImpl implements IStationService
      * @return 结果
      */
 	@Override
-	public int insertStation(Station station)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void insertStation(Station station)throws Exception
 	{
-	    return stationMapper.insertStation(station);
+		station.setCreateBy(ShiroUtils.getUserName());
+		station.setCreateTime(new Date());
+		stationMapper.insertStation(station);
 	}
 	
 	/**
@@ -63,9 +79,12 @@ public class StationServiceImpl implements IStationService
      * @return 结果
      */
 	@Override
-	public int updateStation(Station station)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void updateStation(Station station)throws Exception
 	{
-	    return stationMapper.updateStation(station);
+		station.setUpdateBy(ShiroUtils.getUserName());
+		station.setUpdateTime(new Date());
+		stationMapper.updateStation(station);
 	}
 
 	/**
@@ -75,9 +94,23 @@ public class StationServiceImpl implements IStationService
      * @return 结果
      */
 	@Override
-	public int deleteStationByIds(String ids)
+	public void deleteStationByIds(String ids)throws Exception
 	{
-		return stationMapper.deleteStationByIds(Convert.toStrArray(ids));
+		List<FreightRate> freightRateList= freightRateService.selectFreightRateByStationIds(ids);
+		if(freightRateList.size()>0){
+			StringBuilder sb=new StringBuilder();
+			for(FreightRate f : freightRateList){
+				sb.append(f.getSendStation()).append(",").append(f.getReceiveStation());
+			}
+			String[] stationIds= sb.toString().split(",");
+		}
+
+		stationMapper.deleteStationByIds(Convert.toStrArray(ids));
 	}
-	
+
+
+	@Override
+	public List<Station> selectStationByIds(String[] ids) throws Exception {
+		return stationMapper.selectStationByIds(ids);
+	}
 }

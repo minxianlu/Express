@@ -71,7 +71,7 @@ public class OrderServiceImpl implements IOrderService
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void insertOrder(Order order) throws Exception
 	{
-		order.setCreateBy(ShiroUtils.getLoginName());
+		order.setCreateBy(ShiroUtils.getUserName());
 		order.setCreateTime(new Date());
 		order.setStatus(ExpressConstants.ORDER_STATUS);
 
@@ -80,7 +80,7 @@ public class OrderServiceImpl implements IOrderService
 		OrderDress orderDress=new OrderDress();
 		orderDress.setOrderId(order.getId());
 		orderDress.setOrderNo(order.getOrderNo());
-		orderDress.setProvinceId(order.getSendPriovince());
+		orderDress.setProvinceId(order.getSendProvince());
 		orderDress.setCityId(order.getSendCity());
 
 		orderDressService.insertOrderDress(orderDress);
@@ -101,7 +101,8 @@ public class OrderServiceImpl implements IOrderService
 			throw new BusinessException("订单编号为空");
 		}
 		cargoService.deleteCargoByOrderNo(order.getOrderNo());
-		 orderMapper.updateOrder(order);
+		cargoService.insertCargo(cargo);
+		orderMapper.updateOrder(order);
 	}
 
 	/**

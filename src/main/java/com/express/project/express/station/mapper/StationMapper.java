@@ -58,5 +58,12 @@ public interface StationMapper
      * @return 结果
      */
 	public int deleteStationByIds(String[] ids);
+	/**
+	 * 批量查询车站
+	 *
+	 * @param ids 需要查询的数据ID
+	 * @return 结果
+	 */
+	public List<Station> selectStationByIds(String[] ids);
 	
 }

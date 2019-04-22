@@ -33,7 +33,7 @@ public interface IStationService
      * @param station 车站信息
      * @return 结果
      */
-	 int insertStation(Station station);
+	 void insertStation(Station station)throws Exception;
 	
 	/**
      * 修改车站
@@ -41,7 +41,7 @@ public interface IStationService
      * @param station 车站信息
      * @return 结果
      */
-	 int updateStation(Station station);
+	 void updateStation(Station station)throws Exception;
 		
 	/**
      * 删除车站信息
@@ -49,6 +49,12 @@ public interface IStationService
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-	 int deleteStationByIds(String ids);
-	
+	 void deleteStationByIds(String ids)throws Exception;
+	/**
+	 * 批量查询车站
+	 *
+	 * @param ids 需要查询的数据ID
+	 * @return 结果
+	 */
+	public List<Station> selectStationByIds(String[] ids)throws Exception;
 }

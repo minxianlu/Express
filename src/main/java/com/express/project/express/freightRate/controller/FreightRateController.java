@@ -1,9 +1,13 @@
 package com.express.project.express.freightRate.controller;
 
 import java.util.List;
+
+import com.express.project.express.station.domain.Station;
+import com.express.project.express.station.service.IStationService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +37,8 @@ public class FreightRateController extends BaseController
 	
 	@Autowired
 	private IFreightRateService freightRateService;
+	@Autowired
+	private IStationService stationService;
 	
 	@RequiresPermissions("express:freightRate:view")
 	@GetMapping()
@@ -72,9 +78,11 @@ public class FreightRateController extends BaseController
 	 * 新增运价因子
 	 */
 	@GetMapping("/add")
-	public String add()
+	public String add(ModelMap mmap)
 	{
-	    return prefix + "/add";
+        Station station=new Station();
+		mmap.put("stationList",stationService.selectStationList(station));
+		return prefix + "/add";
 	}
 	
 	/**

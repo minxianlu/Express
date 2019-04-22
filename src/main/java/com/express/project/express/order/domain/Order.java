@@ -20,11 +20,11 @@ public class Order extends BaseEntity
 	/** 发货日期 */
 	private Date sendTime;
 	/** 发送省份 */
-	private Integer sendPriovince;
+	private Integer sendProvince;
 	/** 发送城市 */
 	private String sendCity;
 	/** 接收省份 */
-	private Integer receivePriovince;
+	private Integer receiveProvince;
 	/** 接收城市 */
 	private String receiveCity;
 	/** 发送车站 */
@@ -84,14 +84,14 @@ public class Order extends BaseEntity
 	{
 		return sendTime;
 	}
-	public void setSendPriovince(Integer sendPriovince) 
+	public void setSendProvince(Integer sendProvince)
 	{
-		this.sendPriovince = sendPriovince;
+		this.sendProvince = sendProvince;
 	}
 
-	public Integer getSendPriovince() 
+	public Integer getSendProvince()
 	{
-		return sendPriovince;
+		return sendProvince;
 	}
 	public void setSendCity(String sendCity) 
 	{
@@ -102,14 +102,14 @@ public class Order extends BaseEntity
 	{
 		return sendCity;
 	}
-	public void setReceivePriovince(Integer receivePriovince) 
+	public void setReceiveProvince(Integer receiveProvince)
 	{
-		this.receivePriovince = receivePriovince;
+		this.receiveProvince = receiveProvince;
 	}
 
-	public Integer getReceivePriovince() 
+	public Integer getReceiveProvince()
 	{
-		return receivePriovince;
+		return receiveProvince;
 	}
 	public void setReceiveCity(String receiveCity) 
 	{

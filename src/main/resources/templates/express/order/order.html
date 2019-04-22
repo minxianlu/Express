@@ -15,7 +15,7 @@
 							</li>
 
 							<li>
-								接收省份：<select name="receivePriovince" th:with="list=${@province.getProvinceList()}" th:onchange="getCityListByProvinceId(this.value)">
+								接收省份：<select name="receiveProvince" th:with="list=${@province.getProvinceList()}" th:onchange="getCityListByProvinceId(this.value)">
 								<option value="">选择省份</option>
 								<option th:each="province : ${list}" th:text="${province.province}" th:value="${province.provinceid}"></option>
 							</select>
@@ -99,7 +99,7 @@
 					sortable: true
 				},
 				{
-					field : 'sendPriovince', 
+					field : 'sendProvince',
 					title : '发送省份',
 					sortable: true
 				},
@@ -109,7 +109,7 @@
 					sortable: true
 				},
 				{
-					field : 'receivePriovince', 
+					field : 'receiveProvince',
 					title : '接收省份',
 					sortable: true
 				},
@@ -199,11 +199,6 @@
 					sortable: true
 				},
 				{
-					field : 'cargoNo', 
-					title : '货物编号',
-					sortable: true
-				},
-				{
 					field : 'invoice', 
 					title : '是否开具发票',
 					sortable: true
@@ -218,13 +213,11 @@
 					title : '创建人',
 					sortable: true
 				},
-
 				{
 					field : 'createTime', 
 					title : '创建时间',
 					sortable: true
 				},
-				,
 		        {
 		            title: '操作',
 		            align: 'center',
@@ -236,11 +229,7 @@
 		            }
 		        }]
             };
-            $.table.init(options);
-
-
-
-
+			$.table.init(options);
         });
     </script>
 </body>

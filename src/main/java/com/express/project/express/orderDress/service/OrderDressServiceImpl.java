@@ -11,6 +11,8 @@ import com.express.project.express.orderDress.mapper.OrderDressMapper;
 import com.express.project.express.orderDress.domain.OrderDress;
 import com.express.project.express.orderDress.service.IOrderDressService;
 import com.express.common.utils.text.Convert;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 订单地址 服务层实现
@@ -55,9 +57,10 @@ public class OrderDressServiceImpl implements IOrderDressService
      * @return 结果
      */
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void insertOrderDress(OrderDress orderDress)throws BusinessException
 	{
-		orderDress.setUpdateBy(ShiroUtils.getLoginName());
+		orderDress.setUpdateBy(ShiroUtils.getUserName());
 		orderDress.setUpdateTime(new Date());
 		orderDressMapper.insertOrderDress(orderDress);
 	}
@@ -81,6 +84,7 @@ public class OrderDressServiceImpl implements IOrderDressService
      * @return 结果
      */
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public int deleteOrderDressByIds(String ids)
 	{
 		return orderDressMapper.deleteOrderDressByIds(Convert.toStrArray(ids));

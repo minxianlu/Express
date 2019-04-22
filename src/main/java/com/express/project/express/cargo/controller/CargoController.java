@@ -85,8 +85,16 @@ public class CargoController extends BaseController
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(Cargo cargo)
-	{		
-		return toAjax(cargoService.insertCargo(cargo));
+	{
+		AjaxResult ajaxResult=null;
+		try {
+			cargoService.insertCargo(cargo);
+			ajaxResult=AjaxResult.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error();
+		}
+		return ajaxResult;
 	}
 
 	/**

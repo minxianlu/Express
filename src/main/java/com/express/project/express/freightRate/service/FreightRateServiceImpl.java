@@ -79,5 +79,9 @@ public class FreightRateServiceImpl implements IFreightRateService
 	{
 		return freightRateMapper.deleteFreightRateByIds(Convert.toStrArray(ids));
 	}
-	
+
+	@Override
+	public List<FreightRate> selectFreightRateByStationIds(String ids) throws Exception {
+		return freightRateMapper.selectFreightRateByStationIds(Convert.toStrArray(ids));
+	}
 }
