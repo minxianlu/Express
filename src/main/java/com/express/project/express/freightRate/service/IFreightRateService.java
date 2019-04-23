@@ -4,6 +4,7 @@ import com.express.project.express.freightRate.domain.FreightRate;
 import com.express.project.express.station.domain.Station;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 运价 服务层
@@ -35,7 +36,7 @@ public interface IFreightRateService
      * @param freightRate 运价信息
      * @return 结果
      */
-	 int insertFreightRate(FreightRate freightRate);
+	 void insertFreightRate(FreightRate freightRate)throws Exception;
 	
 	/**
      * 修改运价
@@ -75,4 +76,12 @@ public interface IFreightRateService
 	 * @return 结果
 	 */
 	List<Station> selectStationByFreightRate(FreightRate freightRate) throws Exception;
+
+	/**
+	 * 运价查询
+	 *
+	 * @param freightRate 查询条件
+	 * @return 结果
+	 */
+	FreightRate selectFreightRate(FreightRate freightRate)throws Exception;
 }

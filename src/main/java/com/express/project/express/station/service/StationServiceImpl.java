@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.express.common.utils.StringUtils;
 import com.express.common.utils.security.ShiroUtils;
 import com.express.project.express.freightRate.domain.FreightRate;
 import com.express.project.express.freightRate.service.IFreightRateService;
@@ -67,6 +68,13 @@ public class StationServiceImpl implements IStationService
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void insertStation(Station station)throws Exception
 	{
+
+		if (StringUtils.isNotEmpty(station.getStationName())) {
+			List<Station> list=stationMapper.selectStationList(station);
+			if(list.size()>0){
+				throw new Exception("站台名称已存在");
+			}
+		}
 		station.setCreateBy(ShiroUtils.getUserName());
 		station.setCreateTime(new Date());
 		stationMapper.insertStation(station);

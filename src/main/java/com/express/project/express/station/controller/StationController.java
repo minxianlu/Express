@@ -99,7 +99,7 @@ public class StationController extends BaseController
 			ajaxResult=AjaxResult.success();
 		} catch (Exception e) {
 			e.printStackTrace();
-			ajaxResult=AjaxResult.error();
+			ajaxResult=AjaxResult.error(e.toString());
 		}
 		return ajaxResult;
 	}

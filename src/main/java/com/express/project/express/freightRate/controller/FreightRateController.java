@@ -99,8 +99,16 @@ public class FreightRateController extends BaseController
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(FreightRate freightRate)
-	{		
-		return toAjax(freightRateService.insertFreightRate(freightRate));
+	{
+		AjaxResult ajaxResult = null;
+		try {
+			freightRateService.insertFreightRate(freightRate);
+			ajaxResult = AjaxResult.success("保存成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult = AjaxResult.error(e.toString());
+		}
+		return ajaxResult;
 	}
 
 	/**

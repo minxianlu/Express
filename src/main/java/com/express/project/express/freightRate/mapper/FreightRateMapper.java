@@ -73,5 +73,13 @@ public interface FreightRateMapper
 	 * @param ids 车站的Id集合
 	 * @return 结果
 	 */
-	void deleteFreightRateByStationIds(String[] ids)throws Exception;
+	void deleteFreightRateByStationIds(String[] ids);
+
+	/**
+	 * 运价查询
+	 *
+	 * @param freightRate 查询条件
+	 * @return 结果
+	 */
+	FreightRate selectFreightRate(FreightRate freightRate);
 }

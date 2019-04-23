@@ -1,7 +1,10 @@
 package com.express.project.express.freightRate.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.express.framework.web.domain.AjaxResult;
 import com.express.project.express.station.domain.Station;
@@ -58,9 +61,13 @@ public class FreightRateServiceImpl implements IFreightRateService
      * @return 结果
      */
 	@Override
-	public int insertFreightRate(FreightRate freightRate)
+	public void insertFreightRate(FreightRate freightRate)throws Exception
 	{
-	    return freightRateMapper.insertFreightRate(freightRate);
+		FreightRate f=freightRateMapper.selectFreightRate(freightRate);
+		if(f!=null){
+			throw new Exception("已存在该运价");
+		}
+		 freightRateMapper.insertFreightRate(freightRate);
 	}
 	
 	/**
@@ -102,6 +109,12 @@ public class FreightRateServiceImpl implements IFreightRateService
 	public List<Station> selectStationByFreightRate(FreightRate freightRate) throws Exception {
 		List<FreightRate> freightRateList=freightRateMapper.selectFreightRateList(freightRate);
 		List<Integer> stationList = new ArrayList<Integer>();
+		if(freightRate.getSendStation()!=null){
+			stationList.add(freightRate.getSendStation());
+		}
+		if(freightRate.getReceiveStation()!=null){
+			stationList.add(freightRate.getReceiveStation());
+		}
 		for (FreightRate rate : freightRateList) {
 			if(rate.getSendStation()!=null){
 				stationList.add(rate.getSendStation());
@@ -111,5 +124,20 @@ public class FreightRateServiceImpl implements IFreightRateService
 			}
 		}
 		return stationService.selectStationNotInIds(stationList);
+	}
+
+
+	@Override
+	public FreightRate selectFreightRate(FreightRate freightRate)throws Exception {
+		FreightRate result=freightRateMapper.selectFreightRate(freightRate);
+		if(result==null){
+			return new FreightRate() ;
+		}
+		String t=Integer.parseInt(result.getWeight())>10?result.getWeight():10+"";
+		BigDecimal bigPriceFactor=new BigDecimal(result.getPriceFactor());
+		BigDecimal bigWeight=new BigDecimal(t);
+		String p=bigPriceFactor.multiply(bigWeight).setScale(1,BigDecimal.ROUND_HALF_UP).toString();
+		result.setPrice(Integer.parseInt(p)>2?p:(2+""));
+		return result;
 	}
 }

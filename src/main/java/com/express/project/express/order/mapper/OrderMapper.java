@@ -1,5 +1,6 @@
 package com.express.project.express.order.mapper;
 
+import com.express.project.express.freightRate.domain.FreightRate;
 import com.express.project.express.order.domain.Order;
 import java.util.List;	
 
@@ -17,7 +18,7 @@ public interface OrderMapper
      * @param id 订单ID
      * @return 订单信息
      */
-	public Order selectOrderById(Integer id);
+	 Order selectOrderById(Integer id);
 	
 	/**
      * 查询订单列表
@@ -25,7 +26,7 @@ public interface OrderMapper
      * @param order 订单信息
      * @return 订单集合
      */
-	public List<Order> selectOrderList(Order order);
+	 List<Order> selectOrderList(Order order);
 	
 	/**
      * 新增订单
@@ -33,7 +34,7 @@ public interface OrderMapper
      * @param order 订单信息
      * @return 结果
      */
-	public int insertOrder(Order order);
+	 int insertOrder(Order order);
 	
 	/**
      * 修改订单
@@ -41,7 +42,7 @@ public interface OrderMapper
      * @param order 订单信息
      * @return 结果
      */
-	public int updateOrder(Order order);
+	 int updateOrder(Order order);
 	
 	/**
      * 删除订单
@@ -49,7 +50,7 @@ public interface OrderMapper
      * @param id 订单ID
      * @return 结果
      */
-	public int deleteOrderById(Integer id);
+	 int deleteOrderById(Integer id);
 	
 	/**
      * 批量删除订单
@@ -57,7 +58,6 @@ public interface OrderMapper
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-	public int deleteOrderByIds(String[] ids);
+	 int deleteOrderByIds(String[] ids);
 
-	
 }

@@ -26,6 +26,11 @@ public class FreightRate extends BaseEntity
 	/** 状态 */
 	private Integer status;
 
+	/** 价格*/
+	private String price;
+	/** 查询重量*/
+	private String weight;
+
 	public void setSendStation(Integer sendStation)
 	{
 		this.sendStation = sendStation;
@@ -69,5 +74,21 @@ public class FreightRate extends BaseEntity
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public String getWeight() {
+		return weight;
+	}
+
+	public void setWeight(String weight) {
+		this.weight = weight;
 	}
 }
