@@ -95,6 +95,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+
+    <delete id="deleteFreightRateByStationIds" parameterType="String">
+        delete from ex_freight_rate where send_station in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        or receive_station in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+           #{id}
+        </foreach>
+    </delete>
+
     <select id="selectFreightRateByStationIds" parameterType="String" resultMap="FreightRateResult">
         <include refid="selectFreightRateVo"/>
         <where>

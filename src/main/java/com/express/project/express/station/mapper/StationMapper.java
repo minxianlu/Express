@@ -9,61 +9,67 @@ import java.util.List;
  * @author Chenyb
  * @date 2019-04-20
  */
-public interface StationMapper 
+public interface StationMapper
 {
 	/**
      * 查询车站信息
-     * 
+     *
      * @param id 车站ID
      * @return 车站信息
      */
-	public Station selectStationById(Integer id);
-	
+	 Station selectStationById(Integer id);
+
 	/**
      * 查询车站列表
-     * 
+     *
      * @param station 车站信息
      * @return 车站集合
      */
-	public List<Station> selectStationList(Station station);
-	
+	 List<Station> selectStationList(Station station);
+
 	/**
      * 新增车站
-     * 
+     *
      * @param station 车站信息
      * @return 结果
      */
-	public int insertStation(Station station);
-	
+	 int insertStation(Station station);
+
 	/**
      * 修改车站
-     * 
+     *
      * @param station 车站信息
      * @return 结果
      */
-	public int updateStation(Station station);
-	
+	 int updateStation(Station station);
+
 	/**
      * 删除车站
-     * 
+     *
      * @param id 车站ID
      * @return 结果
      */
-	public int deleteStationById(Integer id);
-	
+	 int deleteStationById(Integer id);
+
 	/**
      * 批量删除车站
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-	public int deleteStationByIds(String[] ids);
+	 int deleteStationByIds(String[] ids);
 	/**
 	 * 批量查询车站
 	 *
 	 * @param ids 需要查询的数据ID
 	 * @return 结果
 	 */
-	public List<Station> selectStationByIds(String[] ids);
-	
+	 List<Station> selectStationByIds(String[] ids);
+	/**
+	 * 查询不在集合中的车站
+	 *
+	 * @param list 条件数据集合
+	 * @return 结果
+	 */
+	List<Station> selectStationNotInIds(List<Integer> list);
 }

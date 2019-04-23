@@ -1,10 +1,12 @@
 package com.express.project.express.freightRate.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.express.project.express.station.domain.Station;
 import com.express.project.express.station.service.IStationService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,8 +82,12 @@ public class FreightRateController extends BaseController
 	@GetMapping("/add")
 	public String add(ModelMap mmap)
 	{
-        Station station=new Station();
-		mmap.put("stationList",stationService.selectStationList(station));
+		try {
+			Station station = new Station();
+			mmap.put("stationList",stationService.selectStationList(station));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return prefix + "/add";
 	}
 	
@@ -127,9 +133,32 @@ public class FreightRateController extends BaseController
 	@Log(title = "运价因子", businessType = BusinessType.DELETE)
 	@PostMapping( "/remove")
 	@ResponseBody
-	public AjaxResult remove(String ids)
-	{		
-		return toAjax(freightRateService.deleteFreightRateByIds(ids));
+	public AjaxResult remove(String ids) {
+		AjaxResult ajaxResult = null;
+		try {
+			freightRateService.deleteFreightRateByIds(ids);
+			ajaxResult = AjaxResult.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult = AjaxResult.error(e.toString());
+		}
+		return ajaxResult;
 	}
+
+	@GetMapping("/getStation")
+	@ResponseBody
+	public AjaxResult getStation(FreightRate freightRate) {
+		AjaxResult ajaxResult=null;
+		try {
+			List<Station> resultList=freightRateService.selectStationByFreightRate(freightRate);
+			ajaxResult=AjaxResult.success();
+			ajaxResult.put("station",resultList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error(e.toString());
+		}
+		return ajaxResult;
+	}
+
 	
 }

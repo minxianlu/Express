@@ -29,10 +29,9 @@
 				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="express:station:edit">
 					<i class="fa fa-edit"></i> 修改
 				</a>
-				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="express:station:remove">
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="removeStation()" shiro:hasPermission="express:station:remove">
 					<i class="fa fa-remove"></i> 删除
 				</a>
-
 			</div>
 			<div class="col-sm-12 select-table table-striped">
 				<table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -82,13 +81,30 @@
 		            formatter: function(value, row, index) {
 		            	var actions = [];
 		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="removeStation(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
 						return actions.join('');
 		            }
 		        }]
             };
             $.table.init(options);
+
         });
+		var removeStation=function(id){
+			var rows = $.common.isEmpty($.table._option.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns($.table._option.uniqueId);
+			if ($.common.isEmpty(id)&&rows.length == 0) {
+				$.modal.alertWarning("请至少选择一条记录");
+				return;
+			}
+			$.modal.confirm("确认要删除的" + rows.length + "条数据吗?删除车站信息将会一并删除关联的运价信息，请确认！", function() {
+				var url = $.table._option.removeUrl;
+				if($.common.isNotEmpty(id)){
+					rows.length=0;
+					rows.push(id);
+				}
+				var data = { "ids": rows.join() };
+				$.operate.submit(url, "post", "json", data);
+			});
+		}
     </script>
 </body>
 </html>

@@ -102,7 +102,11 @@ public class OrderController extends BaseController
 	@GetMapping("/add")
 	public String add(ModelMap mmap)
 	{
-		mmap.put("station",stationService.selectStationList(new Station()));
+		try {
+			mmap.put("station",stationService.selectStationList(new Station()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return prefix + "/add";
 	}
 	

@@ -8,13 +8,21 @@
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">发送站：</label>
 				<div class="col-sm-8">
-					<input id="sendStation" name="sendStation" class="form-control" type="text">
+					<!--<input id="sendStation" name="sendStation" class="form-control" type="text">-->
+					<select id="sendStation" class="form-control" name="sendStation" th:onchange="linkageStation('sendStation',this.value)">
+						<option value="">选择车站</option>
+						<option th:each="sta:${station}" th:value="${sta.id}" th:text="${sta.stationName}" ></option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">接收站：</label>
 				<div class="col-sm-8">
-					<input id="receiveStation" name="receiveStation" class="form-control" type="text">
+					<!--<input id="receiveStation" name="receiveStation" class="form-control" type="text">-->
+					<select id="receiveStation" class="form-control" name="receiveStation" th:onchange="linkageStation('receiveStation',this.value)" >
+						<option value="">选择车站</option>
+						<option th:each="sta:${station}" th:value="${sta.id}" th:text="${sta.stationName}" ></option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">	
@@ -54,6 +62,29 @@
 	            $.operate.save(prefix + "/add", $('#form-freightRate-add').serialize());
 	        }
 	    }
+	    var linkageStation=function(name,val){
+			if($.common.isEmpty(name)||$.common.isEmpty(val)){
+				$.common.alert("车站联动，参数有误！");
+				return false;
+			}
+			var freightRate={};
+			freightRate[name]=val;
+			$.operate.getQuery(prefix+"/getStation",freightRate,function(data){
+				var stationOption=["<option value=''>选择车站</option>"];
+				if(data.code==0){
+					$.each(data.stationList,function(i,o){
+						stationOption.push("<option value='"+o.id+"'>"+o.stationName+"</option>")
+					})
+					if(name.indexOf('send')!=-1){
+						$("#receiveStation").html(stationOption.join(""));
+					}else{
+						$("#sendStation").html(stationOption.join(""));
+					}
+				}else{
+					$.common.alertError(data.msg);
+				}
+			})
+		}
 	</script>
 </body>
 </html>

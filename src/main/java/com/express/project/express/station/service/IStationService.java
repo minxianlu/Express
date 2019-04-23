@@ -17,7 +17,7 @@ public interface IStationService
      * @param id 车站ID
      * @return 车站信息
      */
-	 Station selectStationById(Integer id);
+	 Station selectStationById(Integer id)throws Exception;
 	
 	/**
      * 查询车站列表
@@ -25,7 +25,7 @@ public interface IStationService
      * @param station 车站信息
      * @return 车站集合
      */
-	 List<Station> selectStationList(Station station);
+	 List<Station> selectStationList(Station station)throws Exception;
 	
 	/**
      * 新增车站
@@ -56,5 +56,15 @@ public interface IStationService
 	 * @param ids 需要查询的数据ID
 	 * @return 结果
 	 */
-	public List<Station> selectStationByIds(String[] ids)throws Exception;
+	 List<Station> selectStationByIds(String[] ids)throws Exception;
+
+	/**
+	 * 查询不在集合中的车站
+	 *
+	 * @param list 条件数据集合
+	 * @return 结果
+	 */
+	List<Station> selectStationNotInIds(List<Integer> list)throws Exception;
+
+
 }

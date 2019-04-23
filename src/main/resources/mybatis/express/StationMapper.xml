@@ -82,5 +82,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </select>
-    
+
+    <select id="selectStationNotInIds" resultMap="StationResult">
+        <include refid="selectStationVo"/> where id not in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
 </mapper>

@@ -40,9 +40,9 @@ public class StationServiceImpl implements IStationService
      * @return 车站信息
      */
     @Override
-	public Station selectStationById(Integer id)
+	public Station selectStationById(Integer id)throws Exception
 	{
-	    return stationMapper.selectStationById(id);
+		return stationMapper.selectStationById(id);
 	}
 	
 	/**
@@ -52,9 +52,9 @@ public class StationServiceImpl implements IStationService
      * @return 车站集合
      */
 	@Override
-	public List<Station> selectStationList(Station station)
+	public List<Station> selectStationList(Station station)throws Exception
 	{
-	    return stationMapper.selectStationList(station);
+		return stationMapper.selectStationList(station);
 	}
 	
     /**
@@ -94,17 +94,10 @@ public class StationServiceImpl implements IStationService
      * @return 结果
      */
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteStationByIds(String ids)throws Exception
 	{
-		List<FreightRate> freightRateList= freightRateService.selectFreightRateByStationIds(ids);
-		if(freightRateList.size()>0){
-			StringBuilder sb=new StringBuilder();
-			for(FreightRate f : freightRateList){
-				sb.append(f.getSendStation()).append(",").append(f.getReceiveStation());
-			}
-			String[] stationIds= sb.toString().split(",");
-		}
-
+		freightRateService.deleteFreightRateByIds(ids);
 		stationMapper.deleteStationByIds(Convert.toStrArray(ids));
 	}
 
@@ -112,5 +105,10 @@ public class StationServiceImpl implements IStationService
 	@Override
 	public List<Station> selectStationByIds(String[] ids) throws Exception {
 		return stationMapper.selectStationByIds(ids);
+	}
+
+	@Override
+	public List<Station> selectStationNotInIds(List<Integer> list) throws Exception {
+		return stationMapper.selectStationNotInIds(list);
 	}
 }

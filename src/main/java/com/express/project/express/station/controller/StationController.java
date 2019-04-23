@@ -49,8 +49,13 @@ public class StationController extends BaseController
 	@ResponseBody
 	public TableDataInfo list(Station station)
 	{
-		startPage();
-        List<Station> list = stationService.selectStationList(station);
+		List<Station> list=null;
+		try {
+			startPage();
+			list= stationService.selectStationList(station);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return getDataTable(list);
 	}
 	
@@ -63,9 +68,11 @@ public class StationController extends BaseController
     @ResponseBody
     public AjaxResult export(Station station)
     {
-    	List<Station> list = stationService.selectStationList(station);
-        ExcelUtil<Station> util = new ExcelUtil<Station>(Station.class);
-        return util.exportExcel(list, "station");
+
+//    	List<Station> list = stationService.selectStationList(station);
+//        ExcelUtil<Station> util = new ExcelUtil<Station>(Station.class);
+//        return util.exportExcel(list, "station");
+		return null;
     }
 	
 	/**
@@ -103,8 +110,12 @@ public class StationController extends BaseController
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable("id") Integer id, ModelMap mmap)
 	{
-		Station station = stationService.selectStationById(id);
-		mmap.put("station", station);
+		try {
+			Station station = stationService.selectStationById(id);
+			mmap.put("station", station);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	    return prefix + "/edit";
 	}
 	
@@ -136,8 +147,16 @@ public class StationController extends BaseController
 	@PostMapping( "/remove")
 	@ResponseBody
 	public AjaxResult remove(String ids)
-	{		
-		return toAjax(stationService.deleteStationByIds(ids));
+	{
+		AjaxResult ajaxResult=null;
+		try {
+			stationService.deleteStationByIds(ids);
+			ajaxResult=AjaxResult.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error(e.toString());
+		}
+		return ajaxResult;
 	}
 	
 }

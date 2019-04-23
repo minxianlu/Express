@@ -620,6 +620,20 @@
 				};
 				$.ajax(config)
 			},
+			getQuery:function(url,data,successFun){
+				var config={
+					url:url,
+					type:"get",
+					data:data,
+					dataType:"json",
+					success:function(result){
+						if(successFun!=null){
+							successFun(result);
+						}
+					}
+				};
+				$.ajax(config)
+			},
 
 
             // post请求传输
