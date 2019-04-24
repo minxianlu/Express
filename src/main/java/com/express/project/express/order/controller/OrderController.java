@@ -75,6 +75,29 @@ public class OrderController extends BaseController
 		return getDataTable(list);
 	}
 
+	@RequiresPermissions("express:order:list")
+	@GetMapping("/detail/{orderId}")
+	public String detail(@PathVariable("orderId") Integer orderId, ModelMap mmap)
+	{
+		try {
+			Order order = orderService.selectOrderByIdForDetail(orderId);
+			Cargo cargo=new Cargo();
+			cargo.setCargoNo(order.getOrderNo());
+			List<Cargo> cargoList=cargoService.selectCargoList(cargo);
+			mmap.put("order",order );
+			if(cargoList.size()>0){
+				mmap.put("cargo",cargoList.get(0) );
+			}else{
+				mmap.put("cargo",new Cargo());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "express/order/detail";
+	}
+
+
+
 	/**
 	 * 通过省份查询城市，暂时没想多什么好的方法通过shiro来实现二级联动
 	 */

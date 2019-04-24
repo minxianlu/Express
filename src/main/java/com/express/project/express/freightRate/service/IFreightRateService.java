@@ -44,7 +44,7 @@ public interface IFreightRateService
      * @param freightRate 运价信息
      * @return 结果
      */
-	 int updateFreightRate(FreightRate freightRate);
+	 void updateFreightRate(FreightRate freightRate)throws Exception;
 		
 	/**
      * 删除运价信息

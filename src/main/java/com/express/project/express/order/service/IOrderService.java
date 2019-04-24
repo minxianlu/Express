@@ -20,7 +20,15 @@ public interface IOrderService
      * @return 订单信息
      */
 	 Order selectOrderById(Integer id);
-	
+
+	/**
+	 * 查询订单信息
+	 *
+	 * @param id 订单ID
+	 * @return 订单信息
+	 */
+	Order selectOrderByIdForDetail(Integer id)throws Exception;
+
 	/**
      * 查询订单列表
      * 

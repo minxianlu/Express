@@ -103,7 +103,7 @@ public class OrderServiceImpl implements IOrderService
 			proIdList.add(order1.getSendProvince()+"");
 			proIdList.add(order1.getReceiveProvince()+"");
 
-			cargoNoList.add(order1.getCargoNo());
+			cargoNoList.add(order1.getOrderNo());
 
 			stationIdList.add(order1.getSendStation());
 			stationIdList.add(order1.getReceiveStation());
@@ -147,19 +147,34 @@ public class OrderServiceImpl implements IOrderService
 		}
 
 		for (Order order1 : resultList) {
-			order1.setSendProvinceStr(proMap.get(order1.getSendProvince()).getProvince());
-			order1.setSendCityStr(cityMap.get(order1.getSendCity()).getCity());
-			order1.setSendStationStr(stationMap.get(order1.getSendStation()).getStationName());
-
-			order1.setReceiveStationStr(stationMap.get(order1.getReceiveStation()).getStationName());
-			order1.setReceiveCity(cityMap.get(order1.getReceiveCity()).getCity());
-			order1.setReceiveProvinceStr(proMap.get(order1.getReceiveProvince()).getProvince());
-
+			if(proMap.containsKey(order1.getSendProvince()+"")){
+				order1.setSendProvinceStr(proMap.get(order1.getSendProvince()+"").getProvince());
+			}
+			if(cityMap.containsKey(order1.getSendCity())){
+				order1.setSendCity(cityMap.get(order1.getSendCity()).getCity());
+			}
+			if(stationMap.containsKey(order1.getSendStation()+"")){
+				order1.setSendStationStr(stationMap.get(order1.getSendStation()+"").getStationName());
+			}
+			if(stationMap.containsKey(order1.getReceiveStation()+"")){
+				order1.setReceiveStationStr(stationMap.get(order1.getReceiveStation()+"").getStationName());
+			}
+			if(cityMap.containsKey(order1.getReceiveCity())){
+				order1.setReceiveCity(cityMap.get(order1.getReceiveCity()).getCity());
+			}
+			if(proMap.containsKey(order1.getReceiveProvince()+"")){
+				order1.setReceiveProvinceStr(proMap.get(order1.getReceiveProvince()+"").getProvince());
+			}
+			if(dictDataMap.containsKey(EX_CUSTOMER_TYPE+(order1.getCustomerType()))){
+				order1.setCustomerTypeStr(dictDataMap.get(EX_CUSTOMER_TYPE+(order1.getCustomerType())).getDictLabel());
+			}
+			if(dictDataMap.containsKey(EX_ORDER_STATUS+(order1.getStatus()))){
+				order1.setStatusStr(dictDataMap.get(EX_ORDER_STATUS+(order1.getStatus())).getDictLabel());
+			}
+			if(dictDataMap.containsKey(EX_SERVICE_MODE+(order1.getServiceMode()))){
+				order1.setServiceModeStr(dictDataMap.get(EX_SERVICE_MODE+(order1.getServiceMode())).getDictLabel());
+			}
 			order1.setInvoiceStr(order1.getInvoice()==0?"否":"是");
-
-			order1.setCustomerTypeStr(dictDataMap.get(EX_CUSTOMER_TYPE+(order1.getCustomerType())).getDictLabel());
-			order1.setStatusStr(dictDataMap.get(EX_ORDER_STATUS+(order1.getStatus())).getDictLabel());
-			order1.setServiceModeStr(dictDataMap.get(EX_SERVICE_MODE+(order1.getServiceMode())).getDictLabel());
 		}
 
 	    return resultList;
@@ -220,5 +235,20 @@ public class OrderServiceImpl implements IOrderService
 	{
 		return orderMapper.deleteOrderByIds(Convert.toStrArray(ids));
 	}
-	
+
+
+	/**
+	 * 查询订单信息
+	 *
+	 * @param id 订单ID
+	 * @return 订单信息
+	 */
+	@Override
+	public Order selectOrderByIdForDetail(Integer id)throws Exception{
+		Order order=new Order();
+		order.setId(id);
+		List<Order> list=this.selectOrderList(order);
+		return list.get(0);
+	}
+
 }

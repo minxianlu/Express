@@ -42,14 +42,11 @@
 			</div>
 			
 	        <div class="btn-group-sm" id="toolbar" role="group">
-				<a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="express:order:add">
+				<a class="btn btn-success" onclick="$.operate.addTab(1)" shiro:hasPermission="express:order:add">
 					<i class="fa fa-plus"></i> 添加
 				</a>
 				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="express:order:edit">
 					<i class="fa fa-edit"></i> 修改
-				</a>
-				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="express:order:remove">
-					<i class="fa fa-remove"></i> 删除
 				</a>
 				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="express:order:export">
 						<i class="fa fa-download"></i> 导出
@@ -99,7 +96,7 @@
 					sortable: true
 				},
 				{
-					field : 'sendProvince',
+					field : 'sendProvinceStr',
 					title : '发送省份',
 					sortable: true
 				},
@@ -109,7 +106,7 @@
 					sortable: true
 				},
 				{
-					field : 'receiveProvince',
+					field : 'receiveProvinceStr',
 					title : '接收省份',
 					sortable: true
 				},
@@ -119,12 +116,12 @@
 					sortable: true
 				},
 				{
-					field : 'sendStation', 
+					field : 'sendStationStr',
 					title : '发送车站',
 					sortable: true
 				},
 				{
-					field : 'receiveStation', 
+					field : 'receiveStationStr',
 					title : '接收车站',
 					sortable: true
 				},
@@ -134,7 +131,7 @@
 					sortable: true
 				},
 				{
-					field : 'customerType', 
+					field : 'customerTypeStr',
 					title : '客户类型',
 					sortable: true
 				},
@@ -169,7 +166,7 @@
 					sortable: true
 				},
 				{
-					field : 'serviceMode', 
+					field : 'serviceModeStr',
 					title : '服务方式',
 					sortable: true
 				},
@@ -199,12 +196,12 @@
 					sortable: true
 				},
 				{
-					field : 'invoice', 
+					field : 'invoiceStr',
 					title : '是否开具发票',
 					sortable: true
 				},
 				{
-					field : 'status', 
+					field : 'statusStr',
 					title : '状态',
 					sortable: true
 				},
@@ -224,13 +221,18 @@
 		            formatter: function(value, row, index) {
 		            	var actions = [];
 		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        actions.push('<a class="btn btn-warning btn-xs   ' + removeFlag + '" href="#" onclick="orderDetail(\'' + row.id + '\')"><i class="fa fa-search"></i>详情</a>');
 						return actions.join('');
 		            }
 		        }]
             };
 			$.table.init(options);
         });
+		var orderDetail=function(orderId){
+			var url = prefix + '/detail/' + orderId;
+			createMenuItem(url, "订单详情");
+		}
+
     </script>
 </body>
 </html>

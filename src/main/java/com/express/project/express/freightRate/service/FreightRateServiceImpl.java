@@ -1,11 +1,9 @@
 package com.express.project.express.freightRate.service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.express.common.utils.security.ShiroUtils;
 import com.express.framework.web.domain.AjaxResult;
 import com.express.project.express.station.domain.Station;
 import com.express.project.express.station.service.IStationService;
@@ -67,6 +65,8 @@ public class FreightRateServiceImpl implements IFreightRateService
 		if(f!=null){
 			throw new Exception("已存在该运价");
 		}
+		freightRate.setCreateBy(ShiroUtils.getUserName());
+		freightRate.setCreateTime(new Date());
 		 freightRateMapper.insertFreightRate(freightRate);
 	}
 	
@@ -77,9 +77,11 @@ public class FreightRateServiceImpl implements IFreightRateService
      * @return 结果
      */
 	@Override
-	public int updateFreightRate(FreightRate freightRate)
+	public void updateFreightRate(FreightRate freightRate)throws Exception
 	{
-		return freightRateMapper.updateFreightRate(freightRate);
+		freightRate.setUpdateBy(ShiroUtils.getUserName());
+		freightRate.setUpdateTime(new Date());
+		freightRateMapper.updateFreightRate(freightRate);
 	}
 
 	/**

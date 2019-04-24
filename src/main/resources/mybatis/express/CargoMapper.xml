@@ -146,7 +146,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <select id="selectCargoByOrderNoList" resultMap="CargoResult">
-        <include refid="selectCargoVo"/> where cargo_no in
+        <include refid="selectCargoVo"/>  where cargo_no in
         <foreach item="cargoNo" collection="list" open="(" separator="," close=")">
             #{cargoNo}
         </foreach>

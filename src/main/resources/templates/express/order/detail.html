@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m-md" id="form-order-add" th:object="${order}">
+        <div class="form-group">
+            <p class="alert alert-info" style="text-align:center;font-size:18px;">车站信息</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">订单编号：</label>
+            <div class="col-sm-4">
+                <input id="orderNo" name="orderNo" class="form-control" th:field="*{orderNo}" type="text" disabled>
+            </div>
+            <label class="col-sm-2 control-label">发运日期：</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="sendTime"  th:value="*{#dates.format(sendTime, 'yyyy-MM-dd')}" name="sendTime" disabled/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">发送省份：</label>
+            <div class="col-sm-4">
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="sendProvince" th:field="*{sendProvinceStr}" name="sendProvince" disabled/>
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="sendCity" th:field="*{sendCity}" name="sendCity" disabled/>
+                </div>
+            </div>
+            <label class="col-sm-2 control-label">发送车站：</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="sendStation" th:field="*{sendStationStr}" name="sendStation" disabled/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">接收省份：</label>
+            <div class="col-sm-4">
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="receiveProvince" th:field="*{receiveProvinceStr}" name="receiveProvince" disabled/>
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="receiveCity" th:field="*{receiveCity}" name="receiveCity" disabled/>
+                </div>
+            </div>
+            <label class="col-sm-2 control-label">接收车站：</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="receiveStation" th:field="*{receiveStationStr}" name="receiveStation" disabled/>
+            </div>
+        </div>
+        <div class="form-group">
+            <p class="alert alert-info" style="text-align:center;font-size:18px;">托运人信息</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">客户编码：</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="customerNo" th:field="*{customerNo}" name="customerNo" disabled/>
+            </div>
+            <label class="col-sm-2 control-label">客户类型：</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="customerType" th:field="*{customerTypeStr}" name="customerType" disabled />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">发货人名称：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="sendName" th:field="*{sendName}" name="sendName" disabled/>
+            </div>
+            <label class="col-sm-2 control-label">发货联系人：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="sendContacts" th:field="*{sendContacts}" name="sendContacts" disabled/>
+            </div>
+            <label class="col-sm-2 control-label">发货人电话：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="sendPhone" th:field="*{sendPhone}" name="sendPhone" disabled/>
+            </div>
+        </div>
+        <div class="form-group">
+            <p class="alert alert-info" style="text-align:center;font-size:18px;">收货人信息</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">收货人名称：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="receiveName" th:field="*{receiveName}" name="receiveName" disabled/>
+            </div>
+            <label class="col-sm-2 control-label">收货联系人：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="receiveContacts" th:field="*{receiveContacts}" name="receiveContacts" disabled/>
+            </div>
+            <label class="col-sm-2 control-label">接收人电话：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="receivePhone" th:field="*{receivePhone}" name="receivePhone"disabled />
+            </div>
+        </div>
+        <div class="form-group">
+            <p class="alert alert-info" style="text-align:center;font-size:18px;">货物信息</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">货物名称</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="cargoName" th:value="${cargo.cargoName}" name="cargoName" disabled/>
+            </div>
+            <label class="col-sm-1 control-label" th:text="'包装:'"></label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="pack" th:value="${cargo.pack}" name="pack" disabled/>
+            </div>
+            <label class="col-sm-1 control-label" th:text="'件数:'"></label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="num" th:value="${cargo.num}" name="num" disabled/>
+            </div>
+            <label class="col-sm-1 control-label"></label>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">总重</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="weight" th:value="${cargo.weight}" name="weight" disabled/>
+            </div>
+            <label class="col-sm-1 control-label" th:text="'保价金额:'">保价金额+${index}：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="insurance" th:value="${cargo.insurance}" name="insurance" disabled/>
+            </div>
+            <label class="col-sm-1 control-label" th:text="'计费重量:'"></label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="billingWeight" th:value="${cargo.billingWeight}" name="billingWeight" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" ></label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="singleMaxWeight" th:value="${cargo.singleMaxWeight}" name="singleMaxWeight" disabled/>
+            </div>
+            <label class="col-sm-2 control-label" th:text="'单件最大长/宽/高:'"></label>
+            <div class="col-sm-3">
+                <div class="col-xs-3" style="padding-left:0px;padding-right: 0px;">
+                    <input type="text" class="form-control" id="length" th:value="${cargo.length}" name="length" disabled/>
+                </div>
+                <label class="col-xs-1 control-label"
+                       style="padding-left:0px;padding-right: 0px; width: 12px;">X</label>
+                <div class="col-xs-3" style="padding-left:0px;padding-right: 0px;">
+                    <input type="text" class="form-control" id="width" th:value="${cargo.width}" name="width" disabled/>
+                </div>
+                <label class="col-xs-1 control-label"
+                       style="padding-left:0px;padding-right: 0px;  width: 12px;">X</label>
+                <div class="col-xs-3" style="padding-left:0px;padding-right: 0px;">
+                    <input type="text" class="form-control" id="height" th:value="${cargo.height}" name="height" disabled/>
+                </div>
+                <label class="col-xs-1 control-label"></label>
+            </div>
+            <label class="col-sm-1 control-label" th:text="'总体积:'"></label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="volume" th:value="${cargo.volume}" name="volume" disabled/>
+            </div>
+        </div>
+
+            <div class="form-group">
+                <p class="alert alert-info" style="text-align:center;font-size:18px;">服务信息</p>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">取货里程：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="pickUpMileage" th:field="*{pickUpMileage}" name="pickUpMileage" disabled/>
+                </div>
+                <label class="col-sm-2 control-label">取货地址：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="pickUpDress" th:field="*{pickUpDress}" name="pickUpDress" disabled/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">送货里程：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="deliveryMileage" th:field="*{deliveryMileage}" name="deliveryMileage" disabled/>
+                </div>
+                <label class="col-sm-2 control-label">送货地址：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="deliveryDress" th:field="*{deliveryDress}" name="deliveryDress" disabled/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">商议事项：</label>
+                <div class="col-sm-10">
+                    <textarea type="text" name="remark" class="form-control" th:field="*{remark}" placeholder="请输入文本" disabled></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">服务方式：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="serviceMode" th:field="*{serviceModeStr}" name="serviceMode" disabled/>
+                </div>
+                <label class="col-sm-2 control-label">是否开具发票：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="invoice" th:field="*{invoiceStr}" name="invoice" disabled/>
+                </div>
+            </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col-sm-offset-5 col-sm-10">
+        <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭
+        </button>
+    </div>
+</div>
+
+
+<div th:include="include::footer"></div>
+</body>
+</html>

@@ -123,7 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectFreightRate"  resultMap="FreightRateResult">
         <include refid="selectFreightRateVo"/>
         <where>
-          freightrateNum=#{freightrateNum} and
+            freightRate_num=#{freightrateNum} and
             (send_station =#{sendStation} and receive_station=#{receiveStation})
          or
             send_station =#{receiveStation} and receive_station=#{sendStation}

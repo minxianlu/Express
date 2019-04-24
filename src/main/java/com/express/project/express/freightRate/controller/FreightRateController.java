@@ -130,8 +130,16 @@ public class FreightRateController extends BaseController
 	@PostMapping("/edit")
 	@ResponseBody
 	public AjaxResult editSave(FreightRate freightRate)
-	{		
-		return toAjax(freightRateService.updateFreightRate(freightRate));
+	{
+		AjaxResult ajaxResult = null;
+		try {
+			freightRateService.updateFreightRate(freightRate);
+			ajaxResult = AjaxResult.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult = AjaxResult.error(e.getMessage());
+		}
+		return ajaxResult;
 	}
 	
 	/**
