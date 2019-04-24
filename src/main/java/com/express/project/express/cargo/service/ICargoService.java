@@ -57,5 +57,13 @@ public interface ICargoService
 	 * @return 结果
 	 */
 	 void deleteCargoByOrderNo(String orderNo)throws  Exception;
-	
+
+
+	/**
+	 * 根据订单号集合，批量查询
+	 *
+	 * @param cargoNoList 需要查询的数据的订单号
+	 * @return 结果
+	 */
+	List<Cargo> selectCargoByOrderNoList(List<String> cargoNoList)throws Exception;
 }

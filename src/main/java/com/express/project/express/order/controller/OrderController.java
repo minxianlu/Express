@@ -65,8 +65,13 @@ public class OrderController extends BaseController
 	@ResponseBody
 	public TableDataInfo list(Order order)
 	{
-		startPage();
-        List<Order> list = orderService.selectOrderList(order);
+		List<Order> list=null;
+		try {
+			startPage();
+			list= orderService.selectOrderList(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return getDataTable(list);
 	}
 
@@ -91,8 +96,13 @@ public class OrderController extends BaseController
     @ResponseBody
     public AjaxResult export(Order order)
     {
-    	List<Order> list = orderService.selectOrderList(order);
-        ExcelUtil<Order> util = new ExcelUtil<Order>(Order.class);
+		List<Order> list = null;
+		try {
+			list = orderService.selectOrderList(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ExcelUtil<Order> util = new ExcelUtil<Order>(Order.class);
         return util.exportExcel(list, "order");
     }
 	

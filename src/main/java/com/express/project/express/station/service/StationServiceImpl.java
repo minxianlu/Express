@@ -111,8 +111,8 @@ public class StationServiceImpl implements IStationService
 
 
 	@Override
-	public List<Station> selectStationByIds(String[] ids) throws Exception {
-		return stationMapper.selectStationByIds(ids);
+	public List<Station> selectStationByIds(List<Integer> stationIdList) throws Exception {
+		return stationMapper.selectStationByIds(stationIdList);
 	}
 
 	@Override

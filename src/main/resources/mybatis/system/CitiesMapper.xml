@@ -64,5 +64,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+
+    <select id="selectCityByCityIds" resultMap="CitiesResult">
+        <include refid="selectCitiesVo"/> where provinceid in
+        <foreach item="cityId" collection="list" open="(" separator="," close=")">
+            #{cityId}
+        </foreach>
+    </select>
     
 </mapper>

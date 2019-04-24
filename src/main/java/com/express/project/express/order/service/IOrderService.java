@@ -27,7 +27,7 @@ public interface IOrderService
      * @param order 订单信息
      * @return 订单集合
      */
-	 List<Order> selectOrderList(Order order);
+	 List<Order> selectOrderList(Order order)throws Exception;
 	
 	/**
      * 新增订单

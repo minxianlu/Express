@@ -51,5 +51,12 @@ public interface IProvincesService
      * @return 结果
      */
 	 int deleteProvincesByIds(String ids);
-	
+
+	/**
+	 * 批量查询身份,通过省份编码集合查询
+	 *
+	 * @param provinceIds 需要查询的数据ID
+	 * @return 结果
+	 */
+	List<Provinces> selectProvinceByProvinceIds(List<String> provinceIds);
 }

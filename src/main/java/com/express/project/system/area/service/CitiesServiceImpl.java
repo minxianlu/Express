@@ -79,5 +79,9 @@ public class CitiesServiceImpl implements ICitiesService
 	{
 		return citiesMapper.deleteCitiesByIds(Convert.toStrArray(ids));
 	}
-	
+
+	@Override
+	public List<Cities> selectCityByCityIds(List<String> list) {
+		return citiesMapper.selectCityByCityIds(list);
+	}
 }

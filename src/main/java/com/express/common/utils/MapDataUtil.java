@@ -1,7 +1,10 @@
 package com.express.common.utils;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
@@ -47,4 +50,39 @@ public class MapDataUtil
         }
         return returnMap;
     }
+
+
+    /**
+     * 用于把List<Object>转换成Map<String,Object>形式
+     *
+     * @author minxl
+     * @param keyName
+     *            主键属性
+     * @param list
+     *            集合
+     * @return 返回对象
+     */
+    public static <T> Map<String, T> listToMap(String keyName, List<T> list) {
+        Map<String, T> m = new HashMap<String, T>();
+        if ((null != list) && StringUtils.isNotEmpty(keyName)) {
+            try {
+                for (T t : list) {
+                    PropertyDescriptor pd = new PropertyDescriptor(keyName, t.getClass());
+                    Method getMethod = pd.getReadMethod();// 获得get方法
+                    Object o = getMethod.invoke(t);// 执行get方法返回一个Object
+                    if(BeanUtil.isNotEmpty(o)){
+                        m.put(o.toString(), t);
+                    }
+                }
+                return m;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return m;
+    }
+
+
+
 }

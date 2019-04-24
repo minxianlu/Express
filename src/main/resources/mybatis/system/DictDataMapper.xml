@@ -119,5 +119,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			sysdate()
  		)
 	</insert>
+
+
+	<select id="selectDictDataByDictTypeList" resultMap="DictDataResult">
+		<include refid="selectDictDataVo"/> where dict_type in
+		<foreach collection="list" item="dictType" open="(" separator="," close=")">
+			#{dictType}
+		</foreach>
+
+
+	</select>
 	
 </mapper> 

@@ -61,10 +61,10 @@ public interface StationMapper
 	/**
 	 * 批量查询车站
 	 *
-	 * @param ids 需要查询的数据ID
+	 * @param stationIdList 需要查询的数据ID
 	 * @return 结果
 	 */
-	 List<Station> selectStationByIds(String[] ids);
+	List<Station> selectStationByIds(List<Integer> stationIdList)throws Exception;
 	/**
 	 * 查询不在集合中的车站
 	 *

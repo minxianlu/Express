@@ -94,4 +94,9 @@ public class CargoServiceImpl implements ICargoService
 	public void deleteCargoByOrderNo(String orderNo) throws Exception {
 		cargoMapper.deleteCargoByCargoNo(orderNo);
 	}
+
+	@Override
+	public List<Cargo> selectCargoByOrderNoList(List<String> cargoNoList)throws Exception {
+		return cargoMapper.selectCargoByOrderNoList(cargoNoList);
+	}
 }

@@ -1,6 +1,9 @@
 package com.express.project.system.dict.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.express.common.utils.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.express.common.utils.security.ShiroUtils;
@@ -116,5 +119,14 @@ public class DictDataServiceImpl implements IDictDataService
     {
         dictData.setUpdateBy(ShiroUtils.getLoginName());
         return dictDataMapper.updateDictData(dictData);
+    }
+
+
+    @Override
+    public List<DictData> selectDictDataByDictTypeList(List<String> dictTypeList) {
+        if(BeanUtil.isEmpty(dictTypeList)||dictTypeList.size()==0){
+            return new ArrayList<DictData>();
+        }
+        return dictDataMapper.selectDictDataByDictTypeList(dictTypeList);
     }
 }

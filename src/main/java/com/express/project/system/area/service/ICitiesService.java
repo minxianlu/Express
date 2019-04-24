@@ -52,6 +52,12 @@ public interface ICitiesService
      */
 	 int deleteCitiesByIds(String ids);
 
-
+	/**
+	 * 批量查询城市，根据城市编码集合批量查询
+	 *
+	 * @param list 需要查询的数据citiesId
+	 * @return 结果
+	 */
+	List<Cities> selectCityByCityIds(List<String> list);
 
 }

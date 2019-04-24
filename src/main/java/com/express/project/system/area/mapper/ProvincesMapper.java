@@ -18,7 +18,7 @@ public interface ProvincesMapper
      * @param id 省份ID
      * @return 省份信息
      */
-	public Provinces selectProvincesById(Integer id);
+	 Provinces selectProvincesById(Integer id);
 	
 	/**
      * 查询省份列表
@@ -26,7 +26,7 @@ public interface ProvincesMapper
      * @param provinces 省份信息
      * @return 省份集合
      */
-	public List<Provinces> selectProvincesList(Provinces provinces);
+	 List<Provinces> selectProvincesList(Provinces provinces);
 	
 	/**
      * 新增省份
@@ -34,7 +34,7 @@ public interface ProvincesMapper
      * @param provinces 省份信息
      * @return 结果
      */
-	public int insertProvinces(Provinces provinces);
+	 int insertProvinces(Provinces provinces);
 	
 	/**
      * 修改省份
@@ -42,7 +42,7 @@ public interface ProvincesMapper
      * @param provinces 省份信息
      * @return 结果
      */
-	public int updateProvinces(Provinces provinces);
+	 int updateProvinces(Provinces provinces);
 	
 	/**
      * 删除省份
@@ -50,7 +50,7 @@ public interface ProvincesMapper
      * @param id 省份ID
      * @return 结果
      */
-	public int deleteProvincesById(Integer id);
+	 int deleteProvincesById(Integer id);
 	
 	/**
      * 批量删除省份
@@ -58,6 +58,14 @@ public interface ProvincesMapper
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-	public int deleteProvincesByIds(String[] ids);
+	 int deleteProvincesByIds(String[] ids);
+
+	/**
+	 * 批量查询身份,通过省份编码集合查询
+	 *
+	 * @param provinceIds 需要查询的数据ID
+	 * @return 结果
+	 */
+	 List<Provinces> selectProvinceByProvinceIds(List<String> provinceIds);
 	
 }

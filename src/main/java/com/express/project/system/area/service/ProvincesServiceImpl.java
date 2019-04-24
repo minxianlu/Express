@@ -79,5 +79,10 @@ public class ProvincesServiceImpl implements IProvincesService
 	{
 		return provincesMapper.deleteProvincesByIds(Convert.toStrArray(ids));
 	}
-	
+
+
+	@Override
+	public List<Provinces> selectProvinceByProvinceIds(List<String> provinceIds) {
+		return provincesMapper.selectProvinceByProvinceIds(provinceIds);
+	}
 }
