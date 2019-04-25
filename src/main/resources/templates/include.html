@@ -47,7 +47,7 @@
 </div>
 
 
-
+<!--列表头部查询条件的字典提取-->
 <div >
 	<select th:name="${name}" th:id="${name}"  th:with="type=${@dict.getType(dictType)}" th:fragment="selectDict(name,dictType)">
 		<option value="">所有</option>

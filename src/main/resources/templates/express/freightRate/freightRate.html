@@ -18,7 +18,7 @@
 								运价号：<input type="text" name="freightrateNum"/>
 							</li>
 							<li>
-								状态：<input type="text" name="status"/>
+								状态：<select th:replace="include::selectDict('status','ex_freight_rate_status')"></select>
 							</li>
 
 							<li>

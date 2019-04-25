@@ -1,7 +1,9 @@
 package com.express.project.express.order.domain;
 
 
+import com.express.framework.aspectj.lang.annotation.Excel;
 import com.express.framework.web.domain.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
@@ -16,46 +18,62 @@ public class Order extends BaseEntity
 	private static final long serialVersionUID = 1L;
 	
 	/** 订单编号 */
+	@Excel(name = "订单编号")
 	private String orderNo;
 	/** 发货日期 */
+	@Excel(name = "发货日期")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date sendTime;
 	/** 发送省份 */
 	private Integer sendProvince;
 	/** 发送城市 */
+	@Excel(name = "发送城市")
 	private String sendCity;
 	/** 接收省份 */
 	private Integer receiveProvince;
 	/** 接收城市 */
+	@Excel(name = "接收城市")
 	private String receiveCity;
 	/** 发送车站 */
 	private Integer sendStation;
 	/** 接收车站 */
 	private Integer receiveStation;
 	/** 客户编码 */
+	@Excel(name = "客户编码")
 	private String customerNo;
 	/** 客户类型 */
 	private Integer customerType;
 	/** 发货人名称 */
+	@Excel(name = "发货人名称")
 	private String sendName;
 	/** 发货联系人 */
+	@Excel(name = "发货联系人")
 	private String sendContacts;
 	/** 发货人电话 */
+	@Excel(name = "发货人电话")
 	private String sendPhone;
 	/** 收货人名称 */
+	@Excel(name = "收货人名称")
 	private String receiveName;
 	/** 收货联系人 */
+	@Excel(name = "收货联系人")
 	private String receiveContacts;
 	/** 接收人电话 */
+	@Excel(name = "接收人电话")
 	private String receivePhone;
 	/** 服务方式 */
 	private Integer serviceMode;
 	/** 送货里程 */
+	@Excel(name = "送货里程")
 	private Double pickUpMileage;
 	/** 送货里程 */
+	@Excel(name = "送货里程")
 	private Double deliveryMileage;
 	/** 取货地址 */
+	@Excel(name = "取货地址")
 	private String pickUpDress;
 	/** 送货地址 */
+	@Excel(name = "送货地址")
 	private String deliveryDress;
 	/** 货物Id */
 	private Integer cargoId;
@@ -67,22 +85,28 @@ public class Order extends BaseEntity
 	private Integer status;
 
 	/** 发送省份 字符型*/
+	@Excel(name = "发送省份")
 	private String sendProvinceStr;
-	/** 发送城市 字符型*/
-	private String sendCityStr;
-	/** 接收城市 字符型*/
+	/** 接收省份 字符型*/
+	@Excel(name = "接收省份")
 	private String receiveProvinceStr;
 	/** 客户类型 字符型*/
+	@Excel(name = "客户类型")
 	private String customerTypeStr;
 	/** 发送车站 字符型*/
+	@Excel(name = "发送车站")
 	private String sendStationStr;
 	/** 接收站 字符型*/
+	@Excel(name = "接收站")
 	private String receiveStationStr;
 	/** 是否开票 字符型*/
+	@Excel(name = "是否开票")
 	private String invoiceStr;
 	/** 订单状态 字符型*/
+	@Excel(name = "订单状态")
 	private String statusStr;
 	/** 服务类型 字符型*/
+	@Excel(name = "服务类型")
 	private String serviceModeStr;
 
 
@@ -320,14 +344,6 @@ public class Order extends BaseEntity
 
 	public void setSendProvinceStr(String sendProvinceStr) {
 		this.sendProvinceStr = sendProvinceStr;
-	}
-
-	public String getSendCityStr() {
-		return sendCityStr;
-	}
-
-	public void setSendCityStr(String sendCityStr) {
-		this.sendCityStr = sendCityStr;
 	}
 
 	public String getReceiveProvinceStr() {
