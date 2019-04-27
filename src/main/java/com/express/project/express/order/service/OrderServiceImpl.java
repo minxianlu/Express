@@ -151,7 +151,7 @@ public class OrderServiceImpl implements IOrderService
 				order1.setSendProvinceStr(proMap.get(order1.getSendProvince()+"").getProvince());
 			}
 			if(cityMap.containsKey(order1.getSendCity())){
-				order1.setSendCity(cityMap.get(order1.getSendCity()).getCity());
+				order1.setSendCityStr(cityMap.get(order1.getSendCity()).getCity());
 			}
 			if(stationMap.containsKey(order1.getSendStation()+"")){
 				order1.setSendStationStr(stationMap.get(order1.getSendStation()+"").getStationName());
@@ -160,7 +160,7 @@ public class OrderServiceImpl implements IOrderService
 				order1.setReceiveStationStr(stationMap.get(order1.getReceiveStation()+"").getStationName());
 			}
 			if(cityMap.containsKey(order1.getReceiveCity())){
-				order1.setReceiveCity(cityMap.get(order1.getReceiveCity()).getCity());
+				order1.setReceiveCityStr(cityMap.get(order1.getReceiveCity()).getCity());
 			}
 			if(proMap.containsKey(order1.getReceiveProvince()+"")){
 				order1.setReceiveProvinceStr(proMap.get(order1.getReceiveProvince()+"").getProvince());
@@ -219,6 +219,9 @@ public class OrderServiceImpl implements IOrderService
 		if(StringUtils.isEmpty(order.getOrderNo())){
 			throw new BusinessException("订单编号为空");
 		}
+		order.setUpdateBy(ShiroUtils.getUserName());
+		order.setUpdateTime(new Date());
+		cargo.setCargoNo(order.getOrderNo());
 		cargoService.deleteCargoByOrderNo(order.getOrderNo());
 		cargoService.insertCargo(cargo);
 		orderMapper.updateOrder(order);

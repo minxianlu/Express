@@ -75,7 +75,7 @@ public class OrderController extends BaseController
 		return getDataTable(list);
 	}
 
-	@RequiresPermissions("express:order:list")
+	@RequiresPermissions("express:order:detail")
 	@GetMapping("/detail/{orderId}")
 	public String detail(@PathVariable("orderId") Integer orderId, ModelMap mmap)
 	{
@@ -168,16 +168,22 @@ public class OrderController extends BaseController
 	/**
 	 * 修改订单
 	 */
+	@RequiresPermissions("express:order:edit")
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable("id") Integer id, ModelMap mmap)
 	{
 		try {
-			Order order  = orderService.selectOrderById(id);
+			Order order = orderService.selectOrderByIdForDetail(id);
 			Cargo cargo=new Cargo();
 			cargo.setCargoNo(order.getOrderNo());
 			List<Cargo> cargoList=cargoService.selectCargoList(cargo);
-			mmap.put("order", order);
-			mmap.put("cargoList", cargoList);
+			mmap.put("order",order );
+			mmap.put("station",stationService.selectStationList(new Station()));
+			if(cargoList.size()>0){
+				mmap.put("cargo",cargoList.get(0) );
+			}else{
+				mmap.put("cargo",new Cargo());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -195,11 +201,13 @@ public class OrderController extends BaseController
 	{
 		AjaxResult ajaxResult=null;
 		try {
+			String[] receiverCity=order.getReceiveCity().split(",");
+			order.setReceiveCity(receiverCity[receiverCity.length-1]);
 			orderService.updateOrder(order,cargo);
 			ajaxResult=AjaxResult.success();
 		} catch (Exception e) {
 			e.printStackTrace();
-			ajaxResult=AjaxResult.error();
+			ajaxResult=AjaxResult.error(e.getMessage());
 		}
 		return ajaxResult;
 	}

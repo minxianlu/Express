@@ -28,7 +28,7 @@ public interface IFreightRateService
      * @param freightRate 运价信息
      * @return 运价集合
      */
-	 List<FreightRate> selectFreightRateList(FreightRate freightRate);
+	 List<FreightRate> selectFreightRateList(FreightRate freightRate)throws  Exception;
 	
 	/**
      * 新增运价
@@ -84,4 +84,14 @@ public interface IFreightRateService
 	 * @return 结果
 	 */
 	FreightRate selectFreightRate(FreightRate freightRate)throws Exception;
+
+	/**
+	 * 查询详情
+	 *
+	 * @param  查询条件
+	 * @return 结果
+	 */
+	FreightRate selectFreightRateForDetail(Integer id)throws Exception;
+
+
 }

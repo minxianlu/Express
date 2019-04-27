@@ -1,210 +1,280 @@
 <!DOCTYPE HTML>
-<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-order-edit" th:object="${order}">
-            <input id="id" name="id" th:field="*{id}"  type="hidden">
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">订单编号：</label>
-				<div class="col-sm-8">
-					<input id="orderNo" name="orderNo" th:field="*{orderNo}" class="form-control" type="text">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+	<form class="form-horizontal m-md" id="form-order-add" th:object="${order}">
+		<div class="form-group">
+			<input  name="id" class="form-control" th:field="*{id}" type="hidden" readonly>
+			<p class="alert alert-info" style="text-align:center;font-size:18px;">车站信息</p>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">订单编号：</label>
+			<div class="col-sm-4">
+				<input id="orderNo" name="orderNo" class="form-control" th:field="*{orderNo}" type="text" readonly>
+			</div>
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>发运日期：</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control layui-input" id="sendTime"  th:value="*{#dates.format(sendTime, 'yyyy-MM-dd')}" name="sendTime" autocomplete="off"  required/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>发送省份：</label>
+			<div class="col-sm-4">
+				<div class="col-sm-6">
+					<input type="text" class="form-control" id="sendProvince" th:field="*{sendProvinceStr}" name="sendProvince" disabled />
+				</div>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" id="sendCity" th:field="*{sendCityStr}" name="sendCity" disabled/>
 				</div>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">发货日期：</label>
-				<div class="col-sm-8">
-					<input id="sendTime" name="sendTime" th:field="*{sendTime}" class="form-control" type="text">
+			<label class="col-sm-2 control-label">发送车站：</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="sendStation" th:field="*{sendStationStr}" name="sendStation" disabled/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>接收省份：</label>
+			<div class="col-sm-4">
+				<div class="col-sm-6">
+					<!--<input type="text" class="form-control" id="receiveProvince" th:field="*{receiveProvinceStr}" name="receiveProvince" />-->
+					<select name="receiveProvince" id="receiveProvince" th:with="list=${@province.getProvinceList()}" th:field="*{receiveProvince}" th:onchange="getCityListByProvinceId(this.value,'receiveCity','')" class="form-control" required>
+						<option value="">选择省份</option>
+						<option th:each="province : ${list}" th:text="${province.province}" th:value="${province.provinceid}"></option>
+					</select>
+				</div>
+				<div class="col-sm-6">
+					<input type="hidden" class="form-control" id="city" th:field="*{receiveCity}" />
+					<select name="receiveCity" id="receiveCity" class="form-control"  required>
+						<option value="">选择城市</option>
+					</select>
 				</div>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">发送省份：</label>
-				<div class="col-sm-8">
-					<input id="sendProvince" name="sendProvince" th:field="*{sendProvince}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-2 control-label">接收车站：</label>
+			<div class="col-sm-4">
+				<!--<input type="text" class="form-control" id="receiveStation" th:field="*{receiveStationStr}" name="receiveStation" />-->
+				<select id="receiveStation" class="form-control" name="receiveStation" th:field="*{receiveStation}">
+					<option value="">选择接收站</option>
+					<option th:each="sta:${station}" th:value="${sta.id}" th:text="${sta.stationName}" ></option>
+				</select>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">发送城市：</label>
-				<div class="col-sm-8">
-					<input id="sendCity" name="sendCity" th:field="*{sendCity}" class="form-control" type="text">
-				</div>
+		</div>
+		<div class="form-group">
+			<p class="alert alert-info" style="text-align:center;font-size:18px;">托运人信息</p>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">客户编码：</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="customerNo" th:field="*{customerNo}" name="customerNo" disabled/>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">接收省份：</label>
-				<div class="col-sm-8">
-					<input id="receiveProvince" name="receiveProvince" th:field="*{receiveProvince}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>客户类型：</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="customerType" th:field="*{customerTypeStr}" name="customerType"  disabled/>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">接收城市：</label>
-				<div class="col-sm-8">
-					<input id="receiveCity" name="receiveCity" th:field="*{receiveCity}" class="form-control" type="text">
-				</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>发货人名称：</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" id="sendName" th:field="*{sendName}" name="sendName" disabled/>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">发送车站：</label>
-				<div class="col-sm-8">
-					<input id="sendStation" name="sendStation" th:field="*{sendStation}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-2 control-label">发货联系人：</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" id="sendContacts" th:field="*{sendContacts}" name="sendContacts" disabled/>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">接收车站：</label>
-				<div class="col-sm-8">
-					<input id="receiveStation" name="receiveStation" th:field="*{receiveStation}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>发货人电话：</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" id="sendPhone" th:field="*{sendPhone}" name="sendPhone" disabled/>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">客户编码：</label>
-				<div class="col-sm-8">
-					<input id="customerNo" name="customerNo" th:field="*{customerNo}" class="form-control" type="text">
-				</div>
+		</div>
+		<div class="form-group">
+			<p class="alert alert-info" style="text-align:center;font-size:18px;">收货人信息</p>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>收货人名称：</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" id="receiveName" th:field="*{receiveName}" name="receiveName" required/>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">客户类型：</label>
-				<div class="col-sm-8">
-					<input id="customerType" name="customerType" th:field="*{customerType}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-2 control-label">收货联系人：</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" id="receiveContacts" th:field="*{receiveContacts}" name="receiveContacts" />
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">发货人名称：</label>
-				<div class="col-sm-8">
-					<input id="sendName" name="sendName" th:field="*{sendName}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>接收人电话：</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" id="receivePhone" th:field="*{receivePhone}" name="receivePhone" required/>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">发货联系人：</label>
-				<div class="col-sm-8">
-					<input id="sendContacts" name="sendContacts" th:field="*{sendContacts}" class="form-control" type="text">
-				</div>
+		</div>
+		<div class="form-group">
+			<p class="alert alert-info" style="text-align:center;font-size:18px;">货物信息</p>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>货物名称</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="cargoName" th:value="${cargo.cargoName}" name="cargoName" readonly/>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">发货人电话：</label>
-				<div class="col-sm-8">
-					<input id="sendPhone" name="sendPhone" th:field="*{sendPhone}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-1 control-label" th:text="'包装:'"></label>
+			<div class="col-sm-2">
+				<input type="number" class="form-control" id="pack" th:value="${cargo.pack}" name="pack" />
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">收货人名称：</label>
-				<div class="col-sm-8">
-					<input id="receiveName" name="receiveName" th:field="*{receiveName}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-1 control-label" th:text="'件数:'"></label>
+			<div class="col-sm-2">
+				<input type="number" class="form-control" id="num" th:value="${cargo.num}" name="num" />
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">收货联系人：</label>
-				<div class="col-sm-8">
-					<input id="receiveContacts" name="receiveContacts" th:field="*{receiveContacts}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-1 control-label"></label>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>总重</label>
+			<div class="col-sm-2">
+				<input type="number" class="form-control" id="weight" th:value="${cargo.weight}" name="weight" required/>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">接收人电话：</label>
-				<div class="col-sm-8">
-					<input id="receivePhone" name="receivePhone" th:field="*{receivePhone}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-1 control-label" th:text="'保价金额:'">保价金额+${index}：</label>
+			<div class="col-sm-2">
+				<input type="number" class="form-control" id="insurance" th:value="${cargo.insurance}" name="insurance" />
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">服务方式：</label>
-				<div class="col-sm-8">
-					<input id="serviceMode" name="serviceMode" th:field="*{serviceMode}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-1 control-label" th:text="'计费重量:'"></label>
+			<div class="col-sm-2">
+				<input type="number" class="form-control" id="billingWeight" th:value="${cargo.billingWeight}" name="billingWeight" />
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">送货里程：</label>
-				<div class="col-sm-8">
-					<input id="pickUpMileage" name="pickUpMileage" th:field="*{pickUpMileage}" class="form-control" type="text">
-				</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >单个最大重量：</label>
+			<div class="col-sm-2">
+				<input type="number" class="form-control" id="singleMaxWeight" th:value="${cargo.singleMaxWeight}" name="singleMaxWeight" />
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">送货里程：</label>
-				<div class="col-sm-8">
-					<input id="deliveryMileage" name="deliveryMileage" th:field="*{deliveryMileage}" class="form-control" type="text">
+			<label class="col-sm-2 control-label" th:text="'单件最大长/宽/高:'"></label>
+			<div class="col-sm-3">
+				<div class="col-xs-3" style="padding-left:0px;padding-right: 0px;">
+					<input type="number" class="form-control" id="length" th:value="${cargo.length}" name="length" />
 				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">取货地址：</label>
-				<div class="col-sm-8">
-					<input id="pickUpDress" name="pickUpDress" th:field="*{pickUpDress}" class="form-control" type="text">
+				<label class="col-xs-1 control-label"
+					   style="padding-left:0px;padding-right: 0px; width: 12px;">X</label>
+				<div class="col-xs-3" style="padding-left:0px;padding-right: 0px;">
+					<input type="number" class="form-control" id="width" th:value="${cargo.width}" name="width" />
 				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">送货地址：</label>
-				<div class="col-sm-8">
-					<input id="deliveryDress" name="deliveryDress" th:field="*{deliveryDress}" class="form-control" type="text">
+				<label class="col-xs-1 control-label"
+					   style="padding-left:0px;padding-right: 0px;  width: 12px;">X</label>
+				<div class="col-xs-3" style="padding-left:0px;padding-right: 0px;">
+					<input type="number" class="form-control" id="height" th:value="${cargo.height}" name="height" />
 				</div>
+				<label class="col-xs-1 control-label"></label>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">商议事项：</label>
-				<div class="col-sm-8">
-					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-1 control-label" th:text="'总体积:'"></label>
+			<div class="col-sm-2">
+				<input type="number" class="form-control" id="volume" th:value="${cargo.volume}" name="volume" />
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">货物Id：</label>
-				<div class="col-sm-8">
-					<input id="cargoId" name="cargoId" th:field="*{cargoId}" class="form-control" type="text">
-				</div>
+		</div>
+
+		<div class="form-group">
+			<p class="alert alert-info" style="text-align:center;font-size:18px;">服务信息</p>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>服务方式：</label>
+			<div class="col-sm-4">
+				<label th:each="serviceMode:${@dict.getType('ex_service_mode')}" class="check-box">
+					<input name="serviceMode" type="radio" th:value="${serviceMode.dictValue}" th:field="*{serviceMode}" th:text="${serviceMode.dictLabel}" >
+				</label>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">货物编号：</label>
-				<div class="col-sm-8">
-					<input id="cargoNo" name="cargoNo" th:field="*{cargoNo}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-2 control-label"><span style="color: red; ">*</span>是否开具发票：</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="invoice" th:field="*{invoiceStr}" name="invoice" disabled/>
+
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">是否开具发票：</label>
-				<div class="col-sm-8">
-					<input id="invoice" name="invoice" th:field="*{invoice}" class="form-control" type="text">
-				</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">取货里程：</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="pickUpMileage" th:field="*{pickUpMileage}" name="pickUpMileage" />
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">状态；0-丢失；1-未签收；2-已签收；关联字典表：</label>
-				<div class="col-sm-8">
-					<input id="status" name="status" th:field="*{status}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-2 control-label">取货地址：</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="pickUpDress" th:field="*{pickUpDress}" name="pickUpDress" />
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">创建人：</label>
-				<div class="col-sm-8">
-					<input id="createBy" name="createBy" th:field="*{createBy}" class="form-control" type="text">
-				</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">送货里程：</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="deliveryMileage" th:field="*{deliveryMileage}" name="deliveryMileage" />
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">更新人：</label>
-				<div class="col-sm-8">
-					<input id="updateBy" name="updateBy" th:field="*{updateBy}" class="form-control" type="text">
-				</div>
+			<label class="col-sm-2 control-label">送货地址：</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="deliveryDress" th:field="*{deliveryDress}" name="deliveryDress" />
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">创建时间：</label>
-				<div class="col-sm-8">
-					<input id="createTime" name="createTime" th:field="*{createTime}" class="form-control" type="text">
-				</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">商议事项：</label>
+			<div class="col-sm-10">
+				<textarea type="text" name="remark" class="form-control" th:field="*{remark}" placeholder="请输入文本" ></textarea>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">更新时间：</label>
-				<div class="col-sm-8">
-					<input id="updateTime" name="updateTime" th:field="*{updateTime}" class="form-control" type="text">
-				</div>
-			</div>
-		</form>
-    </div>
-    <div th:include="include::footer"></div>
-    <script type="text/javascript">
-		var prefix = ctx + "express/order";
-		$("#form-order-edit").validate({
-			rules:{
-				xxxx:{
-					required:true,
-				},
-			},
-			focusCleanup: true
-		});
-		
-		function submitHandler() {
-	        if ($.validate.form()) {
-	            $.operate.save(prefix + "/edit", $('#form-order-edit').serialize());
-	        }
-	    }
-	</script>
+		</div>
+
+	</form>
+</div>
+<div class="row">
+	<div class="col-sm-offset-5 col-sm-10">
+		<button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+		<button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭
+		</button>
+	</div>
+</div>
+
+
+<div th:include="include::footer"></div>
+
 </body>
+
+
+<script>
+	var prefix = ctx + "express/order";
+	$(function(){
+		layui.use('laydate', function(){
+			var laydate = layui.laydate;
+			laydate.render({
+				elem: '#sendTime',
+				min:0
+			});
+		});
+		// $("#orderNo").val(GetRandom());
+		getCityListByProvinceId($("#receiveProvince").val(),'receiveCity',$("#city").val())
+	})
+
+	function submitHandler() {
+		if ($.validate.form()) {
+			var data = $("#form-order-add").serializeArray();
+
+			if($.common.isEmpty($("input[name='serviceMode']:checked").val())){
+				$.modal.alert("请选择服务方式");
+				return false;
+			}
+			var phoneReg=/^1[3,4,5,8]\d{9}$/
+
+			if(!phoneReg.test($("#receivePhone").val())){
+				$.modal.alert("接收人电话格式不正确，请确认");
+				return false;
+			}
+
+			// var invoice = $("input[id='invoice']").is(':checked') == true ? 1 : 0;
+			// data.push({"name": "invoice", "value": invoice});
+			$.operate.save(prefix + "/edit", data);
+		}
+	}
+
+	var getCityListByProvinceId=function(val,target,initCity){
+		// alert(val+"   "+target+"    "+initCity)
+		$.operate.postQuery(prefix+"/getCityByProvinceId",{"provinceId":val},function(result){
+			if($.common.isNotEmpty(result)){
+				var options=["<option value=''>选择城市</option>"];
+				$.each(result,function(i,o){
+					if(o.cityid==initCity){
+						options.push("<option value='"+o.cityid+"' selected> "+o.city+"</option>")
+					}else{
+						options.push("<option value='"+o.cityid+"' > "+o.city+"</option>")
+					}
+				})
+				$("#"+target).html(options.join(""));
+			}
+		})
+	}
+
+</script>
 </html>

@@ -1,6 +1,8 @@
 package com.express.project.system.dict.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.express.project.system.dict.domain.DictData;
 
 /**
@@ -82,4 +84,21 @@ public interface IDictDataService
      * @return 结果
      */
     List<DictData> selectDictDataByDictTypeList(List<String> dictTypeList);
+
+
+    /**
+     * 通过dictType查询dictData,以Map形式返回；key=dictType+dictValue，value:dictData
+     *
+     * @param dictType 字典类型
+     * @return 结果
+     */
+    Map<String, DictData> getDicDataMapByDictType(String dictType)throws Exception;
+
+    /**
+     * 通过dictType集合查询dictData,以Map形式返回；key=dictType+dictValue，value:dictData
+     *
+     * @param dictTypeList 字典类型
+     * @return 结果
+     */
+    Map<String, DictData> getDicDataMapByDictType(List<String> dictTypeList)throws Exception;
 }

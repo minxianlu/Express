@@ -49,6 +49,9 @@
 .ml20 {
 	margin-left: 20px;
 }
+.dn{
+	display: none;
+}
 
 /** 弹层组件 禁用样式 **/
 .layer-disabled {

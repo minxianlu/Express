@@ -24,15 +24,25 @@ public class Order extends BaseEntity
 	@Excel(name = "发货日期")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date sendTime;
+
+	/** 发送省份 字符型*/
+	@Excel(name = "发送省份")
+	private String sendProvinceStr;
+	@Excel(name = "发送城市")
+	private String sendCityStr;
+	/** 接收省份 字符型*/
+	@Excel(name = "接收省份")
+	private String receiveProvinceStr;
+	@Excel(name = "接收城市")
+
+
 	/** 发送省份 */
 	private Integer sendProvince;
 	/** 发送城市 */
-	@Excel(name = "发送城市")
 	private String sendCity;
 	/** 接收省份 */
 	private Integer receiveProvince;
 	/** 接收城市 */
-	@Excel(name = "接收城市")
 	private String receiveCity;
 	/** 发送车站 */
 	private Integer sendStation;
@@ -84,12 +94,8 @@ public class Order extends BaseEntity
 	/** 状态 */
 	private Integer status;
 
-	/** 发送省份 字符型*/
-	@Excel(name = "发送省份")
-	private String sendProvinceStr;
-	/** 接收省份 字符型*/
-	@Excel(name = "接收省份")
-	private String receiveProvinceStr;
+
+	private String receiveCityStr;
 	/** 客户类型 字符型*/
 	@Excel(name = "客户类型")
 	private String customerTypeStr;
@@ -400,5 +406,21 @@ public class Order extends BaseEntity
 
 	public void setServiceModeStr(String serviceModeStr) {
 		this.serviceModeStr = serviceModeStr;
+	}
+
+	public String getSendCityStr() {
+		return sendCityStr;
+	}
+
+	public void setSendCityStr(String sendCityStr) {
+		this.sendCityStr = sendCityStr;
+	}
+
+	public String getReceiveCityStr() {
+		return receiveCityStr;
+	}
+
+	public void setReceiveCityStr(String receiveCityStr) {
+		this.receiveCityStr = receiveCityStr;
 	}
 }

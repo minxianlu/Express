@@ -95,7 +95,7 @@
 				$.modal.alertWarning("请至少选择一条记录");
 				return;
 			}
-			$.modal.confirm("确认要删除的" + rows.length + "条数据吗?删除车站信息将会一并删除关联的运价信息，请确认！", function() {
+			$.modal.confirm("确认要删除的这条数据吗?删除车站信息将会一并删除关联的运价信息，请确认！", function() {
 				var url = $.table._option.removeUrl;
 				if($.common.isNotEmpty(id)){
 					rows.length=0;

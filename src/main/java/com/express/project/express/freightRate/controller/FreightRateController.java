@@ -26,7 +26,7 @@ import com.express.framework.web.domain.AjaxResult;
 import com.express.common.utils.poi.ExcelUtil;
 
 /**
- * 运价因子 信息操作处理
+ * 运价 信息操作处理
  * 
  * @author Chenyb
  * @date 2019-04-20
@@ -48,36 +48,53 @@ public class FreightRateController extends BaseController
 	{
 	    return prefix + "/freightRate";
 	}
-	
+
+//	@RequiresPermissions("express:freightRate:queryFreightRate")
+	@GetMapping("/query")
+	public String queryFreightRate(){
+		return prefix+"/queryFreightRate";
+	}
 	/**
-	 * 查询运价因子列表
+	 * 查询运价列表
 	 */
 	@RequiresPermissions("express:freightRate:list")
 	@PostMapping("/list")
 	@ResponseBody
 	public TableDataInfo list(FreightRate freightRate)
 	{
-		startPage();
-        List<FreightRate> list = freightRateService.selectFreightRateList(freightRate);
+		List<FreightRate> list=null;
+		try {
+			startPage();
+			list = freightRateService.selectFreightRateList(freightRate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return getDataTable(list);
 	}
 	
 	
 	/**
-	 * 导出运价因子列表
+	 * 导出运价列表
 	 */
 	@RequiresPermissions("express:freightRate:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(FreightRate freightRate)
     {
-    	List<FreightRate> list = freightRateService.selectFreightRateList(freightRate);
-        ExcelUtil<FreightRate> util = new ExcelUtil<FreightRate>(FreightRate.class);
-        return util.exportExcel(list, "freightRate");
+		try {
+			List<FreightRate> list = freightRateService.selectFreightRateList(freightRate);
+			ExcelUtil<FreightRate> util = new ExcelUtil<FreightRate>(FreightRate.class);
+			return util.exportExcel(list, "freightRate");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return AjaxResult.error(e.toString());
+		}
+
+
     }
 	
 	/**
-	 * 新增运价因子
+	 * 新增运价
 	 */
 	@GetMapping("/add")
 	public String add(ModelMap mmap)
@@ -92,10 +109,10 @@ public class FreightRateController extends BaseController
 	}
 	
 	/**
-	 * 新增保存运价因子
+	 * 新增保存运价
 	 */
 	@RequiresPermissions("express:freightRate:add")
-	@Log(title = "运价因子", businessType = BusinessType.INSERT)
+	@Log(title = "运价", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(FreightRate freightRate)
@@ -106,27 +123,33 @@ public class FreightRateController extends BaseController
 			ajaxResult = AjaxResult.success("保存成功！");
 		} catch (Exception e) {
 			e.printStackTrace();
-			ajaxResult = AjaxResult.error(e.toString());
+			ajaxResult = AjaxResult.error(e.getMessage());
 		}
 		return ajaxResult;
 	}
 
 	/**
-	 * 修改运价因子
+	 * 修改运价
 	 */
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable("id") Integer id, ModelMap mmap)
 	{
-		FreightRate freightRate = freightRateService.selectFreightRateById(id);
+
+		FreightRate freightRate = null;
+		try {
+			freightRate = freightRateService.selectFreightRateForDetail(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		mmap.put("freightRate", freightRate);
 	    return prefix + "/edit";
 	}
 	
 	/**
-	 * 修改保存运价因子
+	 * 修改保存运价
 	 */
 	@RequiresPermissions("express:freightRate:edit")
-	@Log(title = "运价因子", businessType = BusinessType.UPDATE)
+	@Log(title = "运价", businessType = BusinessType.UPDATE)
 	@PostMapping("/edit")
 	@ResponseBody
 	public AjaxResult editSave(FreightRate freightRate)
@@ -143,10 +166,10 @@ public class FreightRateController extends BaseController
 	}
 	
 	/**
-	 * 删除运价因子
+	 * 删除运价
 	 */
 	@RequiresPermissions("express:freightRate:remove")
-	@Log(title = "运价因子", businessType = BusinessType.DELETE)
+	@Log(title = "运价", businessType = BusinessType.DELETE)
 	@PostMapping( "/remove")
 	@ResponseBody
 	public AjaxResult remove(String ids) {

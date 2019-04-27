@@ -2,6 +2,7 @@ package com.express.common.utils.bean;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -106,5 +107,25 @@ public class BeanUtils extends org.apache.commons.beanutils.BeanUtils
     public static boolean isMethodPropEquals(String m1, String m2)
     {
         return m1.substring(BEAN_METHOD_PROP_INDEX).equals(m2.substring(BEAN_METHOD_PROP_INDEX));
+    }
+
+    /**
+     * 判断-是否为空
+     * @param o java.lang.Object.
+     * @return boolean.
+     */
+    public static boolean isEmpty(Object o) {
+        if(null==o || "".equals(o))
+            return true;
+        if (o instanceof Collection){
+            if (((Collection<?>) o).isEmpty()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isNotEmpty(Object o){
+        return !isEmpty(o);
     }
 }

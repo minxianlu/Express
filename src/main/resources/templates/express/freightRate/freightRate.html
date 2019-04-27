@@ -15,7 +15,7 @@
 							</li>
 
 							<li>
-								运价号：<input type="text" name="freightrateNum"/>
+								服务方式：<<select th:replace="include::selectDict('serviceMode','ex_service_mode')"></select>
 							</li>
 							<li>
 								状态：<select th:replace="include::selectDict('status','ex_freight_rate_status')"></select>
@@ -73,12 +73,12 @@
 					visible: false
 				},
 				{
-					field : 'sendStation', 
+					field : 'sendStationStr',
 					title : '发送站',
 					sortable: true
 				},
 				{
-					field : 'receiveStation', 
+					field : 'receiveStationStr',
 					title : '接收站',
 					sortable: true
 				},
@@ -88,7 +88,7 @@
 					sortable: true
 				},
 				{
-					field : 'freightrateNum', 
+					field : 'serviceModeStr',
 					title : '运价号',
 					sortable: true
 				},
@@ -103,7 +103,7 @@
 					sortable: true
 				},
 				{
-					field : 'status', 
+					field : 'statusStr',
 					title : '状态',
 					sortable: true
 				},

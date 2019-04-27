@@ -19,17 +19,27 @@ public class FreightRate extends BaseEntity
 	private Integer sendStation;
 	/** 接收站Id */
 	private Integer receiveStation;
-	/** 价格因子 */
-	private Float priceFactor;
+
 	/** 运价号 */
-	private Integer freightrateNum;
+	private Integer serviceMode;
 	/** 状态 */
 	private Integer status;
-
 	/** 价格*/
 	private String price;
 	/** 查询重量*/
 	private String weight;
+
+
+	/** 发送站 字符型 */
+	private String sendStationStr;
+	/** 接收站 字符型 */
+	private String receiveStationStr;
+	/** 服务方式 字符型 */
+	private String serviceModeStr;
+	/** 价格因子 */
+	private Float priceFactor;
+	/** 状态 字符型 */
+	private String statusStr;
 
 	public void setSendStation(Integer sendStation)
 	{
@@ -58,14 +68,13 @@ public class FreightRate extends BaseEntity
 	{
 		return priceFactor;
 	}
-	public void setFreightrateNum(Integer freightrateNum) 
-	{
-		this.freightrateNum = freightrateNum;
+
+	public Integer getServiceMode() {
+		return serviceMode;
 	}
 
-	public Integer getFreightrateNum() 
-	{
-		return freightrateNum;
+	public void setServiceMode(Integer serviceMode) {
+		this.serviceMode = serviceMode;
 	}
 
 	public Integer getStatus() {
@@ -90,5 +99,38 @@ public class FreightRate extends BaseEntity
 
 	public void setWeight(String weight) {
 		this.weight = weight;
+	}
+
+
+	public String getServiceModeStr() {
+		return serviceModeStr;
+	}
+
+	public void setServiceModeStr(String serviceModeStr) {
+		this.serviceModeStr = serviceModeStr;
+	}
+
+	public String getSendStationStr() {
+		return sendStationStr;
+	}
+
+	public void setSendStationStr(String sendStationStr) {
+		this.sendStationStr = sendStationStr;
+	}
+
+	public String getReceiveStationStr() {
+		return receiveStationStr;
+	}
+
+	public void setReceiveStationStr(String receiveStationStr) {
+		this.receiveStationStr = receiveStationStr;
+	}
+
+	public String getStatusStr() {
+		return statusStr;
+	}
+
+	public void setStatusStr(String statusStr) {
+		this.statusStr = statusStr;
 	}
 }

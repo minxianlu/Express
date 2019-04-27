@@ -28,13 +28,16 @@
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">价格因子：</label>
 				<div class="col-sm-8">
-					<input id="priceFactor" name="priceFactor" class="form-control" type="text">
+					<input id="priceFactor" name="priceFactor" class="form-control" type="number">
 				</div>
 			</div>
 			<div class="form-group">	
-				<label class="col-sm-3 control-label">运价号：</label>
+				<label class="col-sm-3 control-label">服务方式：</label>
 				<div class="col-sm-8">
-					<input id="freightrateNum" name="freightrateNum" class="form-control" type="text">
+					<select name="serviceMode" th:with="list=${@dict.getType('ex_service_mode')}"  class="form-control" required>
+						<option value="">选择服务方式</option>
+						<option th:each="serviceMode : ${list}" th:text="${serviceMode.dictLabel}" th:value="${serviceMode.dictValue}"></option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
@@ -63,6 +66,11 @@
 		
 		function submitHandler() {
 	        if ($.validate.form()) {
+	            var priceFactor=parseFloat($("#priceFactor").val());
+                if(priceFactor>99||priceFactor<0){
+                    $.modal.alert("运价因子应在0至99之间，请确认！");
+                    return false;
+                }
 	            $.operate.save(prefix + "/add", $('#form-freightRate-add').serialize());
 	        }
 	    }

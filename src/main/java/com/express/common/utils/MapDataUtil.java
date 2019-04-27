@@ -1,5 +1,7 @@
 package com.express.common.utils;
 
+import com.express.common.utils.bean.BeanUtils;
+
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -70,7 +72,7 @@ public class MapDataUtil
                     PropertyDescriptor pd = new PropertyDescriptor(keyName, t.getClass());
                     Method getMethod = pd.getReadMethod();// 获得get方法
                     Object o = getMethod.invoke(t);// 执行get方法返回一个Object
-                    if(BeanUtil.isNotEmpty(o)){
+                    if(BeanUtils.isNotEmpty(o)){
                         m.put(o.toString(), t);
                     }
                 }

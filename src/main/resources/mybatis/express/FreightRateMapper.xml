@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="sendStation"    column="send_station"    />
         <result property="receiveStation"    column="receive_station"    />
         <result property="priceFactor"    column="price_factor"    />
-        <result property="freightrateNum"    column="freightRate_num"    />
+        <result property="serviceMode"    column="service_mode"    />
         <result property="createBy"    column="create_by"    />
         <result property="updateBy"    column="update_by"    />
         <result property="createTime"    column="create_time"    />
@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 	
 	<sql id="selectFreightRateVo">
-        select id, send_station, receive_station, price_factor, freightRate_num, create_by, update_by, create_time, update_time, status from ex_freight_rate
+        select id, send_station, receive_station, price_factor, service_mode, create_by, update_by, create_time, update_time, status from ex_freight_rate
     </sql>
 	
     <select id="selectFreightRateList" parameterType="FreightRate" resultMap="FreightRateResult">
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="sendStation != null "> and send_station = #{sendStation}</if>
              <if test="receiveStation != null "> and receive_station = #{receiveStation}</if>
              <if test="priceFactor != null "> and price_factor = #{priceFactor}</if>
-             <if test="freightrateNum != null "> and freightRate_num = #{freightrateNum}</if>
+             <if test="serviceMode != null "> and service_mode = #{serviceMode}</if>
              <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
              <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
              <if test="createTime != null "> and create_time = #{createTime}</if>
@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="sendStation != null  ">send_station,</if>
 			<if test="receiveStation != null  ">receive_station,</if>
 			<if test="priceFactor != null  ">price_factor,</if>
-			<if test="freightrateNum != null  ">freightRate_num,</if>
+			<if test="serviceMode != null  ">service_mode,</if>
 			<if test="createBy != null  and createBy != ''  ">create_by,</if>
 			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
 			<if test="createTime != null  ">create_time,</if>
@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="sendStation != null  ">#{sendStation},</if>
 			<if test="receiveStation != null  ">#{receiveStation},</if>
 			<if test="priceFactor != null  ">#{priceFactor},</if>
-			<if test="freightrateNum != null  ">#{freightrateNum},</if>
+			<if test="serviceMode != null  ">#{serviceMode},</if>
 			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
 			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
 			<if test="createTime != null  ">#{createTime},</if>
@@ -74,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sendStation != null  ">send_station = #{sendStation},</if>
             <if test="receiveStation != null  ">receive_station = #{receiveStation},</if>
             <if test="priceFactor != null  ">price_factor = #{priceFactor},</if>
-            <if test="freightrateNum != null  ">freightRate_num = #{freightrateNum},</if>
+            <if test="serviceMode != null  ">service_mode = #{serviceMode},</if>
             <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
             <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
             <if test="createTime != null  ">create_time = #{createTime},</if>
@@ -122,12 +122,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectFreightRate"  resultMap="FreightRateResult">
         <include refid="selectFreightRateVo"/>
-        <where>
-            freightRate_num=#{freightrateNum} and
-            (send_station =#{sendStation} and receive_station=#{receiveStation})
+        where
+            service_mode=#{serviceMode} and
+            ( (send_station =#{sendStation} and receive_station=#{receiveStation})
          or
-            send_station =#{receiveStation} and receive_station=#{sendStation}
-        </where>
+            (send_station =#{receiveStation} and receive_station=#{sendStation}))
+
     </select>
 
 </mapper>
