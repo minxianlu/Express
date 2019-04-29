@@ -64,10 +64,10 @@ public class FreightRateController extends BaseController
      * 查询运价
      */
     @RequiresPermissions("express:freightRate:query")
-    @PostMapping("/list")
+    @PostMapping("/queryFreightRate")
     @ResponseBody
-	public AjaxResult queryFreightRate(){
-//        freightRateService.select
+	public AjaxResult queryFreightRate(FreightRate  freightRate){
+//        freightRateService.selectFreightRate();
 return null;
     }
 	/**
