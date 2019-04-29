@@ -51,7 +51,7 @@ public class FreightRateController extends BaseController
 
 //	@RequiresPermissions("express:freightRate:queryFreightRate")
 	@GetMapping("/query")
-	public String queryFreightRate(ModelMap mmap){
+	public String query(ModelMap mmap){
         try {
             Station station = new Station();
             mmap.put("stationList",stationService.selectStationList(station));
@@ -60,6 +60,16 @@ public class FreightRateController extends BaseController
         }
 	    return prefix+"/queryFreightRate";
 	}
+    /**
+     * 查询运价
+     */
+    @RequiresPermissions("express:freightRate:query")
+    @PostMapping("/list")
+    @ResponseBody
+	public AjaxResult queryFreightRate(){
+//        freightRateService.select
+return null;
+    }
 	/**
 	 * 查询运价列表
 	 */
