@@ -22,7 +22,6 @@ public class Order extends BaseEntity
 	private String orderNo;
 	/** 发货日期 */
 	@Excel(name = "发货日期")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date sendTime;
 
 	/** 发送省份 字符型*/
@@ -34,7 +33,7 @@ public class Order extends BaseEntity
 	@Excel(name = "接收省份")
 	private String receiveProvinceStr;
 	@Excel(name = "接收城市")
-
+	private String receiveCityStr;
 
 	/** 发送省份 */
 	private Integer sendProvince;
@@ -93,9 +92,11 @@ public class Order extends BaseEntity
 	private Integer invoice;
 	/** 状态 */
 	private Integer status;
+	/** 订单标记 */
+	private Integer orderFlag;
 
 
-	private String receiveCityStr;
+
 	/** 客户类型 字符型*/
 	@Excel(name = "客户类型")
 	private String customerTypeStr;
@@ -114,7 +115,8 @@ public class Order extends BaseEntity
 	/** 服务类型 字符型*/
 	@Excel(name = "服务类型")
 	private String serviceModeStr;
-
+	/** 订单标记 字符型 */
+	private String orderFlagStr;
 
 	public void setOrderNo(String orderNo)
 	{
@@ -422,5 +424,21 @@ public class Order extends BaseEntity
 
 	public void setReceiveCityStr(String receiveCityStr) {
 		this.receiveCityStr = receiveCityStr;
+	}
+
+	public Integer getOrderFlag() {
+		return orderFlag;
+	}
+
+	public void setOrderFlag(Integer orderFlag) {
+		this.orderFlag = orderFlag;
+	}
+
+	public String getOrderFlagStr() {
+		return orderFlagStr;
+	}
+
+	public void setOrderFlagStr(String orderFlagStr) {
+		this.orderFlagStr = orderFlagStr;
 	}
 }

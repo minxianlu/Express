@@ -30,7 +30,14 @@
 								客户类型：<select th:replace="include::selectDict('customerType','ex_customer_type')" ></select>
 							</li>
 							<li>
-								状态：<select th:replace="include::selectDict('status','ex_order_status')"></select>
+								状态：
+								<select name="status" id="status">
+									<option value="">所有</option>
+									<option value="1">未签收</option>
+									<option value="2">已签收</option>
+									<option value="0">完结</option>
+									<option value="-1">丢失</option>
+								</select>
 							</li>
 							<li>
 								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>

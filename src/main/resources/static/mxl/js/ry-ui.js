@@ -606,6 +606,7 @@
         	    };
         	    $.ajax(config)
             },
+			//post请求查询
 			postQuery:function(url,data,successFun){
         		var config={
         			url:url,
@@ -620,6 +621,7 @@
 				};
 				$.ajax(config)
 			},
+			//get请求查询
 			getQuery:function(url,data,successFun){
 				var config={
 					url:url,

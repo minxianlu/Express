@@ -49,7 +49,7 @@ public class FreightRateController extends BaseController
 	    return prefix + "/freightRate";
 	}
 
-//	@RequiresPermissions("express:freightRate:queryFreightRate")
+	@RequiresPermissions("express:freightRate:query")
 	@GetMapping("/query")
 	public String query(ModelMap mmap){
         try {
@@ -67,8 +67,16 @@ public class FreightRateController extends BaseController
     @PostMapping("/queryFreightRate")
     @ResponseBody
 	public AjaxResult queryFreightRate(FreightRate  freightRate){
-//        freightRateService.selectFreightRate();
-return null;
+    	AjaxResult ajaxResult=null;
+		try {
+			List<FreightRate> result= freightRateService.queryFreightRate(freightRate);
+			ajaxResult=AjaxResult.success();
+			ajaxResult.put("result",result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error();
+		}
+		return ajaxResult;
     }
 	/**
 	 * 查询运价列表

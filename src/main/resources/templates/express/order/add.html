@@ -239,7 +239,9 @@
 
 				var invoice = $("input[id='invoice']").is(':checked') == true ? 1 : 0;
 				data.push({"name": "invoice", "value": invoice});
+
 				$.operate.save(prefix + "/add", data);
+
 	        }
 	    }
 	</script>

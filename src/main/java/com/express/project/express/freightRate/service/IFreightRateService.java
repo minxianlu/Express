@@ -83,7 +83,7 @@ public interface IFreightRateService
 	 * @param freightRate 查询条件
 	 * @return 结果
 	 */
-	FreightRate selectFreightRate(FreightRate freightRate)throws Exception;
+	List<FreightRate> queryFreightRate(FreightRate freightRate)throws Exception;
 
 	/**
 	 * 查询详情

@@ -2,13 +2,12 @@ package com.express.project.express.order.service;
 
 import java.util.*;
 
-import com.express.common.constant.ExpressConstants;
 import com.express.common.exception.BusinessException;
 import com.express.common.utils.MapDataUtil;
 import com.express.common.utils.StringUtils;
 import com.express.common.utils.security.ShiroUtils;
+import com.express.project.common.ExpressConstant;
 import com.express.project.express.cargo.domain.Cargo;
-import com.express.project.express.cargo.service.CargoServiceImpl;
 import com.express.project.express.cargo.service.ICargoService;
 import com.express.project.express.orderDress.domain.OrderDress;
 import com.express.project.express.orderDress.service.IOrderDressService;
@@ -24,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.express.project.express.order.mapper.OrderMapper;
 import com.express.project.express.order.domain.Order;
-import com.express.project.express.order.service.IOrderService;
 import com.express.common.utils.text.Convert;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,12 +51,7 @@ public class OrderServiceImpl implements IOrderService
 	@Autowired
 	private IStationService stationService;
 
-	//客户类型
-	private final String EX_CUSTOMER_TYPE="ex_customer_type";
-	//订单状态
-	private final String EX_ORDER_STATUS="ex_order_status";
-	//服务方式
-	private final String EX_SERVICE_MODE="ex_service_mode";
+
 
 	/**
      * 查询订单信息
@@ -91,59 +84,39 @@ public class OrderServiceImpl implements IOrderService
 		List<Integer> stationIdList=new ArrayList<>();
 		//字典类型集合
 		List<String> dictTypeList=new ArrayList<>();
-		dictTypeList.add(EX_CUSTOMER_TYPE);
-		dictTypeList.add(EX_SERVICE_MODE);
-		dictTypeList.add(EX_ORDER_STATUS);
+		dictTypeList.add(ExpressConstant.EX_CUSTOMER_TYPE);
+		dictTypeList.add(ExpressConstant.EX_SERVICE_MODE);
+		dictTypeList.add(ExpressConstant.EX_ORDER_STATUS);
 
 		List<Order> resultList=orderMapper.selectOrderList(order);
 		for (Order order1 : resultList) {
+			//拼装城市编码集合
 			cityIdList.add(order1.getSendCity());
 			cityIdList.add(order1.getReceiveCity());
-
+			//拼装省份编码集合
 			proIdList.add(order1.getSendProvince()+"");
 			proIdList.add(order1.getReceiveProvince()+"");
-
+			//拼装货物编码集合
 			cargoNoList.add(order1.getOrderNo());
-
+			//拼装车站编码集合
 			stationIdList.add(order1.getSendStation());
 			stationIdList.add(order1.getReceiveStation());
 		}
 		//省份转换
-		List<Provinces> provincesList=null;
-		Map<String,Provinces> proMap=new HashMap<>(16);
-		if(proIdList.size()>0){
-			provincesList=provincesService.selectProvinceByProvinceIds(proIdList);
-			proMap=MapDataUtil.listToMap("provinceid",provincesList);
-		}
+		Map<String,Provinces> proMap=provincesService.getProvinceMapByProvinceIds(proIdList);
 		//城市转换
-		List<Cities> cityList=null;
-		Map<String,Cities> cityMap=new HashMap<>(16);
-		if(cityIdList.size()>0){
-			cityList=citiesService.selectCityByCityIds(cityIdList);
-			cityMap=MapDataUtil.listToMap("cityid",cityList);
-		}
-		//货物转换
+		Map<String,Cities> cityMap=citiesService.getCityMapByCityIds(cityIdList);
+		//车站转换
+		Map<String, Station> stationMap=stationService.getStationMapByIds(stationIdList);
+		//字典数据转换
+		Map<String,DictData> dictDataMap=dictDataService.getDictDataMapByDictType(dictTypeList);
+
+		//货物转换（暂时没用）
 		List<Cargo> cargoList=null;
 		Map<String,Cargo> cargoMap=new HashMap<>(16);
 		if(cargoNoList.size()>0){
 			cargoList=cargoService.selectCargoByOrderNoList(cargoNoList);
 			cargoMap=MapDataUtil.listToMap("cargoNo",cargoList);
-		}
-
-		List<Station> stationList=null;
-		Map<String,Station> stationMap=new HashMap<>(16);
-		if(stationIdList.size()>0){
-			stationList=stationService.selectStationByIds(stationIdList);
-			stationMap=MapDataUtil.listToMap("id",stationList);
-		}
-
-		List<DictData> dictDataList=null;
-		Map<String,DictData> dictDataMap=new HashMap<>(16);
-		if(dictTypeList.size()>0){
-			dictDataList=dictDataService.selectDictDataByDictTypeList(dictTypeList);
-			for (DictData dict : dictDataList) {
-				dictDataMap.put(dict.getDictType()+dict.getDictValue(),dict);
-			}
 		}
 
 		for (Order order1 : resultList) {
@@ -165,18 +138,18 @@ public class OrderServiceImpl implements IOrderService
 			if(proMap.containsKey(order1.getReceiveProvince()+"")){
 				order1.setReceiveProvinceStr(proMap.get(order1.getReceiveProvince()+"").getProvince());
 			}
-			if(dictDataMap.containsKey(EX_CUSTOMER_TYPE+(order1.getCustomerType()))){
-				order1.setCustomerTypeStr(dictDataMap.get(EX_CUSTOMER_TYPE+(order1.getCustomerType())).getDictLabel());
+			if(dictDataMap.containsKey(ExpressConstant.EX_CUSTOMER_TYPE+(order1.getCustomerType()))){
+				order1.setCustomerTypeStr(dictDataMap.get(ExpressConstant.EX_CUSTOMER_TYPE+(order1.getCustomerType())).getDictLabel());
 			}
-			if(dictDataMap.containsKey(EX_ORDER_STATUS+(order1.getStatus()))){
-				order1.setStatusStr(dictDataMap.get(EX_ORDER_STATUS+(order1.getStatus())).getDictLabel());
+			if(dictDataMap.containsKey(ExpressConstant.EX_ORDER_STATUS+(order1.getStatus()))){
+				order1.setStatusStr(dictDataMap.get(ExpressConstant.EX_ORDER_STATUS+(order1.getStatus())).getDictLabel());
 			}
-			if(dictDataMap.containsKey(EX_SERVICE_MODE+(order1.getServiceMode()))){
-				order1.setServiceModeStr(dictDataMap.get(EX_SERVICE_MODE+(order1.getServiceMode())).getDictLabel());
+			if(dictDataMap.containsKey(ExpressConstant.EX_SERVICE_MODE+(order1.getServiceMode()))){
+				order1.setServiceModeStr(dictDataMap.get(ExpressConstant.EX_SERVICE_MODE+(order1.getServiceMode())).getDictLabel());
 			}
 			order1.setInvoiceStr(order1.getInvoice()==0?"否":"是");
+			order1.setOrderFlagStr(order1.getOrderFlag()==0?"完结":"未完结");
 		}
-
 	    return resultList;
 	}
 	
@@ -192,8 +165,8 @@ public class OrderServiceImpl implements IOrderService
 	{
 		order.setCreateBy(ShiroUtils.getUserName());
 		order.setCreateTime(new Date());
-		order.setStatus(ExpressConstants.ORDER_STATUS);
-
+		order.setStatus(Integer.parseInt(ExpressConstant.ORDER_NOT_RECEIVED));
+		order.setOrderFlag(Integer.parseInt(ExpressConstant.ORDER_FLAG));
 		orderMapper.insertOrder(order);
 
 		OrderDress orderDress=new OrderDress();
@@ -201,6 +174,8 @@ public class OrderServiceImpl implements IOrderService
 		orderDress.setOrderNo(order.getOrderNo());
 		orderDress.setProvinceId(order.getSendProvince());
 		orderDress.setCityId(order.getSendCity());
+		orderDress.setCreateBy(ShiroUtils.getUserName());
+		orderDress.setCreateTime(new Date());
 
 		orderDressService.insertOrderDress(orderDress);
 

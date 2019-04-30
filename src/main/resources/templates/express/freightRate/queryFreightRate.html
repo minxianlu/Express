@@ -28,7 +28,7 @@
                 <label class="col-sm-2 control-label">服务方式：</label>
                 <div class="col-sm-3">
                     <!--<input id="serviceMode" name="serviceMode" class="form-control" type="text">-->
-                    <select name="serviceMode" th:with="list=${@dict.getType('ex_service_mode')}"  class="form-control" required>
+                    <select name="serviceMode" th:with="list=${@dict.getType('ex_service_mode')}"  class="form-control">
                         <option value="">选择服务方式</option>
                         <option th:each="serviceMode : ${list}" th:text="${serviceMode.dictLabel}" th:value="${serviceMode.dictValue}"></option>
                     </select>
@@ -53,7 +53,7 @@
             <thead>
                 <tr >
                   <th><div class="th-inner sortable both"></div><div class="fht-cell"></div></th>
-                  <th><div class="th-inner sortable both" id="thead" style="text-align: center;">请选择站点<span></span>到<span></span></div><div class="fht-cell"></div></th>
+                  <th><div class="th-inner sortable both" id="thead" style="text-align: center;">请选择站点</div><div class="fht-cell"></div></th>
                 </tr>
             </thead>
             <tbody id="tbody">
@@ -66,18 +66,27 @@
 <div th:include="include::footer"></div>
 <script type="text/javascript">
     var prefix = ctx + "express/freightRate";
-
     function submitHandler() {
         if ($.validate.form()) {
-            $.operate.save(prefix + "/edit", $('#form-freightRate-edit').serialize());
-
-
+            $.operate.postQuery(prefix+"/queryFreightRate", $('#form-freightRate-edit').serialize(),function(data){
+                if(data.code==web_status.SUCCESS){
+                    var html=[];
+                    $.each(data.result,function(i,o){
+                        html.push("<tr><td>"+o.serviceModeStr+"</td> <td>"+o.price+"</td></tr>");
+                    })
+                    $("#tbody").html(html);
+                }else{
+                    $.modal.alert(data.msg)
+                }
+            })
         }
     }
+
+
     var linkageStation=function(name){
-        var send=$("#sendStation").val();
-        var receive=$("#receiveStation").val();
-        if(send==receive){
+        var $_send=$("#sendStation");
+        var $_receive=$("#receiveStation");
+        if($_send.val()==$_receive.val()){
             $.modal.alert("不能选择两个相同的车站！");
             $.each($("#"+name).find("option"),function(i,o){
                 if($(o).val()==""){
@@ -87,6 +96,11 @@
                 }
             })
             return false;
+        }
+        if($_send.text()!=""&&$_receive.text()!=""){
+            $("#thead").html("<span>"+$_send.text()+"</span>&nbsp&nbsp到&nbsp&nbsp<span>$_receive.text()</span>")
+        }else{
+            $("#thead").html("请选择车站");
         }
     }
 </script>

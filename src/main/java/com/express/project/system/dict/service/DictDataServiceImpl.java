@@ -125,7 +125,7 @@ public class DictDataServiceImpl implements IDictDataService {
     }
 
     @Override
-    public Map<String, DictData> getDicDataMapByDictType(String dictType) throws Exception {
+    public Map<String, DictData> getDictDataMapByDictType(String dictType) throws Exception {
         Map<String, DictData> dictDataMap = new HashMap<>(16);
         if (StringUtils.isEmpty(dictType)) {
             return dictDataMap;
@@ -138,7 +138,7 @@ public class DictDataServiceImpl implements IDictDataService {
     }
 
     @Override
-    public Map<String, DictData> getDicDataMapByDictType(List<String> dictTypeList) throws Exception {
+    public Map<String, DictData> getDictDataMapByDictType(List<String> dictTypeList) throws Exception {
         Map<String, DictData> dictDataMap = new HashMap<>(16);
         if (BeanUtils.isEmpty(dictTypeList)) {
             return dictDataMap;

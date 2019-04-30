@@ -26,6 +26,12 @@ public class OrderDress extends BaseEntity
 	/** 地址 */
 	private String dress;
 
+	/** 省份字符 */
+	private String provinceStr;
+	/** 城市字符 */
+	private String cityStr;
+
+
 	public void setId(Integer id) 
 	{
 		this.id = id;
@@ -81,6 +87,19 @@ public class OrderDress extends BaseEntity
 		return dress;
 	}
 
+	public String getProvinceStr() {
+		return provinceStr;
+	}
 
+	public void setProvinceStr(String provinceStr) {
+		this.provinceStr = provinceStr;
+	}
 
+	public String getCityStr() {
+		return cityStr;
+	}
+
+	public void setCityStr(String cityStr) {
+		this.cityStr = cityStr;
+	}
 }

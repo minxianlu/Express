@@ -35,6 +35,13 @@ public class LoginController extends BaseController
         return "login";
     }
 
+
+    @GetMapping("/signUp")
+    public String signUp(HttpServletRequest request, HttpServletResponse response)
+    {
+        return "signUp";
+    }
+
     @PostMapping("/login")
     @ResponseBody
     public AjaxResult ajaxLogin(String username, String password, Boolean rememberMe)

@@ -1,7 +1,11 @@
 package com.express.project.system.area.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.express.common.utils.MapDataUtil;
+import com.express.common.utils.bean.BeanUtils;
 import com.express.project.system.area.domain.Cities;
 import com.express.project.system.area.mapper.CitiesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,5 +87,16 @@ public class CitiesServiceImpl implements ICitiesService
 	@Override
 	public List<Cities> selectCityByCityIds(List<String> list) {
 		return citiesMapper.selectCityByCityIds(list);
+	}
+
+
+	@Override
+	public Map<String, Cities> getCityMapByCityIds(List<String> list)throws Exception {
+		Map<String,Cities> cityMap=new HashMap<>(16);
+		if(BeanUtils.isNotEmpty(list)) {
+			List<Cities> cityList=citiesMapper.selectCityByCityIds(list);
+			cityMap= MapDataUtil.listToMap("cityid",cityList);
+		}
+		return cityMap;
 	}
 }

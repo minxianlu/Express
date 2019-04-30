@@ -92,7 +92,7 @@ public interface IDictDataService
      * @param dictType 字典类型
      * @return 结果
      */
-    Map<String, DictData> getDicDataMapByDictType(String dictType)throws Exception;
+    Map<String, DictData> getDictDataMapByDictType(String dictType)throws Exception;
 
     /**
      * 通过dictType集合查询dictData,以Map形式返回；key=dictType+dictValue，value:dictData
@@ -100,5 +100,5 @@ public interface IDictDataService
      * @param dictTypeList 字典类型
      * @return 结果
      */
-    Map<String, DictData> getDicDataMapByDictType(List<String> dictTypeList)throws Exception;
+    Map<String, DictData> getDictDataMapByDictType(List<String> dictTypeList)throws Exception;
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-freightRate-edit">
+        <input id="id" name="id" type="hidden">
+        <div class="form-group col-sm-9">
+            <div class="form-group col-sm-12">
+                <label class="col-sm-2 control-label">订单编号：</label>
+                <div class="col-sm-3">
+                    <input id="orderNo" name="orderNo" class="form-control" type="number">
+                </div>
+                <label class="col-sm-2 control-label">发货人电话：</label>
+                <div class="col-sm-3">
+                    <input id="sendPhone" name="sendPhone" class="form-control" type="number">
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <div class="form-group col-sm-12">
+                <div style="width: 100px;height: 90px;background: #00a65a;border-radius: 10px;text-align: center;line-height: 90px;font-size: 20px;color: #1a2226;" onclick="submitHandler()">
+                    开始查询
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <table class="table table-hover" style="width: 800px;margin: 0 auto;text-align: center;">
+            <thead>
+                <tr >
+                  <th><div class="th-inner sortable both"></div><div class="fht-cell"></div></th>
+                  <th><div class="th-inner sortable both" id="thead" style="text-align: center;">请输入查询信息</div><div class="fht-cell"></div></th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+
+
+            </tbody>
+        </table>
+    <!--</div>-->
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript">
+    var prefix = ctx + "express/orderDress";
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.postQuery(prefix+"/queryDress", $('#form-freightRate-edit').serialize(),function(data){
+                if(data.code==web_status.SUCCESS){
+                    var html=[];
+                    $.each(data.result,function(i,o){
+                        // html.push("<tr><td>"+o.serviceModeStr+"</td> <td>"+o.price+"</td></tr>");
+                    })
+                    $("#tbody").html(html);
+                }else{
+                    $.modal.alert(data.msg)
+                }
+            })
+        }
+    }
+
+
+    var validate=function(name){
+        var $_sendPhone=$("#sendPhone");
+        var $_orderNO=$("#orderNO");
+
+    }
+</script>
+</body>
+</html>

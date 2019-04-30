@@ -4,8 +4,10 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import com.express.common.utils.MapDataUtil;
+import com.express.common.utils.bean.BeanUtils;
 import com.express.common.utils.security.ShiroUtils;
 import com.express.framework.web.domain.AjaxResult;
+import com.express.project.common.ExpressConstant;
 import com.express.project.express.station.domain.Station;
 import com.express.project.express.station.service.IStationService;
 import com.express.project.system.dict.domain.DictData;
@@ -34,8 +36,7 @@ public class FreightRateServiceImpl implements IFreightRateService
 	private IDictDataService dictDataService;
 
 
-	private final String  EX_SERVICE_MODE="ex_service_mode";
-	private final String  EX_FREIGHT_RATE_STATUS="ex_freight_rate_status";
+
 
 	/**
      * 查询运价信息
@@ -61,22 +62,18 @@ public class FreightRateServiceImpl implements IFreightRateService
 		List<FreightRate> list=freightRateMapper.selectFreightRateList(freightRate);
 		List<Integer> stationIdList=new ArrayList<>();
 		List<String> dictTypeList=new ArrayList<>();
-		dictTypeList.add(EX_SERVICE_MODE);
-		dictTypeList.add(EX_FREIGHT_RATE_STATUS);
+		dictTypeList.add(ExpressConstant.EX_SERVICE_MODE);
+		dictTypeList.add(ExpressConstant.EX_FREIGHT_RATE_STATUS);
 
 		for (FreightRate rate : list) {
 			stationIdList.add(rate.getSendStation());
 			stationIdList.add(rate.getReceiveStation());
 		}
 
-		Map<String,DictData> dictDataMap=dictDataService.getDicDataMapByDictType(dictTypeList);
+		Map<String,DictData> dictDataMap=dictDataService.getDictDataMapByDictType(dictTypeList);
 
-		List<Station> stationList=null;
-		Map<String,Station> stationMap=new HashMap<>(16);
-		if(stationIdList.size()>0){
-			stationList=stationService.selectStationByIds(stationIdList);
-			stationMap= MapDataUtil.listToMap("id",stationList);
-		}
+		Map<String,Station> stationMap=stationService.getStationMapByIds(stationIdList);
+
 
 		for (FreightRate rate : list) {
 			if(stationMap.containsKey(rate.getSendStation()+"")){
@@ -85,11 +82,11 @@ public class FreightRateServiceImpl implements IFreightRateService
 			if(stationMap.containsKey(rate.getReceiveStation()+"")){
 				rate.setReceiveStationStr(stationMap.get(rate.getReceiveStation()+"").getStationName());
 			}
-			if(dictDataMap.containsKey(EX_FREIGHT_RATE_STATUS+rate.getStatus())){
-				rate.setStatusStr(dictDataMap.get(EX_FREIGHT_RATE_STATUS+rate.getStatus()).getDictLabel());
+			if(dictDataMap.containsKey(ExpressConstant.EX_FREIGHT_RATE_STATUS+rate.getStatus())){
+				rate.setStatusStr(dictDataMap.get(ExpressConstant.EX_FREIGHT_RATE_STATUS+rate.getStatus()).getDictLabel());
 			}
-			if(dictDataMap.containsKey(EX_SERVICE_MODE+rate.getServiceMode())){
-				rate.setServiceModeStr(dictDataMap.get(EX_SERVICE_MODE+rate.getServiceMode()).getDictLabel());
+			if(dictDataMap.containsKey(ExpressConstant.EX_SERVICE_MODE+rate.getServiceMode())){
+				rate.setServiceModeStr(dictDataMap.get(ExpressConstant.EX_SERVICE_MODE+rate.getServiceMode()).getDictLabel());
 			}
 		}
 
@@ -105,8 +102,8 @@ public class FreightRateServiceImpl implements IFreightRateService
 	@Override
 	public void insertFreightRate(FreightRate freightRate)throws Exception
 	{
-		FreightRate f=freightRateMapper.selectFreightRate(freightRate);
-		if(f!=null){
+		List<FreightRate> f=freightRateMapper.selectFreightRate(freightRate);
+		if(BeanUtils.isNotEmpty(f)){
 			throw new Exception("已存在该运价");
 		}
 		freightRate.setCreateBy(ShiroUtils.getUserName());
@@ -174,16 +171,41 @@ public class FreightRateServiceImpl implements IFreightRateService
 
 
 	@Override
-	public FreightRate selectFreightRate(FreightRate freightRate)throws Exception {
-		FreightRate result=freightRateMapper.selectFreightRate(freightRate);
+	public List<FreightRate>  queryFreightRate(FreightRate freightRate)throws Exception {
+		List<FreightRate> result=freightRateMapper.selectFreightRate(freightRate);
 		if(result==null){
-			return new FreightRate() ;
+			return new ArrayList<FreightRate>();
 		}
-		String t=Integer.parseInt(result.getWeight())>10?result.getWeight():10+"";
-		BigDecimal bigPriceFactor=new BigDecimal(result.getPriceFactor());
-		BigDecimal bigWeight=new BigDecimal(t);
-		String p=bigPriceFactor.multiply(bigWeight).setScale(1,BigDecimal.ROUND_HALF_UP).toString();
-		result.setPrice(Integer.parseInt(p)>2?p:(2+""));
+		List<Integer> stationIds=new ArrayList<>();
+		for (FreightRate rate : result) {
+			stationIds.add(rate.getSendStation());
+			stationIds.add(rate.getReceiveStation());
+		}
+		Map<String,Station> stationMap=stationService.getStationMapByIds(stationIds);
+
+		Map<String,DictData> dictDataMap=dictDataService.getDictDataMapByDictType(ExpressConstant.EX_SERVICE_MODE);
+
+		for (FreightRate rate : result) {
+			if(stationMap.containsKey(rate.getSendStation())){
+				rate.setSendStationStr(stationMap.get(rate.getSendStation()).getStationName());
+			}
+			if(stationMap.containsKey(rate.getReceiveStation())){
+				rate.setReceiveStationStr(stationMap.get(rate.getReceiveStation()).getStationName());
+			}
+			if(dictDataMap.containsKey(ExpressConstant.EX_SERVICE_MODE+rate.getServiceMode())){
+				rate.setServiceModeStr(dictDataMap.get(ExpressConstant.EX_SERVICE_MODE+rate.getServiceMode()).getDictLabel());
+			}
+
+			if(new BigDecimal(rate.getWeight()).compareTo(new BigDecimal(0))<=0){
+				rate.setPrice(0+"");
+				continue;
+			}
+			String t=Integer.parseInt(rate.getWeight())>10?rate.getWeight():10+"";
+			BigDecimal bigPriceFactor=new BigDecimal(rate.getPriceFactor());
+			BigDecimal bigWeight=new BigDecimal(t);
+			String p=bigPriceFactor.multiply(bigWeight).setScale(1,BigDecimal.ROUND_HALF_UP).toString();
+			rate.setPrice(Integer.parseInt(p)>2?p:(2+""));
+		}
 		return result;
 	}
 
@@ -196,9 +218,9 @@ public class FreightRateServiceImpl implements IFreightRateService
 
 		List<Station> stationList= stationService.selectStationByIds(freightRateIdList);
 
-		Map<String,DictData> dictDataMap=dictDataService.getDicDataMapByDictType(EX_SERVICE_MODE);
-		if(dictDataMap.containsKey(EX_SERVICE_MODE+freightRate.getServiceMode())){
-			freightRate.setServiceModeStr(dictDataMap.get(EX_SERVICE_MODE+freightRate.getServiceMode()).getDictLabel());
+		Map<String,DictData> dictDataMap=dictDataService.getDictDataMapByDictType(ExpressConstant.EX_SERVICE_MODE);
+		if(dictDataMap.containsKey(ExpressConstant.EX_SERVICE_MODE+freightRate.getServiceMode())){
+			freightRate.setServiceModeStr(dictDataMap.get(ExpressConstant.EX_SERVICE_MODE+freightRate.getServiceMode()).getDictLabel());
 		}
 		for (Station station : stationList) {
 			if(freightRate.getSendStation()==station.getId()){

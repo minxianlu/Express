@@ -3,6 +3,7 @@ package com.express.project.express.orderDress.service;
 import com.express.common.exception.BusinessException;
 import com.express.project.express.orderDress.domain.OrderDress;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单地址 服务层
@@ -51,5 +52,12 @@ public interface IOrderDressService
      * @return 结果
      */
 	 int deleteOrderDressByIds(String ids);
+	/**
+	 * 物流的查询
+	 *
+	 * @param params 查询参数
+	 * @return 结果
+	 */
+	 List<OrderDress> queryDress(Map<String,String> params)throws Exception;
 	
 }

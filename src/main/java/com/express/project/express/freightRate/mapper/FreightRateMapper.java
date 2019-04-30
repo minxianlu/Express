@@ -76,10 +76,10 @@ public interface FreightRateMapper
 	void deleteFreightRateByStationIds(String[] ids);
 
 	/**
-	 * 运价查询;条件：接收站、发送站、服务方式
+	 * 运价查询;条件：接收站、发送站、服务方式(服务方式可为空)
 	 *
 	 * @param freightRate 查询条件
 	 * @return 结果
 	 */
-	FreightRate selectFreightRate(FreightRate freightRate);
+	List<FreightRate> selectFreightRate(FreightRate freightRate);
 }

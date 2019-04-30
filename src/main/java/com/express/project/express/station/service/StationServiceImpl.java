@@ -1,11 +1,10 @@
 package com.express.project.express.station.service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import com.express.common.utils.MapDataUtil;
 import com.express.common.utils.StringUtils;
+import com.express.common.utils.bean.BeanUtils;
 import com.express.common.utils.security.ShiroUtils;
 import com.express.project.express.freightRate.domain.FreightRate;
 import com.express.project.express.freightRate.service.IFreightRateService;
@@ -118,5 +117,15 @@ public class StationServiceImpl implements IStationService
 	@Override
 	public List<Station> selectStationNotInIds(List<Integer> list) throws Exception {
 		return stationMapper.selectStationNotInIds(list);
+	}
+
+	@Override
+	public Map<String, Station> getStationMapByIds(List<Integer> list) throws Exception {
+		Map<String,Station> stationMap=new HashMap<>(16);
+		if(BeanUtils.isNotEmpty(list)){
+			List<Station> stationList=stationMapper.selectStationByIds(list);
+			stationMap= MapDataUtil.listToMap("id",stationList);
+		}
+		return stationMap;
 	}
 }

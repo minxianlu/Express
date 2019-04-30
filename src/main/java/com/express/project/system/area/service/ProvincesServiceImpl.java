@@ -1,7 +1,11 @@
 package com.express.project.system.area.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.express.common.utils.MapDataUtil;
+import com.express.common.utils.bean.BeanUtils;
 import com.express.project.system.area.domain.Provinces;
 import com.express.project.system.area.mapper.ProvincesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,5 +88,16 @@ public class ProvincesServiceImpl implements IProvincesService
 	@Override
 	public List<Provinces> selectProvinceByProvinceIds(List<String> provinceIds) {
 		return provincesMapper.selectProvinceByProvinceIds(provinceIds);
+	}
+
+
+	@Override
+	public Map<String, Provinces> getProvinceMapByProvinceIds(List<String> list) throws Exception {
+		Map<String,Provinces> proMap=new HashMap<>(16);
+		if(BeanUtils.isNotEmpty(list)){
+			List<Provinces> provincesList=provincesMapper.selectProvinceByProvinceIds(list);
+			proMap= MapDataUtil.listToMap("provinceid",provincesList);
+		}
+		return proMap;
 	}
 }

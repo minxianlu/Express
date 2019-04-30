@@ -3,6 +3,7 @@ package com.express.project.system.area.service;
 import com.express.project.system.area.domain.Cities;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 城市 服务层
@@ -59,5 +60,13 @@ public interface ICitiesService
 	 * @return 结果
 	 */
 	List<Cities> selectCityByCityIds(List<String> list);
+
+	/**
+	 * 通过城市编码集合查询，以Map形式返回，key:城市编码，value:城市
+	 *
+	 * @param list 需要查询的数据citiesId
+	 * @return 结果
+	 */
+	Map<String,Cities> getCityMapByCityIds(List<String> list)throws Exception;
 
 }

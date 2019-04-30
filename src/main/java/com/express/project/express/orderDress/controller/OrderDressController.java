@@ -1,7 +1,12 @@
 package com.express.project.express.orderDress.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.express.project.express.freightRate.domain.FreightRate;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -53,20 +58,39 @@ public class OrderDressController extends BaseController
         List<OrderDress> list = orderDressService.selectOrderDressList(orderDress);
 		return getDataTable(list);
 	}
-	
-	
+
 	/**
-	 * 导出订单地址列表
+	 * 查询订单地址
 	 */
-	@RequiresPermissions("express:orderDress:export")
-    @PostMapping("/export")
-    @ResponseBody
-    public AjaxResult export(OrderDress orderDress)
-    {
-    	List<OrderDress> list = orderDressService.selectOrderDressList(orderDress);
-        ExcelUtil<OrderDress> util = new ExcelUtil<OrderDress>(OrderDress.class);
-        return util.exportExcel(list, "orderDress");
-    }
+	@GetMapping("/query")
+	public String query()
+	{
+		return prefix + "/query";
+	}
+
+	/**
+	 * 查询订单结果
+	 */
+	@RequiresPermissions("express:orderDress:queryDress")
+	@PostMapping("/queryDress")
+	@ResponseBody
+	public AjaxResult queryDress(String orderNo,String sendPhone,String receivePhone)
+	{
+		AjaxResult ajaxResult=null;
+		try {
+			Map<String,String> paramsMap=new HashMap<>(5);
+			paramsMap.put("orderNo",orderNo);
+			paramsMap.put("sendPhone",sendPhone);
+			paramsMap.put("receivePhone",receivePhone);
+			List<OrderDress> result= orderDressService.queryDress(paramsMap);
+			ajaxResult=AjaxResult.success();
+			ajaxResult.put("result",result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error();
+		}
+		return ajaxResult;
+	}
 	
 	/**
 	 * 新增订单地址

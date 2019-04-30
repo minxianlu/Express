@@ -3,6 +3,7 @@ package com.express.project.system.area.service;
 import com.express.project.system.area.domain.Provinces;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 省份 服务层
@@ -59,4 +60,12 @@ public interface IProvincesService
 	 * @return 结果
 	 */
 	List<Provinces> selectProvinceByProvinceIds(List<String> provinceIds);
+
+	/**
+	 * 通过省份的编码集合查询，以Map形式返回；key：省份的编码；value:省份
+	 *
+	 * @param list 需要查询的数据集合
+	 * @return 结果
+	 */
+	Map<String,Provinces> getProvinceMapByProvinceIds(List<String> list) throws Exception;
 }

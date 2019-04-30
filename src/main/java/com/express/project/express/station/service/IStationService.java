@@ -2,6 +2,7 @@ package com.express.project.express.station.service;
 
 import com.express.project.express.station.domain.Station;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 车站 服务层
@@ -65,6 +66,14 @@ public interface IStationService
 	 * @return 结果
 	 */
 	List<Station> selectStationNotInIds(List<Integer> list)throws Exception;
+
+	/**
+	 * 查询在集合中的车站，以map形式返回，key:车站id;value:车站
+	 *
+	 * @param list 条件数据集合
+	 * @return 结果
+	 */
+	Map<String,Station> getStationMapByIds(List<Integer> list)throws Exception;
 
 
 }

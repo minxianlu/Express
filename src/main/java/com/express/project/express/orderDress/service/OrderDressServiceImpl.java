@@ -1,10 +1,16 @@
 package com.express.project.express.orderDress.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.express.common.exception.BusinessException;
 import com.express.common.utils.security.ShiroUtils;
+import com.express.project.system.area.domain.Cities;
+import com.express.project.system.area.domain.Provinces;
+import com.express.project.system.area.service.ICitiesService;
+import com.express.project.system.area.service.IProvincesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.express.project.express.orderDress.mapper.OrderDressMapper;
@@ -25,6 +31,10 @@ public class OrderDressServiceImpl implements IOrderDressService
 {
 	@Autowired
 	private OrderDressMapper orderDressMapper;
+	@Autowired
+	private IProvincesService provinceService;
+	@Autowired
+	private ICitiesService citiesService;
 
 	/**
      * 查询订单地址信息
@@ -89,5 +99,33 @@ public class OrderDressServiceImpl implements IOrderDressService
 	{
 		return orderDressMapper.deleteOrderDressByIds(Convert.toStrArray(ids));
 	}
-	
+
+
+	@Override
+	public List<OrderDress> queryDress(Map<String, String> params) throws Exception {
+		List<OrderDress> result= orderDressMapper.queryDress(params);
+
+		List<String> proList=new ArrayList<>();
+
+		List<String> cityList=new ArrayList<>();
+
+		for (OrderDress orderDress : result) {
+			proList.add(orderDress.getProvinceId()+"");
+			cityList.add(orderDress.getCityId());
+		}
+
+		Map<String, Provinces> proMap=provinceService.getProvinceMapByProvinceIds(proList);
+
+		Map<String, Cities> cityMap=citiesService.getCityMapByCityIds(cityList);
+
+		for (OrderDress orderDress : result) {
+			if(proMap.containsKey(orderDress.getProvinceId())){
+				orderDress.setProvinceStr(proMap.get(orderDress.getProvinceId()).getProvince());
+			}
+			if(cityMap.containsKey(orderDress.getCityId())){
+				orderDress.setCityStr(cityMap.get(orderDress.getCityId()).getCity());
+			}
+		}
+		return result;
+	}
 }
