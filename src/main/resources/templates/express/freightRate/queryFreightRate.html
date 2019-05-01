@@ -5,17 +5,16 @@
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
     <form class="form-horizontal m" id="form-freightRate-edit">
-        <input id="id" name="id" type="hidden">
         <div class="form-group col-sm-9">
             <div class="form-group col-sm-12">
-                <label class="col-sm-2 control-label">发送站：</label>
+                <label class="col-sm-2 control-label"><span style="color: red; ">*</span>发送站：</label>
                 <div class="col-sm-3">
-                    <select id="sendStation" class="form-control" name="sendStation" th:onchange="linkageStation('sendStation')" required>
+                    <select id="sendStation" class="form-control" name="sendStation" th:onchange="linkageStation('sendStation',this.innerHTML)" required>
                         <option value="">选择车站</option>
                         <option th:each="sta:${stationList}" th:value="${sta.id}" th:text="${sta.stationName}" ></option>
                     </select>
                 </div>
-                <label class="col-sm-2 control-label">接收站：</label>
+                <label class="col-sm-2 control-label"><span style="color: red; ">*</span>接收站：</label>
                 <div class="col-sm-3">
                     <!--<input id="receiveStation" name="receiveStation" class="form-control" type="text">-->
                     <select id="receiveStation" class="form-control" name="receiveStation" th:onchange="linkageStation('receiveStation')" required>
@@ -33,15 +32,15 @@
                         <option th:each="serviceMode : ${list}" th:text="${serviceMode.dictLabel}" th:value="${serviceMode.dictValue}"></option>
                     </select>
                 </div>
-                <label class="col-sm-2 control-label">重量：</label>
+                <label class="col-sm-2 control-label"><span style="color: red; ">*</span>重量：</label>
                 <div class="col-sm-3">
-                    <input name="serviceMode" class="form-control" type="number" required>
+                    <input name="weight" class="form-control" type="number" required>
                 </div>
             </div>
         </div>
         <div class="form-group col-sm-3">
             <div class="form-group col-sm-12">
-                <div style="width: 100px;height: 90px;background: #00a65a;border-radius: 10px;text-align: center;line-height: 90px;font-size: 20px;color: #1a2226;" onclick="submitHandler()">
+                <div style="width: 100px;height: 90px;background: #00a65a;border-radius: 10px;text-align: center;line-height: 90px;font-size: 20px;color: #1a2226;cursor: pointer;" onclick="submitHandler()">
                     开始查询
                 </div>
             </div>
@@ -49,10 +48,11 @@
     </form>
 </div>
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <p style="font-size: 20px;color: #761c19;text-align: center;">10kg以下进为10kg，起码运费每批2元</p>
         <table class="table table-hover" style="width: 800px;margin: 0 auto;text-align: center;">
             <thead>
                 <tr >
-                  <th><div class="th-inner sortable both"></div><div class="fht-cell"></div></th>
+                  <th><div class="th-inner sortable both" style="text-align: center;">服务方式</div><div class="fht-cell"></div></th>
                   <th><div class="th-inner sortable both" id="thead" style="text-align: center;">请选择站点</div><div class="fht-cell"></div></th>
                 </tr>
             </thead>
@@ -74,6 +74,9 @@
                     $.each(data.result,function(i,o){
                         html.push("<tr><td>"+o.serviceModeStr+"</td> <td>"+o.price+"</td></tr>");
                     })
+                    if($.common.isEmpty(html)){
+                        html.push("<tr><td colspan='2' style='font-size: 18px;'>未查询到运价信息</td></tr>")
+                    }
                     $("#tbody").html(html);
                 }else{
                     $.modal.alert(data.msg)
@@ -83,7 +86,7 @@
     }
 
 
-    var linkageStation=function(name){
+    var linkageStation=function(name,text){
         var $_send=$("#sendStation");
         var $_receive=$("#receiveStation");
         if($_send.val()==$_receive.val()){
@@ -97,8 +100,10 @@
             })
             return false;
         }
-        if($_send.text()!=""&&$_receive.text()!=""){
-            $("#thead").html("<span>"+$_send.text()+"</span>&nbsp&nbsp到&nbsp&nbsp<span>$_receive.text()</span>")
+        var sentText=$("#sendStation option:selected").text();
+        var receiveText=$("#receiveStation option:selected").text();
+        if(sentText!=""&&receiveText!=""){
+            $("#thead").html("<span>"+sentText+"</span>&nbsp&nbsp到&nbsp&nbsp<span>"+receiveText+"</span>")
         }else{
             $("#thead").html("请选择车站");
         }

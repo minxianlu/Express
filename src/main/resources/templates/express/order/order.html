@@ -234,10 +234,10 @@
             };
 			$.table.init(options);
         });
-		// var orderDetail=function(orderId){
-		// 	var url = prefix + '/detail/' + orderId;
-		// 	createMenuItem(url, "订单详情");
-		// }
+		var orderDetail=function(orderId){
+			var url = prefix + '/detail/' + orderId;
+			createMenuItem(url, "订单详情");
+		}
 		var orderEdit=function(orderId){
 			var url = prefix + '/edit/' + orderId;
 			createMenuItem(url, "修改订单");

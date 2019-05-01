@@ -121,7 +121,7 @@
         from ex_order_dress t1
                  left join ex_order t2 on t1.order_no = t2.order_no
         where
-            t1.order_flag=1
+            t2.order_flag=1
             <if test="sendPhone!= null and sendPhone!='' ">and t2.send_phone = #{sendPhone}</if>
             <if test="orderNo != null  and orderNo != '' ">and t1.order_no = #{orderNo}</if>
             <if test="receivePhone != null  and receivePhone != '' ">and t2.receive_phone = #{receivePhone}</if>

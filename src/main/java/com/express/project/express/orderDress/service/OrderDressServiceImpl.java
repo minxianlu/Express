@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.express.common.exception.BusinessException;
+import com.express.common.utils.StringUtils;
 import com.express.common.utils.security.ShiroUtils;
 import com.express.project.system.area.domain.Cities;
 import com.express.project.system.area.domain.Provinces;
@@ -119,11 +120,17 @@ public class OrderDressServiceImpl implements IOrderDressService
 		Map<String, Cities> cityMap=citiesService.getCityMapByCityIds(cityList);
 
 		for (OrderDress orderDress : result) {
-			if(proMap.containsKey(orderDress.getProvinceId())){
-				orderDress.setProvinceStr(proMap.get(orderDress.getProvinceId()).getProvince());
+			if(proMap.containsKey(orderDress.getProvinceId()+"")){
+				orderDress.setProvinceStr(proMap.get(orderDress.getProvinceId()+"").getProvince());
 			}
 			if(cityMap.containsKey(orderDress.getCityId())){
 				orderDress.setCityStr(cityMap.get(orderDress.getCityId()).getCity());
+			}
+			if(StringUtils.isEmpty(orderDress.getRemark())){
+				orderDress.setRemark("无");
+			}
+			if(StringUtils.isEmpty(orderDress.getDress())){
+				orderDress.setDress("无");
 			}
 		}
 		return result;

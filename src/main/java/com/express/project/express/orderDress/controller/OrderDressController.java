@@ -65,7 +65,7 @@ public class OrderDressController extends BaseController
 	@GetMapping("/query")
 	public String query()
 	{
-		return prefix + "/query";
+		return prefix + "/queryDress";
 	}
 
 	/**

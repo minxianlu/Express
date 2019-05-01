@@ -195,16 +195,17 @@ public class FreightRateServiceImpl implements IFreightRateService
 			if(dictDataMap.containsKey(ExpressConstant.EX_SERVICE_MODE+rate.getServiceMode())){
 				rate.setServiceModeStr(dictDataMap.get(ExpressConstant.EX_SERVICE_MODE+rate.getServiceMode()).getDictLabel());
 			}
-
-			if(new BigDecimal(rate.getWeight()).compareTo(new BigDecimal(0))<=0){
+			//计算运价
+			if(new BigDecimal(freightRate.getWeight()).compareTo(new BigDecimal(0))<=0){
 				rate.setPrice(0+"");
 				continue;
 			}
-			String t=Integer.parseInt(rate.getWeight())>10?rate.getWeight():10+"";
+			String t=Integer.parseInt(freightRate.getWeight())>10?freightRate.getWeight():10+"";
 			BigDecimal bigPriceFactor=new BigDecimal(rate.getPriceFactor());
 			BigDecimal bigWeight=new BigDecimal(t);
-			String p=bigPriceFactor.multiply(bigWeight).setScale(1,BigDecimal.ROUND_HALF_UP).toString();
-			rate.setPrice(Integer.parseInt(p)>2?p:(2+""));
+			BigDecimal priceBig=bigPriceFactor.multiply(bigWeight).setScale(1,BigDecimal.ROUND_HALF_UP);
+
+			rate.setPrice(priceBig.compareTo(new BigDecimal(2))==-1?(2+""):priceBig.toString());
 		}
 		return result;
 	}

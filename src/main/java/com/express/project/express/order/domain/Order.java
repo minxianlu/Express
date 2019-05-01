@@ -22,6 +22,7 @@ public class Order extends BaseEntity
 	private String orderNo;
 	/** 发货日期 */
 	@Excel(name = "发货日期")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date sendTime;
 
 	/** 发送省份 字符型*/

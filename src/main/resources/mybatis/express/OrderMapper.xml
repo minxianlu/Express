@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 	
 	<sql id="selectOrderVo">
-        select id, order_no, send_time, send_Province, send_city, receive_Province, receive_city, send_station, receive_station, customer_no, customer_type, send_name, send_contacts, send_phone, receive_name, receive_contacts, receive_phone, service_mode, pick_up_mileage, delivery_mileage, pick_up_dress, delivery_dress, remark, cargo_id, cargo_no, invoice, status, create_by, update_by, create_time, update_time from ex_order
+        select id, order_no, send_time, send_Province, send_city, receive_Province, receive_city, send_station, receive_station, customer_no, customer_type, send_name, send_contacts, send_phone, receive_name, receive_contacts, receive_phone, service_mode, pick_up_mileage, delivery_mileage, pick_up_dress, delivery_dress, remark, cargo_id, cargo_no, invoice, status, create_by, update_by, create_time, update_time ,order_flag from ex_order
     </sql>
 	
     <select id="selectOrderList" parameterType="Order" resultMap="OrderResult">
@@ -77,6 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
              <if test="createTime != null "> and create_time = #{createTime}</if>
              <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="orderFlag != null  ">order_flag = #{orderFlag}</if>
          </where>
          order by create_time desc
     </select>
@@ -119,6 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
 			<if test="createTime != null  ">create_time,</if>
 			<if test="updateTime != null  ">update_time,</if>
+            <if test="orderFlag != null  ">order_flag = #{orderFlag},</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="orderNo != null  and orderNo != ''  ">#{orderNo},</if>
@@ -151,6 +153,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
 			<if test="createTime != null  ">#{createTime},</if>
 			<if test="updateTime != null  ">#{updateTime},</if>
+            <if test="orderFlag != null  ">order_flag = #{orderFlag},</if>
          </trim>
     </insert>
 	 
@@ -187,6 +190,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
             <if test="createTime != null  ">create_time = #{createTime},</if>
             <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="orderFlag != null  ">order_flag = #{orderFlag},</if>
         </trim>
         where id = #{id}
     </update>

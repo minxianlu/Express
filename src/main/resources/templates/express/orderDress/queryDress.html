@@ -20,7 +20,7 @@
         </div>
         <div class="form-group col-sm-3">
             <div class="form-group col-sm-12">
-                <div style="width: 100px;height: 90px;background: #00a65a;border-radius: 10px;text-align: center;line-height: 90px;font-size: 20px;color: #1a2226;" onclick="submitHandler()">
+                <div style="width: 90px;height: 50px;background: #00a65a;border-radius: 10px;text-align: center;line-height: 50px;font-size: 15px;color: #1a2226;cursor: pointer;" onclick="submitHandler()">
                     开始查询
                 </div>
             </div>
@@ -31,8 +31,12 @@
         <table class="table table-hover" style="width: 800px;margin: 0 auto;text-align: center;">
             <thead>
                 <tr >
-                  <th><div class="th-inner sortable both"></div><div class="fht-cell"></div></th>
-                  <th><div class="th-inner sortable both" id="thead" style="text-align: center;">请输入查询信息</div><div class="fht-cell"></div></th>
+                  <th><div class="th-inner sortable both"  style="text-align: center;">订单编号</div><div class="fht-cell"></div></th>
+                  <th><div class="th-inner sortable both"  style="text-align: center;">当前省份</div><div class="fht-cell"></div></th>
+                  <th><div class="th-inner sortable both"  style="text-align: center;">当前城市</div><div class="fht-cell"></div></th>
+                  <th><div class="th-inner sortable both"  style="text-align: center;">当前地址</div><div class="fht-cell"></div></th>
+                  <th><div class="th-inner sortable both"  style="text-align: center;">更新时间</div><div class="fht-cell"></div></th>
+                  <th><div class="th-inner sortable both"  style="text-align: center;">备注</div><div class="fht-cell"></div></th>
                 </tr>
             </thead>
             <tbody id="tbody">
@@ -47,13 +51,20 @@
     var prefix = ctx + "express/orderDress";
     function submitHandler() {
         if ($.validate.form()) {
+            if(!validate()){
+                return false;
+            }
             $.operate.postQuery(prefix+"/queryDress", $('#form-freightRate-edit').serialize(),function(data){
                 if(data.code==web_status.SUCCESS){
                     var html=[];
                     $.each(data.result,function(i,o){
-                        // html.push("<tr><td>"+o.serviceModeStr+"</td> <td>"+o.price+"</td></tr>");
+                        html.push("<tr><td>"+o.orderNo+"</td> <td>"+o.provinceStr+"</td><td>"+o.cityStr+"</td><td>"+o.dress+"</td><td>"+o.updateTime+"</td><td>"+o.remark+"</td></tr>");
                     })
+                    if($.common.isEmpty(html)){
+                        html.push("<tr><td colspan='6' style='font-size: 18px;'>未查询到物流信息</td></tr>")
+                    }
                     $("#tbody").html(html);
+                    // alert(JSON.stringify(data.result))
                 }else{
                     $.modal.alert(data.msg)
                 }
@@ -62,9 +73,26 @@
     }
 
 
-    var validate=function(name){
+    var validate=function(){
         var $_sendPhone=$("#sendPhone");
-        var $_orderNO=$("#orderNO");
+        var $_orderNo=$("#orderNo");
+
+        if($.common.isEmpty($_sendPhone.val())&&$.common.isEmpty($_orderNo.val())){
+            $.modal.alert("请输入查询信息！");
+            return false;
+        }
+
+        var phoneReg=/^1[3,4,5,8]\d{9}$/
+        if($.common.isNotEmpty($_sendPhone.val())&&!phoneReg.test($_sendPhone.val())){
+            $.modal.alert("发货人电话格式不正确，请确认");
+            return false;
+        }
+        var orderNoReg=/^2\d{13}$/
+        if($.common.isNotEmpty($_orderNo.val())&&!orderNoReg.test($_orderNo.val())){
+            $.modal.alert("订单编码不正确");
+            return false;
+        }
+        return true;
 
     }
 </script>
