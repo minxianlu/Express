@@ -2,8 +2,13 @@ package com.express.project.common;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.express.project.system.area.domain.Cities;
+import com.express.project.system.area.service.ICitiesService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +41,8 @@ public class CommonController
 
     @Autowired
     private ServerConfig serverConfig;
+    @Autowired
+    private ICitiesService citiesService;
 
     /**
      * 通用下载请求
@@ -122,5 +129,17 @@ public class CommonController
             filename = URLEncoder.encode(filename, "utf-8");
         }
         return filename;
+    }
+
+    /**
+     * 通过省份查询城市，暂时没想多什么好的方法通过shiro来实现二级联动
+     */
+    @PostMapping("getCityByProvinceId")
+    @ResponseBody
+    public List<Cities> getCityByProvinceId(String provinceId){
+        Cities city=new Cities();
+        city.setProvinceid(provinceId);
+        List<Cities> list=citiesService.selectCitiesList(city);
+        return list;
     }
 }

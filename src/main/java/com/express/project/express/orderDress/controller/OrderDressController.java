@@ -1,10 +1,13 @@
 package com.express.project.express.orderDress.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.express.common.utils.security.ShiroUtils;
 import com.express.project.express.freightRate.domain.FreightRate;
+import com.express.project.system.area.domain.Cities;
+import com.express.project.system.area.domain.Provinces;
+import com.express.project.system.area.service.ICitiesService;
+import com.express.project.system.area.service.IProvincesService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,10 @@ public class OrderDressController extends BaseController
 	
 	@Autowired
 	private IOrderDressService orderDressService;
+	@Autowired
+	private IProvincesService provincesService;
+	@Autowired
+	private ICitiesService citiesService;
 	
 	@RequiresPermissions("express:orderDress:view")
 	@GetMapping()
@@ -54,8 +61,13 @@ public class OrderDressController extends BaseController
 	@ResponseBody
 	public TableDataInfo list(OrderDress orderDress)
 	{
-		startPage();
-        List<OrderDress> list = orderDressService.selectOrderDressList(orderDress);
+        List<OrderDress> list=new ArrayList<>();
+        try {
+            startPage();
+            list = orderDressService.selectOrderDressList(orderDress);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		return getDataTable(list);
 	}
 
@@ -96,9 +108,11 @@ public class OrderDressController extends BaseController
 	 * 新增订单地址
 	 */
 	@GetMapping("/add")
-	public String add()
+	public String add(ModelMap mmap)
 	{
-	    return prefix + "/add";
+		mmap.put("cityList",citiesService.selectCitiesList(new Cities()));
+		mmap.put("proList",provincesService.selectProvincesList(new Provinces()));
+		return prefix + "/add";
 	}
 	
 	/**
@@ -129,6 +143,8 @@ public class OrderDressController extends BaseController
 	{
 		OrderDress orderDress = orderDressService.selectOrderDressById(id);
 		mmap.put("orderDress", orderDress);
+//		mmap.put("cityList",citiesService.selectCitiesList(new Cities()));
+//		mmap.put("proList",provincesService.selectProvincesList(new Provinces()));
 	    return prefix + "/edit";
 	}
 	
@@ -140,8 +156,21 @@ public class OrderDressController extends BaseController
 	@PostMapping("/edit")
 	@ResponseBody
 	public AjaxResult editSave(OrderDress orderDress)
-	{		
-		return toAjax(orderDressService.updateOrderDress(orderDress));
+	{
+		AjaxResult ajaxResult=new AjaxResult();
+		try {
+			String[] cityIds = orderDress.getCityId().split(",");
+			orderDress.setCityId(cityIds[cityIds.length-1]);
+			orderDress.setUpdateTime(new Date());
+			orderDress.setUpdateBy(ShiroUtils.getLoginName());
+			orderDressService.insertOrderDress(orderDress);
+			ajaxResult=AjaxResult.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error();
+		}
+		return ajaxResult;
+
 	}
 	
 	/**

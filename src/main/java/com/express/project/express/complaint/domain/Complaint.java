@@ -16,7 +16,7 @@ public class Complaint extends BaseEntity
 	/** 投诉人名 */
 	private String userName;
 	/** 联系人方式 */
-	private Integer userPhone;
+	private String userPhone;
 	/** 身份证 */
 	private String idCard;
 	/** 邮箱 */
@@ -41,6 +41,8 @@ public class Complaint extends BaseEntity
 	private String tip;
 	/** 状态 */
 	private Integer status;
+	/** 状态 字符型*/
+	private String statusStr;
 
 	public void setUserName(String userName)
 	{
@@ -51,12 +53,12 @@ public class Complaint extends BaseEntity
 	{
 		return userName;
 	}
-	public void setUserPhone(Integer userPhone) 
+	public void setUserPhone(String userPhone)
 	{
 		this.userPhone = userPhone;
 	}
 
-	public Integer getUserPhone() 
+	public String getUserPhone()
 	{
 		return userPhone;
 	}
@@ -166,5 +168,12 @@ public class Complaint extends BaseEntity
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public String getStatusStr() {
+		return statusStr;
+	}
+
+	public void setStatusStr(String statusStr) {
+		this.statusStr = statusStr;
 	}
 }

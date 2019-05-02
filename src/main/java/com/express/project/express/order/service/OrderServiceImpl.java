@@ -149,6 +149,7 @@ public class OrderServiceImpl implements IOrderService
 			}
 			order1.setInvoiceStr(order1.getInvoice()==0?"否":"是");
 			order1.setOrderFlagStr(order1.getOrderFlag()==0?"完结":"未完结");
+			order1.setStatusStr(getOrderStatus(order1.getStatus()));
 		}
 	    return resultList;
 	}
@@ -229,4 +230,17 @@ public class OrderServiceImpl implements IOrderService
 		return list.get(0);
 	}
 
+
+	public String getOrderStatus(Integer status){
+		String s=status+"";
+		String result="";
+		switch (s){
+			case ExpressConstant.ORDER_LOSE:result="丢失";break;
+			case ExpressConstant.ORDER_FLAG_END:result="归档";break;
+			case ExpressConstant.ORDER_NOT_RECEIVED:result="未签收";break;
+			case ExpressConstant.ORDER_RECEIVED:result="已签收";break;
+			default: result=s;
+		}
+		return result;
+	}
 }

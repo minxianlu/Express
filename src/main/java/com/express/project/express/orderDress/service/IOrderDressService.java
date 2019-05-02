@@ -27,7 +27,7 @@ public interface IOrderDressService
      * @param orderDress 订单地址信息
      * @return 订单地址集合
      */
-	 List<OrderDress> selectOrderDressList(OrderDress orderDress);
+	 List<OrderDress> selectOrderDressList(OrderDress orderDress)throws Exception;
 	
 	/**
      * 新增订单地址

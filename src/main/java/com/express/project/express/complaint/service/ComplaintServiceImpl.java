@@ -1,6 +1,11 @@
 package com.express.project.express.complaint.service;
 
+import java.util.Date;
 import java.util.List;
+
+import com.express.common.utils.bean.BeanUtils;
+import com.express.common.utils.security.ShiroUtils;
+import com.express.project.common.ExpressConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.express.project.express.complaint.mapper.ComplaintMapper;
@@ -41,7 +46,13 @@ public class ComplaintServiceImpl implements IComplaintService
 	@Override
 	public List<Complaint> selectComplaintList(Complaint complaint)
 	{
-	    return complaintMapper.selectComplaintList(complaint);
+		List<Complaint> list=complaintMapper.selectComplaintList(complaint);
+		for (Complaint complaint1 : list) {
+			if(complaint1.getStatus()!=null){
+				complaint1.setStatusStr(getComplaintStatus(complaint1.getStatus()));
+			}
+		}
+	    return list;
 	}
 	
     /**
@@ -51,9 +62,12 @@ public class ComplaintServiceImpl implements IComplaintService
      * @return 结果
      */
 	@Override
-	public int insertComplaint(Complaint complaint)
+	public void insertComplaint(Complaint complaint)
 	{
-	    return complaintMapper.insertComplaint(complaint);
+		complaint.setCreateBy(ShiroUtils.getLoginName());
+		complaint.setCreateTime(new Date());
+		complaint.setStatus(Integer.parseInt(ExpressConstant.COMPLAINT_STATUS_NOT));
+		complaintMapper.insertComplaint(complaint);
 	}
 	
 	/**
@@ -63,9 +77,9 @@ public class ComplaintServiceImpl implements IComplaintService
      * @return 结果
      */
 	@Override
-	public int updateComplaint(Complaint complaint)
+	public void updateComplaint(Complaint complaint)
 	{
-	    return complaintMapper.updateComplaint(complaint);
+		complaintMapper.updateComplaint(complaint);
 	}
 
 	/**
@@ -75,9 +89,27 @@ public class ComplaintServiceImpl implements IComplaintService
      * @return 结果
      */
 	@Override
-	public int deleteComplaintByIds(String ids)
+	public void deleteComplaintByIds(String ids)throws Exception
 	{
-		return complaintMapper.deleteComplaintByIds(Convert.toStrArray(ids));
+		Complaint complaint=new Complaint();
+		complaint.setStatus(Integer.parseInt(ExpressConstant.COMPLAINT_STATUS_DEL));
+		String[] s=Convert.toStrArray(ids);
+		complaint.setId(Integer.parseInt(s[0]));
+		complaintMapper.updateComplaint(complaint);
+	}
+
+	public String getComplaintStatus(Integer s){
+		String status=s+"";
+		String result="";
+		switch (status){
+			case ExpressConstant.COMPLAINT_STATUS_NOT:result="未处理";break;
+			case ExpressConstant.COMPLAINT_STATUS_YEAR:result="已处理";break;
+			case ExpressConstant.COMPLAINT_STATUS_DEL:result="已撤销";break;
+			default:result=status;break;
+		}
+		return result;
+
+
 	}
 	
 }

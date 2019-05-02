@@ -33,7 +33,7 @@ public interface IComplaintService
      * @param complaint 投诉建议信息
      * @return 结果
      */
-	 int insertComplaint(Complaint complaint);
+	 void insertComplaint(Complaint complaint)throws Exception;
 	
 	/**
      * 修改投诉建议
@@ -41,7 +41,7 @@ public interface IComplaintService
      * @param complaint 投诉建议信息
      * @return 结果
      */
-	 int updateComplaint(Complaint complaint);
+	 void updateComplaint(Complaint complaint)throws Exception;
 		
 	/**
      * 删除投诉建议信息
@@ -49,6 +49,6 @@ public interface IComplaintService
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-	 int deleteComplaintByIds(String ids);
+	 void deleteComplaintByIds(String ids)throws Exception;
 	
 }

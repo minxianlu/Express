@@ -1,6 +1,11 @@
 package com.express.project.express.complaint.controller;
 
+import java.sql.Time;
+import java.util.Date;
 import java.util.List;
+
+import com.express.common.utils.security.ShiroUtils;
+import com.express.project.common.ExpressConstant;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,7 +45,61 @@ public class ComplaintController extends BaseController
 	{
 	    return prefix + "/complaint";
 	}
-	
+
+	@RequiresPermissions("express:complaint:myList")
+	@GetMapping("/myList")
+	public String myComplaint()
+	{
+		return prefix + "/myComplaint";
+	}
+
+	@RequiresPermissions("express:complaint:replay")
+	@GetMapping("/replay/{id}")
+	public String replay(@PathVariable("id") Integer id, ModelMap mmap)
+	{
+		Complaint complaint = complaintService.selectComplaintById(id);
+		mmap.put("complaint", complaint);
+
+		return prefix + "/replay";
+	}
+
+	/**
+	 * 修改保存投诉建议
+	 */
+	@RequiresPermissions("express:complaint:replaySave")
+	@Log(title = "投诉建议回复", businessType = BusinessType.UPDATE)
+	@PostMapping("/replaySave")
+	@ResponseBody
+	public AjaxResult replaySave(Complaint complaint)
+	{
+		AjaxResult ajaxResult=null;
+		try {
+			complaint.setStatus(Integer.parseInt(ExpressConstant.COMPLAINT_STATUS_YEAR));
+			complaintService.updateComplaint(complaint);
+			ajaxResult=AjaxResult.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error(e.getMessage());
+		}
+
+		return ajaxResult;
+	}
+
+	/**
+	 * 查询投诉建议列表
+	 */
+	@RequiresPermissions("express:complaint:myList")
+	@PostMapping("/myList")
+	@ResponseBody
+	public TableDataInfo myList(Complaint complaint)
+	{
+		complaint.setCreateBy(ShiroUtils.getLoginName());
+
+		startPage();
+		List<Complaint> list = complaintService.selectComplaintList(complaint);
+		return getDataTable(list);
+	}
+
 	/**
 	 * 查询投诉建议列表
 	 */
@@ -85,8 +144,16 @@ public class ComplaintController extends BaseController
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(Complaint complaint)
-	{		
-		return toAjax(complaintService.insertComplaint(complaint));
+	{
+		AjaxResult ajaxResult=null;
+		try {
+			complaintService.insertComplaint(complaint);
+			ajaxResult=AjaxResult.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error(e.getMessage());
+		}
+		return ajaxResult;
 	}
 
 	/**
@@ -108,8 +175,19 @@ public class ComplaintController extends BaseController
 	@PostMapping("/edit")
 	@ResponseBody
 	public AjaxResult editSave(Complaint complaint)
-	{		
-		return toAjax(complaintService.updateComplaint(complaint));
+	{
+		AjaxResult ajaxResult=null;
+		try {
+			complaintService.updateComplaint(complaint);
+			complaint.setUpdateBy(ShiroUtils.getLoginName());
+			complaint.setUpdateTime(new Date());
+			ajaxResult=AjaxResult.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error(e.getMessage());
+		}
+
+		return ajaxResult;
 	}
 	
 	/**
@@ -120,8 +198,16 @@ public class ComplaintController extends BaseController
 	@PostMapping( "/remove")
 	@ResponseBody
 	public AjaxResult remove(String ids)
-	{		
-		return toAjax(complaintService.deleteComplaintByIds(ids));
+	{
+		AjaxResult ajaxResult=new AjaxResult();
+		try {
+			complaintService.deleteComplaintByIds(ids);
+			ajaxResult=AjaxResult.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxResult=AjaxResult.error(e.getMessage());
+		}
+		return ajaxResult;
 	}
 	
 }

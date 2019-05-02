@@ -36,6 +36,18 @@ public class ExpressConstant {
     //未完结
     public final static String ORDER_FLAG="1";
 
+    /**************投诉状态常量***************/
+
+    //未处理
+    public final static String COMPLAINT_STATUS_NOT="1";
+    //已处理
+    public final static String COMPLAINT_STATUS_YEAR="2";
+    //撤销
+    public final static String COMPLAINT_STATUS_DEL="-1";
+
+
+
+
 
 
 

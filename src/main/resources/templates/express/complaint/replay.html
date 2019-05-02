@@ -4,7 +4,7 @@
 <head th:include="include :: header"></head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-    <form class="form-horizontal m" id="form-complaint-edit" th:object="${complaint}">
+    <form class="form-horizontal m" id="form-complaint-replay" th:object="${complaint}">
         <input id="id" name="id" th:field="*{id}" type="hidden">
         <div style="border: solid 2px #eee;padding: 50px;margin: 30px;">
             <p class="alert alert-info" style="text-align:center;font-size:18px;">客户信息</p>
@@ -33,13 +33,14 @@
                 </div>
                 <label class="col-sm-2 control-label">邮编：</label>
                 <div class="col-sm-3">
-                    <input id="postalCode" name="postalCode" class="form-control" th:field="*{postalCode}" type="text">
+                    <input id="postalCode" name="postalCode" class="form-control" th:field="*{postalCode}" type="text"
+                           disabled>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">客户地址：</label>
                 <div class="col-sm-10">
-                    <input id="adress" name="adress" class="form-control" th:field="*{adress}" type="text">
+                    <input id="adress" name="adress" class="form-control" th:field="*{adress}" type="text" disabled>
                 </div>
             </div>
         </div>
@@ -62,7 +63,17 @@
                 <label class="col-sm-2 control-label"><span style="color: #ff0000">*</span>投诉/建议内容：</label>
                 <div class="col-sm-10">
                     <textarea rows="5" cols="5" id="complaintContent" name="complaintContent"
-                              th:field="*{complaintContent}" class="form-control" required=""></textarea>
+                              th:field="*{complaintContent}" class="form-control" disabled=""></textarea>
+                </div>
+            </div>
+        </div>
+        <p class="alert alert-info" style="text-align:center;font-size:18px;">回复信息</p>
+        <div style="border: solid 2px #eee;padding: 50px;margin: 30px;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><span style="color: #ff0000">*</span>回复：</label>
+                <div class="col-sm-10">
+                    <textarea rows="5" cols="5" id="complaintReplay" name="complaintReplay" class="form-control"
+                              required></textarea>
                 </div>
             </div>
         </div>
@@ -106,9 +117,8 @@
                 $.modal.alert("身份证格式不正确，请确认");
                 return false;
             }
-            $.operate.saveTab(prefix + "/edit", $('#form-complaint-edit').serialize());
 
-
+            $.operate.saveTab(prefix + "/replaySave", $('#form-complaint-replay').serialize());
         }
     }
 </script>

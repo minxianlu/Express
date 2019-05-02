@@ -10,11 +10,8 @@
 				<form id="formId">
 					<div class="select-list">
 						<ul>
-                            <li>
-                                投诉/建议人姓名：<input type="number" name="userName"/>
-                            </li>
 							<li>
-								主题：<input type="text" name="complaintTheme"/>
+								投诉主题：<input type="text" name="complaintTheme"/>
 							</li>
 							<li>
 								被投诉单位：<input type="text" name="beComplaint"/>
@@ -26,6 +23,12 @@
 						</ul>
 					</div>
 				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="createMenuItem('express/complaint/add','我要投诉建议')" shiro:hasPermission="express:complaint:add">
+					<i class="fa fa-plus"></i> 我要投诉
+				</a>
 			</div>
 			<div class="col-sm-12 select-table table-striped">
 				<table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -47,7 +50,9 @@
 				exportUrl: prefix + "/export",
                 modalName: "投诉建议",
 		        showExport: false,
-                columns: [
+                columns: [{
+		            checkbox: true
+		        },
 				{
 					field : 'id', 
 					title : '主键Id',
@@ -64,18 +69,8 @@
 					sortable: true
 				},
 				{
-					field : 'idCard', 
-					title : '身份证',
-					sortable: true
-				},
-				{
-					field : 'email', 
-					title : '邮箱',
-					sortable: true
-				},
-				{
-					field : 'postalCode', 
-					title : '邮编',
+					field : 'adress', 
+					title : '投诉人地址',
 					sortable: true
 				},
 				{
@@ -119,7 +114,8 @@
 		            formatter: function(value, row, index) {
 		            	var actions = [];
 		            	if(row.status==1){
-							actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="complaintReplay(\'' + row.id + '\')"><i class="fa fa-edit"></i>回复</a> ');
+							actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="complaintEdit(\'' + row.id + '\')"><i class="fa fa-edit"></i>修改</a> ');
+							actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="complaintRemove(\'' + row.id + '\')"><i class="fa fa-remove"></i>撤销</a>');
 						}
 						return actions.join('');
 		            }
@@ -127,13 +123,21 @@
             };
             $.table.init(options);
         });
-		var complaintReplay=function(id){
-			var url = prefix + '/replay/' + id;
+		var complaintEdit=function(id){
+			var url = prefix + '/edit/' + id;
 			// $.modal.open("投诉/建议回复",url);
-			createMenuItem(url, "投诉/建议回复");
+			createMenuItem(url, "投诉/建议编辑");
+		}
+
+		var complaintRemove=function(id){
+			$.modal.confirm("你确认要撤销这条投诉/建议么？",function(){
+				var url = prefix + '/remove/' + id;
+				var data = { "ids": id };
+				$.operate.submit(url, "post", "json", data);
+			})
 		}
 
 
-	</script>
+    </script>
 </body>
 </html>

@@ -46,7 +46,8 @@ public class OrderDressServiceImpl implements IOrderDressService
     @Override
 	public OrderDress selectOrderDressById(Integer id)
 	{
-	    return orderDressMapper.selectOrderDressById(id);
+
+		return orderDressMapper.selectOrderDressById(id);
 	}
 	
 	/**
@@ -56,9 +57,33 @@ public class OrderDressServiceImpl implements IOrderDressService
      * @return 订单地址集合
      */
 	@Override
-	public List<OrderDress> selectOrderDressList(OrderDress orderDress)
+	public List<OrderDress> selectOrderDressList(OrderDress orderDress)throws Exception
 	{
-	    return orderDressMapper.selectOrderDressList(orderDress);
+
+		List<String> cityList=new ArrayList<>();
+
+		List<String> proList=new ArrayList<>();
+
+		List<OrderDress> list=orderDressMapper.selectOrderDressList(orderDress);
+		for (OrderDress dress : list) {
+			proList.add(dress.getProvinceId()+"");
+
+			cityList.add(dress.getCityId());
+		}
+		Map<String,Cities> cityMap=citiesService.getCityMapByCityIds(cityList);
+
+		Map<String,Provinces> proMap=provinceService.getProvinceMapByProvinceIds(proList);
+
+		for (OrderDress dress : list) {
+			if(cityMap.containsKey(dress.getCityId())){
+				dress.setCityStr(cityMap.get(dress.getCityId()).getCity());
+			}
+			if(proMap.containsKey(dress.getProvinceId()+"")){
+				dress.setProvinceStr(proMap.get(dress.getProvinceId()+"").getProvince());
+			}
+		}
+
+	    return list;
 	}
 	
     /**
@@ -71,8 +96,6 @@ public class OrderDressServiceImpl implements IOrderDressService
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void insertOrderDress(OrderDress orderDress)throws BusinessException
 	{
-		orderDress.setUpdateBy(ShiroUtils.getUserName());
-		orderDress.setUpdateTime(new Date());
 		orderDressMapper.insertOrderDress(orderDress);
 	}
 	
