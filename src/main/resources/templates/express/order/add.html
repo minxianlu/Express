@@ -210,7 +210,7 @@
 		})
 
 		var getCityListByProvinceId=function(val,target){
-			$.operate.postQuery(prefix+"/getCityByProvinceId",{"provinceId":val},function(result){
+			$.operate.postQuery("/getCityByProvinceId",{"provinceId":val},function(result){
 				if($.common.isNotEmpty(result)){
 					var options=["<option value=''>选择城市</option>"];
 					$.each(result,function(i,o){

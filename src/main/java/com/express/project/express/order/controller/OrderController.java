@@ -46,7 +46,7 @@ public class OrderController extends BaseController
 
 	@Autowired
 	private ICitiesService citiesService;
-
+//    express:order:list
 	@Autowired
 	private ICargoService cargoService;
 	
@@ -95,22 +95,6 @@ public class OrderController extends BaseController
 		}
 		return "express/order/detail";
 	}
-
-
-
-	/**
-	 * 通过省份查询城市，暂时没想多什么好的方法通过shiro来实现二级联动
-	 */
-	@RequiresPermissions("express:order:list")
-	@PostMapping("/getCityByProvinceId")
-	@ResponseBody
-	public List<Cities> getCityByProvinceId(String provinceId){
-		Cities city=new Cities();
-		city.setProvinceid(provinceId);
-		List<Cities> list=citiesService.selectCitiesList(city);
-		return list;
-	}
-
 	/**
 	 * 导出订单列表
 	 */

@@ -1,7 +1,13 @@
 package com.express.project.system.user.controller;
 
 import java.util.List;
+
+import com.express.common.constant.UserConstants;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -119,6 +125,9 @@ public class UserController extends BaseController
         return toAjax(userService.insertUser(user));
     }
 
+
+
+
     /**
      * 修改用户
      */
@@ -222,4 +231,9 @@ public class UserController extends BaseController
     {
         return toAjax(userService.changeStatus(user));
     }
+
+
+//    public AjaxResult signUpCheck(User user){
+//        if()
+//    }
 }

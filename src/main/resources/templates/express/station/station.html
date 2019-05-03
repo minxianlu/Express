@@ -51,7 +51,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 modalName: "车站",
-		        showExport: true,
+		        showExport: false,
                 columns: [{
 		            checkbox: true
 		        },
@@ -63,17 +63,17 @@
 				{
 					field : 'stationName', 
 					title : '站台名称',
-					sortable: true
+					sortable: false
 				},
 				{
 					field : 'createBy', 
 					title : '创建人',
-					sortable: true
+					sortable: false
 				},
 				{
 					field : 'createTime', 
 					title : '创建时间',
-					sortable: true
+					sortable: false
 				},
 		        {
 		            title: '操作',

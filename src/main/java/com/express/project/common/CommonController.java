@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.express.project.system.area.domain.Cities;
 import com.express.project.system.area.service.ICitiesService;
+import com.express.project.system.user.domain.User;
+import com.express.project.system.user.service.IUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +45,8 @@ public class CommonController
     private ServerConfig serverConfig;
     @Autowired
     private ICitiesService citiesService;
+    @Autowired
+    private IUserService userService;
 
     /**
      * 通用下载请求
@@ -142,4 +146,7 @@ public class CommonController
         List<Cities> list=citiesService.selectCitiesList(city);
         return list;
     }
+
+
+
 }
