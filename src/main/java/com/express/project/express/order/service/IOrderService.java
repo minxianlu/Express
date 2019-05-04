@@ -60,5 +60,12 @@ public interface IOrderService
      * @return 结果
      */
 	 int deleteOrderByIds(String ids);
+	/**
+	 * 签收订单
+	 *
+	 * @param order
+	 * @return 结果
+	 */
+	 void signFor(Order order)throws Exception;
 	
 }

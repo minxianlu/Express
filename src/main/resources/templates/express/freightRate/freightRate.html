@@ -40,9 +40,6 @@
 				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="express:freightRate:remove">
 					<i class="fa fa-remove"></i> 删除
 				</a>
-				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="express:freightRate:export">
-						<i class="fa fa-download"></i> 导出
-				 </a>
 			</div>
 			<div class="col-sm-12 select-table table-striped">
 				<table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -89,7 +86,7 @@
 				},
 				{
 					field : 'serviceModeStr',
-					title : '运价号',
+					title : '服务方式',
 					sortable: false
 				},
 				{

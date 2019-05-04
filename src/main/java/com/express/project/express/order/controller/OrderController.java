@@ -2,12 +2,15 @@ package com.express.project.express.order.controller;
 
 import java.util.List;
 
+import com.express.common.utils.DateUtils;
+import com.express.project.common.ExpressConstant;
 import com.express.project.express.cargo.domain.Cargo;
 import com.express.project.express.cargo.service.ICargoService;
 import com.express.project.express.station.domain.Station;
 import com.express.project.express.station.service.IStationService;
 import com.express.project.system.area.domain.Cities;
 import com.express.project.system.area.service.ICitiesService;
+import com.sun.jna.platform.win32.Secur32;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,7 +53,6 @@ public class OrderController extends BaseController
 	@Autowired
 	private ICargoService cargoService;
 	
-	@RequiresPermissions("express:order:view")
 	@GetMapping()
 	public String order()
 	{
@@ -60,7 +62,6 @@ public class OrderController extends BaseController
 	/**
 	 * 查询订单列表
 	 */
-	@RequiresPermissions("express:order:list")
 	@PostMapping("/list")
 	@ResponseBody
 	public TableDataInfo list(Order order)
@@ -75,7 +76,6 @@ public class OrderController extends BaseController
 		return getDataTable(list);
 	}
 
-	@RequiresPermissions("express:order:detail")
 	@GetMapping("/detail/{orderId}")
 	public String detail(@PathVariable("orderId") Integer orderId, ModelMap mmap)
 	{
@@ -98,7 +98,6 @@ public class OrderController extends BaseController
 	/**
 	 * 导出订单列表
 	 */
-	@RequiresPermissions("express:order:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(Order order)
@@ -106,6 +105,10 @@ public class OrderController extends BaseController
 		List<Order> list = null;
 		try {
 			list = orderService.selectOrderList(order);
+			for (Order order1 : list) {
+				String d=DateUtils.parseDateToStr("yyyy-MM-dd HH:mm:ss",order1.getSendTime());
+				order1.setSendTimeStr(d);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -130,9 +133,8 @@ public class OrderController extends BaseController
 	/**
 	 * 新增保存订单
 	 */
-	@RequiresPermissions("express:order:add")
 	@Log(title = "订单", businessType = BusinessType.INSERT)
-	@PostMapping("/add")
+	@PostMapping("/saveAdd")
 	@ResponseBody
 	public AjaxResult addSave(Order order, Cargo cargo)
 	{
@@ -152,7 +154,6 @@ public class OrderController extends BaseController
 	/**
 	 * 修改订单
 	 */
-	@RequiresPermissions("express:order:edit")
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable("id") Integer id, ModelMap mmap)
 	{
@@ -177,7 +178,6 @@ public class OrderController extends BaseController
 	/**
 	 * 修改保存订单
 	 */
-	@RequiresPermissions("express:order:edit")
 	@Log(title = "订单", businessType = BusinessType.UPDATE)
 	@PostMapping("/edit")
 	@ResponseBody
@@ -199,7 +199,6 @@ public class OrderController extends BaseController
 	/**
 	 * 删除订单
 	 */
-	@RequiresPermissions("express:order:remove")
 	@Log(title = "订单", businessType = BusinessType.DELETE)
 	@PostMapping( "/remove")
 	@ResponseBody
@@ -208,5 +207,24 @@ public class OrderController extends BaseController
 
 		return toAjax(orderService.deleteOrderByIds(ids));
 	}
+	/**
+	 * 删除订单
+	 */
+	@PostMapping( "/signFor")
+	@ResponseBody
+	public AjaxResult signFor(String id)
+	{
+		try {
+			Order order= new Order();
+			order.setId(Integer.parseInt(id));
+			order.setStatus(Integer.parseInt(ExpressConstant.ORDER_RECEIVED));
+			orderService.signFor(order);
+			return success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return error(e.getMessage());
+		}
+	}
+
 	
 }

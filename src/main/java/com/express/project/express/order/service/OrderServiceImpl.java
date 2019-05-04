@@ -189,8 +189,7 @@ public class OrderServiceImpl implements IOrderService {
         orderDress.setOrderNo(order.getOrderNo());
         orderDress.setProvinceId(order.getSendProvince());
         orderDress.setCityId(order.getSendCity());
-        orderDress.setCreateBy(ShiroUtils.getUserName());
-        orderDress.setCreateTime(new Date());
+
 
         orderDressService.insertOrderDress(orderDress);
 
@@ -242,6 +241,10 @@ public class OrderServiceImpl implements IOrderService {
         return list.get(0);
     }
 
+    @Override
+    public void signFor(Order order) throws Exception {
+        orderMapper.updateOrder(order);
+    }
 
     public String getOrderStatus(Integer status) {
         String s = status + "";
@@ -264,4 +267,5 @@ public class OrderServiceImpl implements IOrderService {
         }
         return result;
     }
+
 }

@@ -46,14 +46,12 @@ public class ComplaintController extends BaseController
 	    return prefix + "/complaint";
 	}
 
-	@RequiresPermissions("express:complaint:myList")
 	@GetMapping("/myList")
 	public String myComplaint()
 	{
 		return prefix + "/myComplaint";
 	}
 
-	@RequiresPermissions("express:complaint:replay")
 	@GetMapping("/replay/{id}")
 	public String replay(@PathVariable("id") Integer id, ModelMap mmap)
 	{
@@ -66,7 +64,6 @@ public class ComplaintController extends BaseController
 	/**
 	 * 修改保存投诉建议
 	 */
-	@RequiresPermissions("express:complaint:replaySave")
 	@Log(title = "投诉建议回复", businessType = BusinessType.UPDATE)
 	@PostMapping("/replaySave")
 	@ResponseBody
@@ -88,7 +85,6 @@ public class ComplaintController extends BaseController
 	/**
 	 * 查询投诉建议列表
 	 */
-	@RequiresPermissions("express:complaint:myList")
 	@PostMapping("/myList")
 	@ResponseBody
 	public TableDataInfo myList(Complaint complaint)
@@ -103,7 +99,6 @@ public class ComplaintController extends BaseController
 	/**
 	 * 查询投诉建议列表
 	 */
-	@RequiresPermissions("express:complaint:list")
 	@PostMapping("/list")
 	@ResponseBody
 	public TableDataInfo list(Complaint complaint)
@@ -117,7 +112,6 @@ public class ComplaintController extends BaseController
 	/**
 	 * 导出投诉建议列表
 	 */
-	@RequiresPermissions("express:complaint:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(Complaint complaint)
@@ -139,7 +133,6 @@ public class ComplaintController extends BaseController
 	/**
 	 * 新增保存投诉建议
 	 */
-	@RequiresPermissions("express:complaint:add")
 	@Log(title = "投诉建议", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody
@@ -170,7 +163,6 @@ public class ComplaintController extends BaseController
 	/**
 	 * 修改保存投诉建议
 	 */
-	@RequiresPermissions("express:complaint:edit")
 	@Log(title = "投诉建议", businessType = BusinessType.UPDATE)
 	@PostMapping("/edit")
 	@ResponseBody
@@ -193,7 +185,6 @@ public class ComplaintController extends BaseController
 	/**
 	 * 删除投诉建议
 	 */
-	@RequiresPermissions("express:complaint:remove")
 	@Log(title = "投诉建议", businessType = BusinessType.DELETE)
 	@PostMapping( "/remove")
 	@ResponseBody

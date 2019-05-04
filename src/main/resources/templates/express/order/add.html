@@ -16,7 +16,7 @@
 				</div>
 				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>发运日期：</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control layui-input" id="sendTime" placeholder="发运日期" name="sendTime" required/>
+					<input type="text" class="form-control layui-input" id="sendTime" placeholder="发运日期" name="sendTime" required autocomplete="off"/>
 					<!--<input id="sendTime" name="sendTime" class="form-control" type="text">-->
 				</div>
 			</div>
@@ -112,7 +112,7 @@
 				</div>
 				<label class="col-sm-2 control-label"><span style="color: red; ">*</span>接收人电话：</label>
 				<div class="col-sm-2">
-					<input id="receivePhone" name="receivePhone" class="form-control" type="number" placeholder="接收人电话" required>
+					<input id="receivePhone" name="receivePhone" class="form-control" type="number" placeholder="接收人电话" required >
 				</div>
 			</div>
 			<div class="form-group">
@@ -138,21 +138,21 @@
 			<div class="form-group">	
 				<label class="col-sm-2 control-label">取货里程：</label>
 				<div class="col-sm-4">
-					<input id="pickUpMileage" name="pickUpMileage" class="form-control" type="text" placeholder="取货里程">
+					<input id="pickUpMileage" name="pickUpMileage" class="form-control" type="text" placeholder="取货里程" autocomplete="off">
 				</div>
 				<label class="col-sm-2 control-label">取货地址：</label>
 				<div class="col-sm-4">
-					<input id="pickUpDress" name="pickUpDress" class="form-control" type="text" placeholder="取货地址">
+					<input id="pickUpDress" name="pickUpDress" class="form-control" type="text" placeholder="取货地址" autocomplete="off">
 				</div>
 			</div>
 			<div class="form-group">	
 				<label class="col-sm-2 control-label">送货里程：</label>
 				<div class="col-sm-4">
-					<input id="deliveryMileage" name="deliveryMileage" class="form-control" type="text" placeholder="送货里程">
+					<input id="deliveryMileage" name="deliveryMileage" class="form-control" type="text" placeholder="送货里程" autocomplete="off">
 				</div>
 				<label class="col-sm-2 control-label">送货地址：</label>
 				<div class="col-sm-4">
-					<input id="deliveryDress" name="deliveryDress" class="form-control" type="text" placeholder="送货地址">
+					<input id="deliveryDress" name="deliveryDress" class="form-control" type="text" placeholder="送货地址" autocomplete="off">
 				</div>
 			</div>
 			<div class="form-group">
@@ -222,6 +222,8 @@
 		}
 		function submitHandler() {
 	        if ($.validate.form()) {
+
+			}
 				var data = $("#form-order-add").serializeArray();
 
 				if($.common.isEmpty($("input[name='serviceMode']:checked").val())){
@@ -241,10 +243,10 @@
 				var invoice = $("input[id='invoice']").is(':checked') == true ? 1 : 0;
 				data.push({"name": "invoice", "value": invoice});
 
-				$.operate.addTab(prefix + "/add", data);
+				$.operate.saveTab(prefix + "/saveAdd", data);
 
 
-	        }
+
 	    }
 	</script>
 </body>

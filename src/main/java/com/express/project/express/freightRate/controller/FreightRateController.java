@@ -49,7 +49,6 @@ public class FreightRateController extends BaseController
 	    return prefix + "/freightRate";
 	}
 
-	@RequiresPermissions("express:freightRate:query")
 	@GetMapping("/query")
 	public String query(ModelMap mmap){
         try {
@@ -63,7 +62,6 @@ public class FreightRateController extends BaseController
     /**
      * 查询运价
      */
-    @RequiresPermissions("express:freightRate:query")
     @PostMapping("/queryFreightRate")
     @ResponseBody
 	public AjaxResult queryFreightRate(FreightRate  freightRate){
@@ -81,7 +79,6 @@ public class FreightRateController extends BaseController
 	/**
 	 * 查询运价列表
 	 */
-	@RequiresPermissions("express:freightRate:list")
 	@PostMapping("/list")
 	@ResponseBody
 	public TableDataInfo list(FreightRate freightRate)
@@ -100,7 +97,6 @@ public class FreightRateController extends BaseController
 	/**
 	 * 导出运价列表
 	 */
-	@RequiresPermissions("express:freightRate:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(FreightRate freightRate)
@@ -135,7 +131,6 @@ public class FreightRateController extends BaseController
 	/**
 	 * 新增保存运价
 	 */
-	@RequiresPermissions("express:freightRate:add")
 	@Log(title = "运价", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody

@@ -64,7 +64,7 @@ public class OrderDressServiceImpl implements IOrderDressService
 
 		List<String> proList=new ArrayList<>();
 
-		List<OrderDress> list=orderDressMapper.selectOrderDressList(orderDress);
+		List<OrderDress> list=orderDressMapper.selectVoList(orderDress);
 		for (OrderDress dress : list) {
 			proList.add(dress.getProvinceId()+"");
 
@@ -96,6 +96,8 @@ public class OrderDressServiceImpl implements IOrderDressService
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void insertOrderDress(OrderDress orderDress)throws BusinessException
 	{
+		orderDress.setCreateBy(ShiroUtils.getUserName());
+		orderDress.setCreateTime(new Date());
 		orderDressMapper.insertOrderDress(orderDress);
 	}
 	
@@ -108,7 +110,9 @@ public class OrderDressServiceImpl implements IOrderDressService
 	@Override
 	public int updateOrderDress(OrderDress orderDress)
 	{
-	    return orderDressMapper.updateOrderDress(orderDress);
+		orderDress.setUpdateBy(ShiroUtils.getUserName());
+		orderDress.setUpdateTime(new Date());
+		return orderDressMapper.updateOrderDress(orderDress);
 	}
 
 	/**

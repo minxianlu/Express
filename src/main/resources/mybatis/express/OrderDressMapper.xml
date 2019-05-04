@@ -50,6 +50,26 @@
         </where>
     </select>
 
+    <select id="selectVoList" parameterType="OrderDress" resultMap="OrderDressResult">
+
+        select * from ex_order_dress where id in (select max(id) from ex_order_dress
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="orderId != null ">and order_id = #{orderId}</if>
+            <if test="orderNo != null  and orderNo != '' ">and order_no like '%'||#{orderNo}||'%'</if>
+            <if test="provinceId != null ">and provinceId = #{provinceId}</if>
+            <if test="cityId != null  and cityId != '' ">and cityId = #{cityId}</if>
+            <if test="dress != null  and dress != '' ">and dress = #{dress}</if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+            <if test="createBy != null  and createBy != '' ">and create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != '' ">and update_by = #{updateBy}</if>
+            <if test="updateTime != null ">and update_time = #{updateTime}</if>
+            <if test="remark != null  and remark != '' ">and remark = #{remark}</if>
+        </where>
+        group by order_no )
+    </select>
+
+
     <select id="selectOrderDressById" parameterType="Integer" resultMap="OrderDressResult">
         <include refid="selectOrderDressVo"/>
         where id = #{id}
@@ -119,12 +139,12 @@
     <select id="queryDress" resultMap="OrderDressResult">
         select t1.*
         from ex_order_dress t1
-                 left join ex_order t2 on t1.order_no = t2.order_no
+        left join ex_order t2 on t1.order_no = t2.order_no
         where
-            t2.order_flag=1
-            <if test="sendPhone!= null and sendPhone!='' ">and t2.send_phone = #{sendPhone}</if>
-            <if test="orderNo != null  and orderNo != '' ">and t1.order_no = #{orderNo}</if>
-            <if test="receivePhone != null  and receivePhone != '' ">and t2.receive_phone = #{receivePhone}</if>
+        t2.order_flag=1
+        <if test="sendPhone!= null and sendPhone!='' ">and t2.send_phone = #{sendPhone}</if>
+        <if test="orderNo != null  and orderNo != '' ">and t1.order_no = #{orderNo}</if>
+        <if test="receivePhone != null  and receivePhone != '' ">and t2.receive_phone = #{receivePhone}</if>
     </select>
 
 </mapper>

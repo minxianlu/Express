@@ -21,9 +21,12 @@ public class Order extends BaseEntity
 	@Excel(name = "订单编号")
 	private String orderNo;
 	/** 发货日期 */
-	@Excel(name = "发货日期")
+
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date sendTime;
+
+	@Excel(name = "发货日期")
+	private String sendTimeStr;
 
 	/** 发送省份 字符型*/
 	@Excel(name = "发送省份")
@@ -441,5 +444,14 @@ public class Order extends BaseEntity
 
 	public void setOrderFlagStr(String orderFlagStr) {
 		this.orderFlagStr = orderFlagStr;
+	}
+
+
+	public String getSendTimeStr() {
+		return sendTimeStr;
+	}
+
+	public void setSendTimeStr(String sendTimeStr) {
+		this.sendTimeStr = sendTimeStr;
 	}
 }

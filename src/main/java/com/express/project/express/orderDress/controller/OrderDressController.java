@@ -56,7 +56,6 @@ public class OrderDressController extends BaseController
 	/**
 	 * 查询订单地址列表
 	 */
-	@RequiresPermissions("express:orderDress:list")
 	@PostMapping("/list")
 	@ResponseBody
 	public TableDataInfo list(OrderDress orderDress)
@@ -83,7 +82,6 @@ public class OrderDressController extends BaseController
 	/**
 	 * 查询订单结果
 	 */
-	@RequiresPermissions("express:orderDress:queryDress")
 	@PostMapping("/queryDress")
 	@ResponseBody
 	public AjaxResult queryDress(String orderNo,String sendPhone,String receivePhone)
@@ -118,7 +116,6 @@ public class OrderDressController extends BaseController
 	/**
 	 * 新增保存订单地址
 	 */
-	@RequiresPermissions("express:orderDress:add")
 	@Log(title = "订单地址", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody
@@ -151,7 +148,6 @@ public class OrderDressController extends BaseController
 	/**
 	 * 修改保存订单地址
 	 */
-	@RequiresPermissions("express:orderDress:edit")
 	@Log(title = "订单地址", businessType = BusinessType.UPDATE)
 	@PostMapping("/edit")
 	@ResponseBody
@@ -176,7 +172,6 @@ public class OrderDressController extends BaseController
 	/**
 	 * 删除订单地址
 	 */
-	@RequiresPermissions("express:orderDress:remove")
 	@Log(title = "订单地址", businessType = BusinessType.DELETE)
 	@PostMapping( "/remove")
 	@ResponseBody

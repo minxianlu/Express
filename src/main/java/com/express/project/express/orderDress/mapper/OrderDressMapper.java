@@ -27,7 +27,14 @@ public interface OrderDressMapper
      * @return 订单地址集合
      */
 	 List<OrderDress> selectOrderDressList(OrderDress orderDress);
-	
+	/**
+     * 查询订单地址列表
+     *
+     * @param orderDress 订单地址信息
+     * @return 订单地址集合
+     */
+	 List<OrderDress> selectVoList(OrderDress orderDress);
+
 	/**
      * 新增订单地址
      * 

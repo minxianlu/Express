@@ -65,6 +65,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('express:order:edit')}]];
         var removeFlag = [[${@permission.hasPermi('express:order:remove')}]];
+        var roleKey=[[${@userServiceForHtml.getRoleKey()}]];
         var prefix = ctx + "express/order";
 		var getCityListByProvinceId=function(val){
 			$.operate.postQuery(prefix+"/getCityByProvinceId",{"provinceId":val},function(result){
@@ -226,6 +227,9 @@
 		            	var actions = [];
 		            	if(row.status==1){
 							actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.editTab(\'' + row.id + '\')" ><i class="fa fa-edit"></i>编辑</a> ');
+							if(roleKey.indexOf("customer")!=-1){
+								actions.push('<a class="btn btn-info btn-xs " href="#" onclick="signFor(\'' + row.id + '\')"><i class="fa fa-key"></i>签收</a>');
+							}
 						}
                         actions.push('<a class="btn btn-warning btn-xs   ' + removeFlag + '" href="#" onclick="orderDetail(\'' + row.id + '\')"><i class="fa fa-search"></i>详情</a>');
 						return actions.join('');
@@ -241,6 +245,11 @@
 		var orderEdit=function(orderId){
 			var url = prefix + '/edit/' + orderId;
 			createMenuItem(url, "修改订单");
+		}
+		var signFor=function(id){
+			var url = prefix + '/signFor';
+			$.operate.submit(url, "post", "json", {'id':id});
+			$.modal.closeLoading();
 		}
 
     </script>

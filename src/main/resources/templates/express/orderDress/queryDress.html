@@ -87,11 +87,11 @@
             $.modal.alert("发货人电话格式不正确，请确认");
             return false;
         }
-        var orderNoReg=/^2\d{13}$/
-        if($.common.isNotEmpty($_orderNo.val())&&!orderNoReg.test($_orderNo.val())){
-            $.modal.alert("订单编码不正确");
-            return false;
-        }
+        // var orderNoReg=/^2\d{13|12}$/
+        // if($.common.isNotEmpty($_orderNo.val())&&!orderNoReg.test($_orderNo.val())){
+        //     $.modal.alert("订单编码不正确");
+        //     return false;
+        // }
         return true;
 
     }
