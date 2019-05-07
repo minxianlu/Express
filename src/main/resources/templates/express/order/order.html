@@ -68,7 +68,7 @@
         var roleKey=[[${@userServiceForHtml.getRoleKey()}]];
         var prefix = ctx + "express/order";
 		var getCityListByProvinceId=function(val){
-			$.operate.postQuery(prefix+"/getCityByProvinceId",{"provinceId":val},function(result){
+			$.operate.postQuery("/getCityByProvinceId",{"provinceId":val},function(result){
 				if($.common.isNotEmpty(result)){
 					var options=["<option value=''>选择城市</option>"];
 					$.each(result,function(i,o){
