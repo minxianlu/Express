@@ -227,7 +227,7 @@
 		            	var actions = [];
 		            	if(row.status==1){
 							actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.editTab(\'' + row.id + '\')" ><i class="fa fa-edit"></i>编辑</a> ');
-							if(roleKey.indexOf("customer")!=-1){
+							if(roleKey.indexOf("shipper")!=-1){
 								actions.push('<a class="btn btn-info btn-xs " href="#" onclick="signFor(\'' + row.id + '\')"><i class="fa fa-key"></i>签收</a>');
 							}
 						}
